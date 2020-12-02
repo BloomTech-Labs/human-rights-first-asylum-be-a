@@ -35,6 +35,8 @@ describe('profiles router endpoints', () => {
         id: 'd376de0577681ca93614',
         name: 'Bob Smith',
         email: 'bob@example.com',
+        password: 'password',
+        role: 'admin',
       });
       const res = await request(server).get('/profiles/d376de0577681ca93614');
 
