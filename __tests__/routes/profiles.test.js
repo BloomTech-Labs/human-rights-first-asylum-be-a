@@ -36,6 +36,7 @@ describe('profiles router endpoints', () => {
         name: 'Bob Smith',
         email: 'bob@example.com',
         role: 'admin',
+        password: 'password',
       });
       const res = await request(server).get('/profiles/d376de0577681ca93614');
 
@@ -60,6 +61,7 @@ describe('profiles router endpoints', () => {
         email: 'louie@example.com',
         avatarUrl:
           'https://s3.amazonaws.com/uifaces/faces/twitter/hermanobrother/128.jpg',
+        password: 'password',
       };
       Profiles.findById.mockResolvedValue(undefined);
       Profiles.create.mockResolvedValue([
@@ -81,6 +83,7 @@ describe('profiles router endpoints', () => {
         email: 'louie@example.com',
         avatarUrl:
           'https://s3.amazonaws.com/uifaces/faces/twitter/hermanobrother/128.jpg',
+        password: 'password',
       };
       Profiles.findById.mockResolvedValue(profile);
       Profiles.update.mockResolvedValue([profile]);
