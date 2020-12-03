@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const dsModel = require('./dsModel');
 const authRequired = require('../middleware/authRequired');
+const axios = require('axios');
 
 /**
  * @swagger
@@ -114,6 +115,28 @@ router.get('/viz/:state', authRequired, function (req, res) {
     .catch((error) => {
       console.error(error);
       res.status(500).json(error);
+    });
+});
+
+/* create Swagger Docs */
+
+router.get('/data', async (req, res) => {
+  let new_data = [];
+  axios
+    .get(process.env.DS_API_URL)
+    .then((res) => {
+      new_data = res.data;
+      res.send(200).json(new_data);
+    })
+    .catch((err) => {
+      res.send(500).json(err.message);
+    })
+    .finally(async () => {
+      //connect to DB to see if data already exists - use case_id && see if case_status has updated
+      //save new data to variable
+      //connect to DS Verification to see if data matches requirements - create placeholders for Null Sets
+      //if else list - create&insert new data
+      // update existing data
     });
 });
 
