@@ -1,7 +1,6 @@
 const faker = require(faker);
 
 const judges = [...new Array(5)].map((i, idx) => ({
-  id: idx === 0 ? '00ulthapbErVUwVJy4x6' : faker.random.alphaNumeric(20),
   judge_image: faker.image.avatar(),
   judge_name:
     idx === 0
