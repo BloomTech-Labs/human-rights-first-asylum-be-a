@@ -22,6 +22,8 @@ const swaggerUIOptions = {
 const indexRouter = require('./index/indexRouter');
 const profileRouter = require('./profile/profileRouter');
 const dsRouter = require('./dsService/dsRouter');
+const judgeRouter = require('./judges/judgeRouter');
+const caseRouter = require('./cases/caseRouter');
 
 const app = express();
 
@@ -50,6 +52,8 @@ app.use(cookieParser());
 // application routes
 app.use('/', indexRouter);
 app.use(['/profile', '/profiles'], profileRouter);
+app.use(['/judge', '/judges'], judgeRouter);
+app.use(['/case', '/cases'], caseRouter);
 app.use('/data', dsRouter);
 
 // catch 404 and forward to error handler
