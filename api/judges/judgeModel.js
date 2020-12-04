@@ -5,6 +5,10 @@ const findAll = async () => {
 };
 
 const findByName = async (name) => {
+  return await db('judges').where({ name });
+};
+
+const findFullDataByName = async (name) => {
   const judge = await db('judges').where({ name }).first().select('*');
   const countries = await countryData(name);
   const cases = await caseData(name);
@@ -40,13 +44,14 @@ const countryData = async (judge_name) => {
               denial: 0,
             };
           } else {
-            countryDict[countries[i].refugee_origin].denial += 1;
+            countryDict[countries[i].refugee_origin].count += 1;
           }
           // once instantiated, check the judge's decision for denied vs grant (in future release, check if there are other options)
           if (countries[i].refugee_origin.judge_decision == 'Denied') {
             countryDict.refugee_origin.denial++;
           }
         }
+        // change dictionary to list
         let country_data = [];
         for (var key in countryDict) {
           if (countryDict.hasOwnProperty(key)) {
@@ -56,7 +61,9 @@ const countryData = async (judge_name) => {
         }
       }
     })
-    .catch();
+    .catch((err) => {
+      return err;
+    });
 };
 
 const writeCSV = async (judge_name) => {
@@ -73,6 +80,7 @@ const writePDF = async (judge_name) => {
 module.exports = {
   findAll,
   findByName,
+  findFullDataByName,
   caseData,
   countryData,
   writeCSV,
