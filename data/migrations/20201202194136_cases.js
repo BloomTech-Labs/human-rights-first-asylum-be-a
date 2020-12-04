@@ -15,6 +15,7 @@ exports.up = function (knex) {
       table.string('case_status');
       table.string('social_group_type');
       table.string('judge_decision');
+      table.string('judge_name');
     });
 };
 
