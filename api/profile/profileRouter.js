@@ -4,7 +4,6 @@ const Profiles = require('./profileModel');
 const router = express.Router();
 
 //middleware
-
 router.use('/', authRequired());
 
 /**
@@ -170,7 +169,7 @@ router.post('/', async (req, res) => {
     try {
       await Profiles.findById(id).then(async (pf) => {
         if (pf == undefined) {
-          //profile not found so lets insert it
+          //profile not found so let's insert it
           await Profiles.create(profile).then((profile) =>
             res
               .status(200)

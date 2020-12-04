@@ -14,6 +14,7 @@ const cases = [...new Array(5)].map((i, idx) => ({
   credibility_of_refugee: faker.random.words(56),
   case_status: faker.random.word,
   social_group_type: faker.random.word(),
+  judge_decision: faker.random.word(),
 }));
 
 exports.seed = function (knex) {
