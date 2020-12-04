@@ -1,6 +1,13 @@
 const express = require('express');
 const Judges = require('./judgeModel');
+const Verify = require('../middleware/verifyDataID');
 const router = express.Router();
+
+//middleware
+
+router.use('/:id', Verify.verifyJudge());
+
+//routes
 
 router.get('/', (req, res) => {
   Judges.findAll()

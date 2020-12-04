@@ -42,6 +42,7 @@ const writePDF = async (id) => {
 
 module.exports = {
   findAll,
+  findById,
   countryData,
   writeCSV,
   writePDF,
