@@ -3,9 +3,11 @@ const Cases = require('./caseModel');
 const Verify = require('../middleware/verifyDataID');
 const router = express.Router();
 
+//add auth to route also - final phase
+
 //middleware
 
-router.use('/:id', Verify.verifyCase());
+router.use('/:id', Verify.verifyCase);
 
 //routes
 

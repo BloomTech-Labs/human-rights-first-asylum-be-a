@@ -4,7 +4,7 @@ const Profiles = require('./profileModel');
 const router = express.Router();
 
 //middleware
-router.use('/', authRequired());
+router.use('/', authRequired);
 
 /**
  * @swagger

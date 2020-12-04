@@ -1,11 +1,13 @@
 const express = require('express');
 const Judges = require('./judgeModel');
-const Verify = require('../middleware/verifyDataID');
+const verify = require('../middleware/verifyDataID');
 const router = express.Router();
+
+//add auth to router - final phase
 
 //middleware
 
-router.use('/:id', Verify.verifyJudge());
+router.use('/:id', verify.verifyJudge);
 
 //routes
 
