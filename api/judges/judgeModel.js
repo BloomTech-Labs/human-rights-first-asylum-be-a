@@ -6,16 +6,43 @@ const findAll = async () => {
 };
 
 const findByName = async (name) => {
-  console.log(name);
-  return db('judges').where({ judge_name: name }).first().select('*');
+  return db('judges').where({ name }).first().select('*');
 };
 
 const caseData = async (judge_name) => {
-  /* find judge by judge_name */
-  //await const judge = findByName(judge_name)
-  /* search cases by judge_name */
-  // cases.findBy(judge_name)
-  /* add array of case objects */
+  return db('cases as c')
+    .where({ judge_name })
+    .join('judges as j', 'j.name', 'c.judge_name')
+    .select('*')
+    .then((cases) => {
+      if (cases.length > 0) {
+        const resultMap = cases.reduce((result, row) => {
+          result[row.name] = result[row.name] || {
+            ...row,
+            cases: [],
+          };
+          result[row.name].cases.push({
+            id: row.id,
+            case_status: row.case_status,
+            case_url: row.case_url,
+            court_type: row.court_type,
+            credibility_of_refugee: row.credibility_of_refugee,
+            hearing_date: row.hearing_date,
+            hearing_location: row.hearing_location,
+            hearing_type: row.hearing_type,
+            decision_date: row.decision_date,
+            protected_ground: row.protected_ground,
+            social_group_type: row.social_group_type,
+            judge_decision: row.judge_decision,
+            refugee_origin: row.refugee_origin,
+          });
+          return result;
+        }, {});
+        return Object.values(resultMap)[0];
+      } else {
+        return db('judges').where({ name }).first().select('*');
+      }
+    });
 };
 
 const countryData = async (judge_name) => {
@@ -45,6 +72,7 @@ const writePDF = async (judge_name) => {
 module.exports = {
   findAll,
   findByName,
+  caseData,
   countryData,
   writeCSV,
   writePDF,

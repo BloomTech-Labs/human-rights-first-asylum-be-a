@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
 
 router.get('/:name', (req, res) => {
   const name = String(req.params.name);
-  Judges.findByName(name)
+  Judges.caseData(name)
     .then((judges) => {
       res.status(200).json(judges);
     })

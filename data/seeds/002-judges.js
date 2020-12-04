@@ -2,7 +2,7 @@ const faker = require('faker');
 
 const judges = [...new Array(5)].map((i, idx) => ({
   judge_image: faker.image.avatar(),
-  judge_name:
+  name:
     idx === 0
       ? 'Test001 User'
       : `${faker.name.firstName()} ${faker.name.lastName()}`,
