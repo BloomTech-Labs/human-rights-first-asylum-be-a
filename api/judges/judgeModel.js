@@ -1,54 +1,27 @@
 const db = require('../../data/db-config');
-const cases = require('../cases/caseModel');
 
 const findAll = async () => {
   return await db('judges');
 };
 
 const findByName = async (name) => {
-  return db('judges').where({ name }).first().select('*');
+  const judge = await db('judges').where({ name }).first().select('*');
+  const countries = await countryData(name);
+  const cases = await caseData(name);
+
+  judge['country_data'] = countries;
+  judge['case_data'] = cases;
+  return judge;
 };
 
 const caseData = async (judge_name) => {
-  return db('judges as j')
-    .where({ judge_name })
-    .join('cases as c', 'c.judge_name', 'j.name')
-    .select('*')
-    .then((cases) => {
-      if (cases.length > 0) {
-        const resultMap = cases.reduce((result, row) => {
-          result[row.name] = result[row.name] || {
-            ...row,
-            cases: [],
-          };
-          result[row.name].cases.push({
-            id: row.id,
-            case_status: row.case_status,
-            case_url: row.case_url,
-            court_type: row.court_type,
-            credibility_of_refugee: row.credibility_of_refugee,
-            hearing_date: row.hearing_date,
-            hearing_location: row.hearing_location,
-            hearing_type: row.hearing_type,
-            decision_date: row.decision_date,
-            protected_ground: row.protected_ground,
-            social_group_type: row.social_group_type,
-            judge_decision: row.judge_decision,
-            refugee_origin: row.refugee_origin,
-          });
-          return result;
-        }, {});
-        return Object.values(resultMap)[0];
-      } else {
-        return db('judges').where({ name }).first().select('*');
-      }
-    });
+  return db('cases').where({ judge_name }).select('*');
 };
 
-const countryData = async (name) => {
+const countryData = async (judge_name) => {
   // search cases db by judge name & return refugee origin and decision
   return db('cases')
-    .where({ judge_name: name })
+    .where({ judge_name })
     .select('refugee_origin', 'judge_decision')
     .then((countries) => {
       // if there are any countries, create a dictionary of dictionaries
@@ -74,7 +47,13 @@ const countryData = async (name) => {
             countryDict.refugee_origin.denial++;
           }
         }
-        return countryDict;
+        let country_data = [];
+        for (var key in countryDict) {
+          if (countryDict.hasOwnProperty(key)) {
+            country_data.push([countryDict[key]]);
+          }
+          return Object.values(country_data[0]);
+        }
       }
     })
     .catch();
