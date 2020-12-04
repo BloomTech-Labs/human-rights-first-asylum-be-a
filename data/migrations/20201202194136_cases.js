@@ -1,12 +1,23 @@
 exports.up = function (knex) {
   return knex.schema
     .raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
-    .createTable('book_mark_cases', function (table) {
-      table.string('user_id').references('id').inTable('profiles').cascade();
-      table.string('case_id').references('id').inTable('cases').cascade();
+    .createTable('cases', function (table) {
+      table.string('id').notNullable().primary();
+      table.string('case_url');
+      table.string('court_type');
+      table.string('hearing_type');
+      table.string('refugee_origin');
+      table.string('hearing_location');
+      table.string('protected_ground');
+      table.string('hearing_date');
+      table.string('decision_date');
+      table.string('credibility_of_refugee');
+      table.string('case_status');
+      table.string('social_group_type');
+      table.string('judge_decision');
     });
 };
 
 exports.down = (knex) => {
-  return knex.schema.dropTableIfExists('book_mark_cases');
+  return knex.schema.dropTableIfExists('cases');
 };

@@ -8,7 +8,7 @@ const profiles = [...new Array(5)].map((i, idx) => ({
     idx === 0
       ? 'Test001 User'
       : `${faker.name.firstName()} ${faker.name.lastName()}`,
-  role: idx === 0 ? 'admin' : 'rep',
+  is_admin: idx === 0 ? 1 : 0,
   password: idx === 0 ? 'password' : faker.random.alphaNumeric(8),
 }));
 
