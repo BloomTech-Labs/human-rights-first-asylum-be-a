@@ -1,12 +1,13 @@
 const express = require('express');
 const Cases = require('./caseModel');
+const Verify = require('../middleware/verifyDataID');
 const router = express.Router();
 
-/* 
-/cases GET -> returns all case data
-/case/:id GET -> returns data for specific case
-/case/pdf/:id GET -> returns previously uploaded casefile as PDF
-/case/upload POST - upload PDF */
+//middleware
+
+router.use('/:id', Verify.verifyCase());
+
+//routes
 
 router.get('/', (req, res) => {
   Cases.findAll()
