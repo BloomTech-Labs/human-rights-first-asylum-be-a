@@ -10,9 +10,9 @@ const findByName = async (name) => {
 };
 
 const caseData = async (judge_name) => {
-  return db('cases as c')
+  return db('judges as j')
     .where({ judge_name })
-    .join('judges as j', 'j.name', 'c.judge_name')
+    .join('cases as c', 'c.judge_name', 'j.name')
     .select('*')
     .then((cases) => {
       if (cases.length > 0) {
@@ -45,17 +45,39 @@ const caseData = async (judge_name) => {
     });
 };
 
-const countryData = async (judge_name) => {
-  /*find judge by judge_name */
-  /* create an object for each country */
-  /* from cases with judge name, select country & decision*/
-  /* {
-         country_name = name
-         approval_rate = # of times country / # of grants * 100 + %
-         denial_rate = 100 - approval_rate %
-     }
-     /*add each object to a countries list*/
-  /* return judge data */
+const countryData = async (name) => {
+  // search cases db by judge name & return refugee origin and decision
+  return db('cases')
+    .where({ judge_name: name })
+    .select('refugee_origin', 'judge_decision')
+    .then((countries) => {
+      // if there are any countries, create a dictionary of dictionaries
+      if (countries.length > 0) {
+        let countryDict = {};
+        for (let i = 0; i < countries.length; i++) {
+          //store countries in array
+          //for each refugee in list, value += 1
+          //if denied = denial ++
+          //if the country doesn't exist in the dictionary, instantiate
+          if (!countryDict.hasOwnProperty(countries[i].refugee_origin)) {
+            console.log('Sent');
+            countryDict[countries[i].refugee_origin] = {
+              country: countries[i].refugee_origin,
+              count: 1,
+              denial: 0,
+            };
+          } else {
+            countryDict[countries[i].refugee_origin].denial += 1;
+          }
+          // once instantiated, check the judge's decision for denied vs grant (in future release, check if there are other options)
+          if (countries[i].refugee_origin.judge_decision == 'Denied') {
+            countryDict.refugee_origin.denial++;
+          }
+        }
+        return countryDict;
+      }
+    })
+    .catch();
 };
 
 const writeCSV = async (judge_name) => {
