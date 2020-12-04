@@ -9,7 +9,6 @@ const profiles = [...new Array(5)].map((i, idx) => ({
       ? 'Test001 User'
       : `${faker.name.firstName()} ${faker.name.lastName()}`,
   is_admin: idx === 0 ? 1 : 0,
-  password: idx === 0 ? 'password' : faker.random.alphaNumeric(8),
 }));
 
 exports.seed = function (knex) {

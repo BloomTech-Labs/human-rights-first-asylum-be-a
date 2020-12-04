@@ -10,7 +10,6 @@ const findById = async (id) => {
 
 const findBy = async (filter) => {
   return db('cases').where(filter);
-  //can this also be used to return the original PDF?
 };
 
 const writeCSV = async (id) => {
@@ -19,9 +18,12 @@ const writeCSV = async (id) => {
 };
 
 const writePDF = async (id) => {
-  /* get full case data*/
-  /* style pdf to display object data in a pleasing manner */
-  /* return pdf */
+  /* return stored PDF */
+};
+const createPDF = async (id) => {
+  /*get full case data
+  style pdf in a pleasing manner
+  return PDF */
 };
 
 module.exports = {
