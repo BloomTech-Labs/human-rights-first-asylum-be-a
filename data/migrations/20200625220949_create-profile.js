@@ -6,8 +6,7 @@ exports.up = (knex) => {
       table.string('email').notNullable().unique();
       table.string('name');
       table.string('avatarUrl');
-      table.string('password').notNullable();
-      table.string('role').notNullable();
+      table.boolean('is_admin').notNullable().defaultTo(0);
       table.timestamps(true, true);
     });
 };
