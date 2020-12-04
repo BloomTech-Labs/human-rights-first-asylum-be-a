@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
 
 router.get('/:name', (req, res) => {
   const name = String(req.params.name);
-  Judges.countryData(name)
+  Judges.findByName(name)
     .then((judges) => {
       res.status(200).json(judges);
     })
