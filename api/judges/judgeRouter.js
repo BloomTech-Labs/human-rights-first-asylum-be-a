@@ -7,7 +7,7 @@ const router = express.Router();
 
 //middleware
 
-router.use('/:id', verify.verifyJudge);
+router.use('/:name', verify.verifyJudge);
 
 //routes
 
@@ -22,9 +22,9 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:id', (req, res) => {
-  const id = String(req.params.id);
-  Judges.countryData(id)
+router.get('/:name', (req, res) => {
+  const name = String(req.params.name);
+  Judges.findByName(name)
     .then((judges) => {
       res.status(200).json(judges);
     })
@@ -34,7 +34,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
-router.get('/:id/csv', (req, res) => {
+router.get('/:name/csv', (req, res) => {
   const id = String(req.params.id);
   Judges.writeCSV(id)
     .then((judges) => {
@@ -46,7 +46,7 @@ router.get('/:id/csv', (req, res) => {
     });
 });
 
-router.get('/:id/pdf', (req, res) => {
+router.get('/:name/pdf', (req, res) => {
   const id = String(req.params.id);
   Judges.writePDF(id)
     .then((judges) => {

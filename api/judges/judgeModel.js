@@ -5,19 +5,21 @@ const findAll = async () => {
   return await db('judges');
 };
 
-const findById = async (id) => {
-  return db('judges').where({ id }).first().select('*');
+const findByName = async (name) => {
+  console.log(name);
+  return db('judges').where({ judge_name: name }).first().select('*');
 };
 
-const caseData = async (id) => {
-  /* find judge by id */
+const caseData = async (judge_name) => {
+  /* find judge by judge_name */
+  //await const judge = findByName(judge_name)
   /* search cases by judge_name */
   // cases.findBy(judge_name)
   /* add array of case objects */
 };
 
-const countryData = async (id) => {
-  /*find judge by id */
+const countryData = async (judge_name) => {
+  /*find judge by judge_name */
   /* create an object for each country */
   /* from cases with judge name, select country & decision*/
   /* {
@@ -29,12 +31,12 @@ const countryData = async (id) => {
   /* return judge data */
 };
 
-const writeCSV = async (id) => {
+const writeCSV = async (judge_name) => {
   /* get only judge data, no cases */
   /* write to a csv and return */
 };
 
-const writePDF = async (id) => {
+const writePDF = async (judge_name) => {
   /* get full judge data, including countries */
   /* style pdf to display object data in a pleasing manner */
   /* return pdf */
@@ -42,7 +44,7 @@ const writePDF = async (id) => {
 
 module.exports = {
   findAll,
-  findById,
+  findByName,
   countryData,
   writeCSV,
   writePDF,
