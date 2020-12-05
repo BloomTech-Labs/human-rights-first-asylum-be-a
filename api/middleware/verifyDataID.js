@@ -7,8 +7,8 @@ const Case = require('../cases/caseModel');
 // import caseModel
 
 const verifyJudge = (req, res, next) => {
-  const id = String(req.params.id);
-  Judge.findById(id)
+  const name = String(req.params.name);
+  Judge.findByName(name)
     .then((res) => {
       if (res) {
         next();
