@@ -103,7 +103,7 @@ const writeCSV = async (name) => {
     const country_csv = country_parser.parse(country_data);
     const case_csv = case_parser.parse(case_data);
 
-    return judge_csv, country_csv, case_csv;
+    return [judge_csv, country_csv, case_csv];
   } catch (err) {
     return err.message;
   }
