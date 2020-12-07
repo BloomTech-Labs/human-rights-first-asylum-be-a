@@ -140,4 +140,13 @@ router.get('/data', async (req, res) => {
     });
 });
 
+router.post('/upload', (req, res) => {
+  // verify MIME-Type as csv or pdf
+  // pass file to DS Model based on MIME-type (csv/pdf)
+  // send error if file wrong type
+  //send to DS Model
+  // DSModel makes axios call to DS
+  // pass file into DS
+});
+
 module.exports = router;
