@@ -296,4 +296,52 @@ router.delete('/:id', (req, res) => {
   }
 });
 
+router.post('/:id/:name', (req, res) => {
+  const id = req.params.id;
+  const name = req.params.name;
+  Profiles.add_judge_bookmark(id, name)
+    .then((data) => {
+      res
+        .status(200)
+        .json({ message: 'Bookmark Added', judge_bookmarks: data });
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+});
+router.post('/:id/:case_id', (req, res) => {
+  const id = req.params.id;
+  const case_id = req.params.case_id;
+  Profiles.add_case_bookmark(id, case_id)
+    .then((data) => {
+      res.status(200).json({ message: 'Bookmark Added', case_bookmarks: data });
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+});
+
+router.delete('/:id/:name', (req, res) => {
+  const id = req.params.id;
+  const name = req.params.name;
+  Profiles.remove_judge_bookmark(id, name)
+    .then(() => {
+      res.status(200).json({ message: `Bookmark '${name}' was deleted.` });
+    })
+    .catch((err) => {
+      res.status(500).json(err.message);
+    });
+});
+router.delete('/:id/:case_id', (req, res) => {
+  const id = req.params.id;
+  const case_id = req.params.case_id;
+  Profiles.remove_case_bookmark(id, case_id)
+    .then(() => {
+      res.status(200).json({ message: `Bookmark '${case_id}' was deleted.` });
+    })
+    .catch((err) => {
+      res.status(500).json(err.message);
+    });
+});
+
 module.exports = router;
