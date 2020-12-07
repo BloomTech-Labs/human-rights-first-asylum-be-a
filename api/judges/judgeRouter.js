@@ -42,7 +42,8 @@ router.get('/:name/csv', (req, res) => {
     .then((csv) => {
       res.header('Content-Type', 'text/csv');
       res.attachment(`${name}_data.csv`);
-      res.status(200).send(csv);
+      // csv[0] - judge data, csv[1], country data, csv[2], all related cases
+      res.status(200).send(csv[0]);
     })
     .catch((err) => {
       console.log(err);
