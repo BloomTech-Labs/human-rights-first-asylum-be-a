@@ -61,9 +61,6 @@ const update = (id, profile) => {
     .returning('*');
 };
 
-// const add_bookmark
-// const remove_bookmark
-
 const remove = async (id) => {
   return await db('profiles').where({ id }).del();
 };
@@ -79,6 +76,28 @@ const findOrCreateProfile = async (profileObj) => {
   }
 };
 
+// const add_bookmark
+const add_judge_bookmark = async (user_id, judge_name) => {
+  return await db('book_mark_judges')
+    .insert({ user_id, judge_name })
+    .returning('*');
+};
+
+const add_case_bookmark = async (user_id, case_id) => {
+  return await db('book_mark_cases')
+    .insert({ user_id, case_id })
+    .returning('*');
+};
+// const remove_bookmark
+
+const remove_judge_bookmark = async (user_id, judge_name) => {
+  return await db('book_mark_judges').where({ user_id, judge_name }).del();
+};
+
+const remove_case_bookmark = async (user_id, case_id) => {
+  return await db('book_mark_cases').where({ user_id, case_id }).del();
+};
+
 module.exports = {
   findAll,
   findBy,
@@ -87,4 +106,8 @@ module.exports = {
   update,
   remove,
   findOrCreateProfile,
+  add_judge_bookmark,
+  add_case_bookmark,
+  remove_judge_bookmark,
+  remove_case_bookmark,
 };
