@@ -1,6 +1,7 @@
 const express = require('express');
 const Judges = require('./judgeModel');
 const verify = require('../middleware/verifyDataID');
+
 const router = express.Router();
 //need to zip files
 
@@ -40,11 +41,8 @@ router.get('/:name/csv', (req, res) => {
   Judges.writeCSV(name)
     .then((csv) => {
       res.header('Content-Type', 'text/csv');
-      const judge_data = csv[0];
-      const country_data = csv[1];
-      const case_data = csv[2];
-      res.attachment(`${name}_data`);
-      res.status(200).send({ judge_data, country_data, case_data });
+      res.attachment(`${name}_data.csv`);
+      res.status(200).send(csv);
     })
     .catch((err) => {
       console.log(err);

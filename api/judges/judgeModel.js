@@ -111,22 +111,18 @@ const writeCSV = async (name) => {
   // write each to a CSV -> cannot combine, apparently
   /* write to a csv and return */
   // return 3 csvs
-  return judge_csv, case_csv, country_csv;
 };
 
 const writePDF = async (judge_name) => {
   /* get full judge data, including countries */
   /* style pdf to display object data in a pleasing manner */
   // pdf styler in alternate component
-  /* return pdf */
 };
 
 module.exports = {
   findAll,
   findByName,
   findFullDataByName,
-  caseData,
-  countryData,
   writeCSV,
   writePDF,
 };
