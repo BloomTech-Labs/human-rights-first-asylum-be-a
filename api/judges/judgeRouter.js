@@ -35,8 +35,8 @@ router.get('/:name', (req, res) => {
 });
 
 router.get('/:name/csv', (req, res) => {
-  const id = String(req.params.id);
-  Judges.writeCSV(id)
+  const name = String(req.params.name);
+  Judges.writeCSV(name)
     .then((judges) => {
       res.status(200).json(judges);
     })
