@@ -1,4 +1,5 @@
 const db = require('../../data/db-config');
+const { Parser } = require('json2csv');
 
 const findAll = async () => {
   return await db('cases');
@@ -15,7 +16,21 @@ const findBy = async (filter) => {
 
 const writeCSV = async (id) => {
   /* get only case data*/
+  const case_data = await findById(id);
+  const case_fields = [];
+  for (let field in case_data[0]) {
+    case_fields.push(field);
+  }
+
+  const case_opts = { fields: case_fields };
   /* write to a csv and return */
+  try {
+    const case_parser = new Parser(case_opts);
+    const case_csv = case_parser.parse(case_data);
+    return case_csv;
+  } catch (err) {
+    return err.message;
+  }
 };
 
 const writePDF = async (id) => {

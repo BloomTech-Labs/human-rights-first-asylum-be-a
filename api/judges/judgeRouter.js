@@ -1,7 +1,9 @@
 const express = require('express');
 const Judges = require('./judgeModel');
 const verify = require('../middleware/verifyDataID');
+
 const router = express.Router();
+//need to zip files
 
 //add auth to router - final phase
 
@@ -35,10 +37,12 @@ router.get('/:name', (req, res) => {
 });
 
 router.get('/:name/csv', (req, res) => {
-  const id = String(req.params.id);
-  Judges.writeCSV(id)
-    .then((judges) => {
-      res.status(200).json(judges);
+  const name = String(req.params.name);
+  Judges.writeCSV(name)
+    .then((csv) => {
+      res.header('Content-Type', 'text/csv');
+      res.attachment(`${name}_data.csv`);
+      res.status(200).send(csv);
     })
     .catch((err) => {
       console.log(err);

@@ -1,4 +1,5 @@
 const db = require('../../data/db-config');
+const { Parser } = require('json2csv');
 
 const findAll = async () => {
   return await db('judges');
@@ -66,23 +67,62 @@ const countryData = async (judge_name) => {
     });
 };
 
-const writeCSV = async (judge_name) => {
-  /* get only judge data, no cases */
+const writeCSV = async (name) => {
+  /* get judge data */
+  const judge_data = await findByName(name);
+  const judge_fields = [];
+
+  for (let field in judge_data[0]) {
+    judge_fields.push(field);
+  }
+  const judge_opts = { fields: judge_fields };
+
+  // get country data
+  const country_data = await countryData(name);
+  const country_fields = [];
+  for (let field in country_data[0]) {
+    country_fields.push(field);
+  }
+
+  const country_opts = { fields: country_fields };
+
+  const case_data = await caseData(name);
+  const case_fields = [];
+  for (let field in case_data[0]) {
+    case_fields.push(field);
+  }
+
+  const case_opts = { fields: case_fields };
+
+  try {
+    const judge_parser = new Parser(judge_opts);
+    const country_parser = new Parser(country_opts);
+    const case_parser = new Parser(case_opts);
+
+    const judge_csv = judge_parser.parse(judge_data);
+    const country_csv = country_parser.parse(country_data);
+    const case_csv = case_parser.parse(case_data);
+
+    return [judge_csv, country_csv, case_csv];
+  } catch (err) {
+    return err.message;
+  }
+
+  // write each to a CSV -> cannot combine, apparently
   /* write to a csv and return */
+  // return 3 csvs
 };
 
 const writePDF = async (judge_name) => {
   /* get full judge data, including countries */
   /* style pdf to display object data in a pleasing manner */
-  /* return pdf */
+  // pdf styler in alternate component
 };
 
 module.exports = {
   findAll,
   findByName,
   findFullDataByName,
-  caseData,
-  countryData,
   writeCSV,
   writePDF,
 };
