@@ -38,7 +38,6 @@ const countryData = async (judge_name) => {
           //if denied = denial ++
           //if the country doesn't exist in the dictionary, instantiate
           if (!countryDict.hasOwnProperty(countries[i].refugee_origin)) {
-            console.log('Sent');
             countryDict[countries[i].refugee_origin] = {
               country: countries[i].refugee_origin,
               count: 1,
