@@ -41,7 +41,7 @@ router.get('/:id/csv', (req, res) => {
     .then((cases) => {
       res.header('Content-Type', 'text/csv');
       res.attachment(`${id}_case_data`);
-      res.status(200).json(cases);
+      res.status(200).send(cases);
     })
     .catch((err) => {
       console.log(err);
@@ -63,11 +63,6 @@ router.get('/:id/pdf', (req, res) => {
 
 router.get('/:id/original-pdf', (req, res) => {
   //returns pdf of ORIGINAL case
-});
-
-router.post('/case', (req, res) => {
-  //verify filetype of case
-  // posts pdf to datascience
 });
 
 module.exports = router;
