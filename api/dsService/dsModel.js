@@ -10,4 +10,12 @@ const getViz = (state) => {
   return dsClient.get(`/viz/${state}`);
 };
 
-module.exports = { getPrediction, getViz };
+const sendPDF = (pdf) => {
+  return dsClient.post(`/upload/pdf, ${pdf}`);
+};
+
+const sendCSV = (csv) => {
+  return dsClient.post(`/upload/csv, ${csv}`);
+};
+
+module.exports = { getPrediction, getViz, sendPDF, sendCSV };
