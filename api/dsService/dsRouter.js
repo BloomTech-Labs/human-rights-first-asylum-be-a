@@ -137,19 +137,22 @@ router.get('/data', async (req, res) => {
       res.send(500).json(err.message);
     })
     .finally(async () => {
-      // TODO connect to DB to see if data already exists - use case_id && see if case_status has updated
       // * judge data & case data
-      const judge_data = res.data.judge_data;
+      const judge_data = new_data.judge_data;
       // * for judge in judge_data, check if name returns a value
       for (const judge in judge_data) {
         Judge.findByName(judge[name])
           .then((found_judge) => {
             if (found_judge.length > 0) {
               // * update judge
-              // TODO write Judge.update() function
+              Judge.update(found_judge.name)
+                .then((res) => console.log('Update'))
+                .catch((err) => console.log(err.message));
             } else {
               // * add judge
-              // TODO write Judge.add() function
+              Judge.add(judge)
+                .then((res) => console.log('Added'))
+                .catch((err) => console.log(err.message));
             }
           })
           .catch((err) => {
@@ -157,12 +160,15 @@ router.get('/data', async (req, res) => {
           });
       }
 
-      const case_data = res.data.case_data;
+      const case_data = new_data.case_data;
       // * for case in case data, check if case_id returns a value
       for (const ref_case in case_data) {
         Case.findById(ref_case[id])
           .then((ret_case) => {
             if (!ret_case.length) {
+              const new_pdf = case_data.case_url;
+              // * write new pdf to directory
+              // * save directory as new case_url
               // * add case
               // TODO write add_case function
             }

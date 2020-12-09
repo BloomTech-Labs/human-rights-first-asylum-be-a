@@ -72,7 +72,9 @@ const countryData = async (judge_name) => {
       return err;
     });
 };
-
+const update = async (name, data) => {
+  return db('judges').where({ name }).first().update(data);
+};
 const writeCSV = async (name) => {
   // * get judge data
   const judge_data = await findByName(name);
@@ -134,6 +136,7 @@ module.exports = {
   findAll,
   findByName,
   findFullDataByName,
+  update,
   writeCSV,
   writePDF,
 };
