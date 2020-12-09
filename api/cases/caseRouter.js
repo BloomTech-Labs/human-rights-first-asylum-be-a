@@ -3,7 +3,7 @@ const Cases = require('./caseModel');
 const Verify = require('../middleware/verifyDataID');
 const router = express.Router();
 
-//add auth to route also - final phase
+// TODO add auth to route also - final phase
 
 //middleware
 
@@ -35,7 +35,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.get('/:id/csv', (req, res) => {
-  //returns csv of case data
+  // * returns csv of case data
   const id = String(req.params.id);
   Cases.writeCSV(id)
     .then((cases) => {
@@ -62,7 +62,10 @@ router.get('/:id/pdf', (req, res) => {
 });
 
 router.get('/:id/original-pdf', (req, res) => {
-  //returns pdf of ORIGINAL case
+  // * returns pdf of ORIGINAL case
+  // TODO fetch the pdf (either directory or location)
+  // TODO set all appropriate headers
+  // TODO res.download
 });
 
 module.exports = router;

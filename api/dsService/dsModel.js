@@ -11,11 +11,11 @@ const getViz = (state) => {
 };
 
 const sendPDF = (pdf) => {
-  return dsClient.post(`/upload/pdf, ${pdf}`);
+  return dsClient.post('/upload/pdf', pdf);
 };
 
 const sendCSV = (csv) => {
-  return dsClient.post(`/upload/csv, ${csv}`);
+  return dsClient.post('/upload/csv', csv);
 };
 
 module.exports = { getPrediction, getViz, sendPDF, sendCSV };
