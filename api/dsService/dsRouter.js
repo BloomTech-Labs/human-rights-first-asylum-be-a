@@ -6,6 +6,8 @@ const axios = require('axios');
 const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 const mime = require('mime-types');
+const Judge = require('../judges/judgeModel');
+const Case = require('../cases/caseModel');
 
 /**
  * @swagger
@@ -136,6 +138,45 @@ router.get('/data', async (req, res) => {
     })
     .finally(async () => {
       // TODO connect to DB to see if data already exists - use case_id && see if case_status has updated
+      // * judge data & case data
+      const judge_data = res.data.judge_data;
+      // * for judge in judge_data, check if name returns a value
+      for (const judge in judge_data) {
+        Judge.findByName(judge[name])
+          .then((found_judge) => {
+            if (found_judge.length > 0) {
+              // * update judge
+              // TODO write Judge.update() function
+            } else {
+              // * add judge
+              // TODO write Judge.add() function
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+
+      const case_data = res.data.case_data;
+      // * for case in case data, check if case_id returns a value
+      for (const ref_case in case_data) {
+        Case.findById(ref_case[id])
+          .then((ret_case) => {
+            if (!ret_case.length) {
+              // * add case
+              // TODO write add_case function
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+      // * save case_url as a pdf to a file in the directory (makes DL easier)
+      // * save the location to case_url & overwrite
+      // * if case does not exist - insert case
+
+      // * else continue
+
       // TODO save new data to variable
       // TODO connect to DS Verification to see if data matches requirements - create placeholders for Null Sets
       // TODO if else list - create&insert new data
