@@ -1,6 +1,10 @@
 const db = require('../../data/db-config');
 const { Parser } = require('json2csv');
 
+const add = async (data) => {
+  return await db('cases').insert(data);
+};
+
 const findAll = async () => {
   return await db('cases');
 };
@@ -11,22 +15,24 @@ const findById = async (id) => {
 
 const findBy = async (filter) => {
   return db('cases').where(filter);
-  //can this also be used to return the original PDF?
+  // ? can this also be used to return the original PDF?
 };
 
 const writeCSV = async (id) => {
-  /* get only case data*/
+  // *  get only case data
   const case_data = await findById(id);
+
+  // * create fields
   const case_fields = [];
   for (let field in case_data[0]) {
     case_fields.push(field);
   }
-
   const case_opts = { fields: case_fields };
-  /* write to a csv and return */
+  // * fill fields with case_data
   try {
     const case_parser = new Parser(case_opts);
     const case_csv = case_parser.parse(case_data);
+    // * return variable with csv data
     return case_csv;
   } catch (err) {
     return err.message;
@@ -40,6 +46,7 @@ const writePDF = async (id) => {
 };
 
 module.exports = {
+  add,
   findAll,
   findById,
   findBy,
