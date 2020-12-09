@@ -1,12 +1,13 @@
 const express = require('express');
 const Judges = require('./judgeModel');
 const verify = require('../middleware/verifyDataID');
-
-const router = express.Router();
-//need to zip files
 const fs = require('fs');
 const JSZip = require('jszip');
-//add auth to router - final phase
+
+// TODO add auth to router - final phase
+
+// router
+const router = express.Router();
 
 //middleware
 
@@ -48,14 +49,13 @@ router.get('/:name/csv', (req, res) => {
       zip.file(`${name}_judge_data.csv`, csv[0]);
       zip.file(`${name}_country_data.csv`, csv[1]);
       zip.file(`${name}_case_data.csv`, csv[2]);
-      // csv[0] - judge data, csv[1], country data, csv[2], all related cases
 
       zip
         .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
         .pipe(fs.createWriteStream(`${name}_data.zip`))
         .on('finish', function () {
           console.log(`${name}_data.zip written`);
-          res.download(`${name}_data.zip`);
+          res.status(200).download(`${name}_data.zip`);
         });
     })
     .catch((err) => {

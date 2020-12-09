@@ -6,6 +6,8 @@ const axios = require('axios');
 const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 const mime = require('mime-types');
+const Judge = require('../judges/judgeModel');
+const Case = require('../cases/caseModel');
 
 /**
  * @swagger
@@ -128,6 +130,7 @@ router.get('/data', async (req, res) => {
   axios
     .get(process.env.DS_API_URL)
     .then((res) => {
+      // ! for postman testing
       new_data = res.data;
       res.send(200).json(new_data);
     })
@@ -135,11 +138,47 @@ router.get('/data', async (req, res) => {
       res.send(500).json(err.message);
     })
     .finally(async () => {
-      // TODO connect to DB to see if data already exists - use case_id && see if case_status has updated
-      // TODO save new data to variable
-      // TODO connect to DS Verification to see if data matches requirements - create placeholders for Null Sets
-      // TODO if else list - create&insert new data
-      // TODO update existing data
+      // * judge data & case data
+      const judge_data = new_data.judge_data;
+      // * for judge in judge_data, check if name returns a value
+      for (const judge in judge_data) {
+        Judge.findByName(judge[name])
+          .then((found_judge) => {
+            if (found_judge.length > 0) {
+              // * update judge
+              Judge.update(found_judge.name)
+                // * on success continue
+                .then()
+                .catch((err) => console.log(err.message));
+            } else {
+              // * add judge
+              Judge.add(judge)
+                // * on success continue
+                .then()
+                .catch((err) => console.log(err.message));
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+
+      const case_data = new_data.case_data;
+      // * for case in case data, check if case_id returns a value
+      for (const ref_case in case_data) {
+        Case.findById(ref_case[id])
+          .then((ret_case) => {
+            if (!ret_case.length) {
+              Case.add(ref_case)
+                // * continue
+                .then()
+                .catch((err) => console.log(err.message));
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     });
 });
 
@@ -178,10 +217,6 @@ router.post(
         res.status(400).json({ message: 'Please send valid file type.' });
       }
     }
-
-    // TODO send to DS Model
-    // TODO DSModel makes axios call to DS
-    // TODO pass file into DS
   }
 );
 
