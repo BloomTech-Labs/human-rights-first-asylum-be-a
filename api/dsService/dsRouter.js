@@ -130,6 +130,7 @@ router.get('/data', async (req, res) => {
   axios
     .get(process.env.DS_API_URL)
     .then((res) => {
+      // ! for postman testing
       new_data = res.data;
       res.send(200).json(new_data);
     })
@@ -146,12 +147,14 @@ router.get('/data', async (req, res) => {
             if (found_judge.length > 0) {
               // * update judge
               Judge.update(found_judge.name)
-                .then((res) => console.log('Update'))
+                // * on success continue
+                .then()
                 .catch((err) => console.log(err.message));
             } else {
               // * add judge
               Judge.add(judge)
-                .then((res) => console.log('Added'))
+                // * on success continue
+                .then()
                 .catch((err) => console.log(err.message));
             }
           })
@@ -166,27 +169,16 @@ router.get('/data', async (req, res) => {
         Case.findById(ref_case[id])
           .then((ret_case) => {
             if (!ret_case.length) {
-              const new_pdf = case_data.case_url;
-              // * write new pdf to directory
-              // * save directory as new case_url
-              // * add case
-              // TODO write add_case function
+              Case.add(ref_case)
+                // * continue
+                .then()
+                .catch((err) => console.log(err.message));
             }
           })
           .catch((err) => {
             console.log(err);
           });
       }
-      // * save case_url as a pdf to a file in the directory (makes DL easier)
-      // * save the location to case_url & overwrite
-      // * if case does not exist - insert case
-
-      // * else continue
-
-      // TODO save new data to variable
-      // TODO connect to DS Verification to see if data matches requirements - create placeholders for Null Sets
-      // TODO if else list - create&insert new data
-      // TODO update existing data
     });
 });
 
@@ -225,10 +217,6 @@ router.post(
         res.status(400).json({ message: 'Please send valid file type.' });
       }
     }
-
-    // TODO send to DS Model
-    // TODO DSModel makes axios call to DS
-    // TODO pass file into DS
   }
 );
 
