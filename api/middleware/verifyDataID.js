@@ -1,10 +1,7 @@
 const Judge = require('../judges/judgeModel');
 const Case = require('../cases/caseModel');
 
-/* Middleware for Judge & Case - */
-
-// import judgeModel
-// import caseModel
+// * Middleware for Judge & Case
 
 const verifyJudge = (req, res, next) => {
   const name = String(req.params.name);
