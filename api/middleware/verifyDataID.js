@@ -18,12 +18,11 @@ const verifyCase = (req, res, next) => {
   const id = String(req.params.id);
   Case.findById(id)
     .then((res) => {
-      next()
+      next();
     })
-    .catch(err => {
-      res.status(404).json({message: err.message})
-    })
-=
+    .catch((err) => {
+      res.status(404).json({ message: err.message });
+    });
 };
 
 module.exports = {
