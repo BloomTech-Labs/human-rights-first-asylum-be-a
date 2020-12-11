@@ -52,7 +52,6 @@ router.get('/:name/csv', (req, res) => {
         .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
         .pipe(fs.createWriteStream(`${name}_data.zip`))
         .on('finish', function () {
-          console.log(`${name}_data.zip written`);
           res.status(200).download(`${name}_data.zip`);
         });
     })

@@ -39,17 +39,10 @@ const writeCSV = async (id) => {
   }
 };
 
-const writePDF = async (id) => {
-  /* get full case data*/
-  /* style pdf to display object data in a pleasing manner */
-  /* return pdf */
-};
-
 module.exports = {
   add,
   findAll,
   findById,
   findBy,
   writeCSV,
-  writePDF,
 };
