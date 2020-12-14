@@ -2,7 +2,8 @@ const faker = require('faker');
 
 const cases = [...new Array(5)].map((i, idx) => ({
   id: idx === 0 ? '00ulthapbErVUwVJy4x6' : faker.random.alphaNumeric(5),
-  case_url: 'www.google.com',
+  case_url:
+    '125483234-Noe-Cesar-Hernandez-Avila-A079-531-484-BIA-Jan-18-2013.pdf',
   judge_name: 'Test001 User',
   court_type: 'Lower',
   hearing_type: 'Primary',
