@@ -41,7 +41,7 @@ router.get('/:id/csv', (req, res) => {
   Cases.writeCSV(id)
     .then((cases) => {
       res.header('Content-Type', 'text/csv');
-      res.attachment(`${id}_case_data`);
+      res.attachment(`${id}_case_data.csv`);
       res.status(200).send(cases);
     })
     .catch((err) => {
