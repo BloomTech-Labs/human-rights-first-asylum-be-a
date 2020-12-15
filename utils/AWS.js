@@ -1,16 +1,15 @@
-require('dotenv').config();
 const Cases = require('../api/cases/caseModel');
 // * load amazon aws service
 const AWS = require('aws-sdk');
 // * create S3 class
 // ? do I need to pass the .env variables in
-const S3 = new AWS.S3();
+const awsConfig = require('../config/awsConfig');
+const S3 = new AWS.S3(awsConfig);
 
 const make_view_params = async (case_id) => {
   const curr_case = await Cases.findById(case_id);
-
   const params = {
-    Key: curr_case.case_url,
+    Key: `pdf/${curr_case.case_url}`,
     Bucket: 'human-rights-first-asylum-analysis-documents',
     ContentType: 'attachment',
     ContentDisposition: 'application/pdf',
@@ -18,8 +17,8 @@ const make_view_params = async (case_id) => {
   return params;
 };
 
-const fetch_pdf_view = async (case_id) => {
-  const pdf_file = S3.getObject(make_view_params(case_id));
+const fetch_pdf_view = async (params) => {
+  const pdf_file = S3.getObject(params);
 
   return pdf_file;
 };
@@ -62,6 +61,8 @@ const fetch_pdf_download = async (case_id) => {
 };
 
 module.exports = {
+  make_dl_params,
+  make_view_params,
   fetch_pdf_view,
   fetch_pdf_download,
 };
