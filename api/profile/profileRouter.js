@@ -296,7 +296,8 @@ router.delete('/:id', (req, res) => {
   }
 });
 
-router.post('/:id/:name', (req, res) => {
+// TODO attach middleware for judge/:name route && case/:id route
+router.post('/:id/judge/:name', (req, res) => {
   const id = req.params.id;
   const name = req.params.name;
   Profiles.add_judge_bookmark(id, name)
@@ -309,7 +310,7 @@ router.post('/:id/:name', (req, res) => {
       res.status(500).send(err.message);
     });
 });
-router.post('/:id/:case_id', (req, res) => {
+router.post('/:id/case/:case_id', (req, res) => {
   const id = req.params.id;
   const case_id = req.params.case_id;
   Profiles.add_case_bookmark(id, case_id)
@@ -321,7 +322,7 @@ router.post('/:id/:case_id', (req, res) => {
     });
 });
 
-router.delete('/:id/:name', (req, res) => {
+router.delete('/:id/judge/:name', (req, res) => {
   const id = req.params.id;
   const name = req.params.name;
   Profiles.remove_judge_bookmark(id, name)
@@ -332,7 +333,7 @@ router.delete('/:id/:name', (req, res) => {
       res.status(500).json(err.message);
     });
 });
-router.delete('/:id/:case_id', (req, res) => {
+router.delete('/:id/case/:case_id', (req, res) => {
   const id = req.params.id;
   const case_id = req.params.case_id;
   Profiles.remove_case_bookmark(id, case_id)
