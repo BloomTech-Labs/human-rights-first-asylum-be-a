@@ -12,8 +12,8 @@ const findBy = (filter) => {
 
 const findById = async (id) => {
   const user = await db('profiles').where({ id }).first().select('*');
-  const book_marked_cases = await db('book_mark_cases');
-  const book_marked_judges = await db('book_mark_judges');
+  let book_marked_cases = await db('book_mark_cases');
+  let book_marked_judges = await db('book_mark_judges');
 
   if (book_marked_cases.length > 0) {
     const cases = [];
@@ -78,15 +78,15 @@ const findOrCreateProfile = async (profileObj) => {
 
 // const add_bookmark
 const add_judge_bookmark = async (user_id, judge_name) => {
-  return await db('book_mark_judges')
-    .insert({ user_id, judge_name })
-    .returning('*');
+  await db('book_mark_judges').insert({ user_id, judge_name });
+
+  return await db('book_mark_judges').where({ user_id });
 };
 
 const add_case_bookmark = async (user_id, case_id) => {
-  return await db('book_mark_cases')
-    .insert({ user_id, case_id })
-    .returning('*');
+  await db('book_mark_cases').insert({ user_id, case_id });
+
+  return await db('book_mark_cases').where({ user_id });
 };
 // const remove_bookmark
 
