@@ -12,8 +12,8 @@ const findBy = (filter) => {
 
 const findById = async (id) => {
   const user = await db('profiles').where({ id }).first().select('*');
-  const book_marked_cases = await db('book_mark_cases');
-  const book_marked_judges = await db('book_mark_judges');
+  let book_marked_cases = await db('book_mark_cases');
+  let book_marked_judges = await db('book_mark_judges');
 
   if (book_marked_cases.length > 0) {
     const cases = [];

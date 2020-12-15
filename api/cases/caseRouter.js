@@ -52,10 +52,17 @@ router.get('/:id/csv', (req, res) => {
 
 router.get('/:id/view-pdf', (req, res) => {
   const id = req.params.id;
-  AWS.fetch_pdf_view(id)
-    .then((pdf) => {
-      res.header('Content-Type', 'application/pdf');
-      res.status(200).send(pdf);
+  AWS.make_view_params(id)
+    .then((params) => {
+      AWS.fetch_pdf_view(params)
+        .then((data) => {
+          //* write file locally as temp file
+          // * res.status(200).render('temp.pdf')
+          res.status(200).json({ message: 'Completed' });
+        })
+        .catch((err) => {
+          res.status(500).json({ message: err.message });
+        });
     })
     .catch((err) => {
       res.status(500).json({ message: err.message });
@@ -65,8 +72,15 @@ router.get('/:id/view-pdf', (req, res) => {
 router.get('/:id/download-pdf', (req, res) => {
   // * returns pdf of ORIGINAL case
   const id = req.params.id;
-  AWS.fetch_pdf_download(id);
-  // ! file is sent in  utils/AWS
+  AWS.make_dl_params(id)
+    .then((params) => {
+      AWS.fetch_pdf_download(params).then((data) => {
+        res.send('Something Connected!');
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({ message: err.message });
+    });
 });
 
 router.get('/:id/download-csv', (req, res) => {
