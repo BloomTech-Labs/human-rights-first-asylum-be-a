@@ -26,7 +26,7 @@ const fetch_pdf_view = async (params) => {
 const make_dl_params = async (case_id) => {
   const curr_case = await Cases.findById(case_id);
   const params = {
-    Key: curr_case.case_url,
+    Key: `pdf/${curr_case.case_url}`,
     Bucket: 'human-rights-first-asylum-analysis-documents',
     ContentType: 'attachment',
     ContentDisposition: 'application/pdf',
