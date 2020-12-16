@@ -2,12 +2,9 @@ const express = require('express');
 const router = express.Router();
 const dsModel = require('./dsModel');
 const authRequired = require('../middleware/authRequired');
-const axios = require('axios');
 const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 const mime = require('mime-types');
-const Judge = require('../judges/judgeModel');
-const Case = require('../cases/caseModel');
 
 /**
  * @swagger
@@ -124,63 +121,6 @@ router.get('/viz/:state', authRequired, function (req, res) {
 });
 
 // TODO create Swagger Docs
-
-router.get('/data', async (req, res) => {
-  let new_data = [];
-  axios
-    .get(process.env.DS_API_URL)
-    .then((res) => {
-      // ! for postman testing
-      new_data = res.data;
-      res.send(200).json(new_data);
-    })
-    .catch((err) => {
-      res.send(500).json(err.message);
-    })
-    .finally(async () => {
-      // * judge data & case data
-      const judge_data = new_data.judge_data;
-      // * for judge in judge_data, check if name returns a value
-      for (const judge in judge_data) {
-        Judge.findByName(judge[name])
-          .then((found_judge) => {
-            if (found_judge.length > 0) {
-              // * update judge
-              Judge.update(found_judge.name)
-                // * on success continue
-                .then()
-                .catch((err) => console.log(err.message));
-            } else {
-              // * add judge
-              Judge.add(judge)
-                // * on success continue
-                .then()
-                .catch((err) => console.log(err.message));
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-
-      const case_data = new_data.case_data;
-      // * for case in case data, check if case_id returns a value
-      for (const ref_case in case_data) {
-        Case.findById(ref_case[id])
-          .then((ret_case) => {
-            if (!ret_case.length) {
-              Case.add(ref_case)
-                // * continue
-                .then()
-                .catch((err) => console.log(err.message));
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-    });
-});
 
 router.post(
   '/case/upload',
