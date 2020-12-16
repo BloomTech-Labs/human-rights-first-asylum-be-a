@@ -2,7 +2,6 @@ const Cases = require('../api/cases/caseModel');
 // * load amazon aws service
 const AWS = require('aws-sdk');
 // * create S3 class
-// ? do I need to pass the .env variables in
 const awsConfig = require('../config/awsConfig');
 const S3 = new AWS.S3(awsConfig);
 
