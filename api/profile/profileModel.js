@@ -25,8 +25,8 @@ const findById = async (id) => {
         .select('*');
 
       cases.push(Object.values(one_case)[0]);
-      book_marked_cases = cases;
     }
+    book_marked_cases = cases;
     if (book_marked_judges.length > 0) {
       let judges = [];
       for (let i = 0; i < book_marked_judges.length; i++) {
