@@ -6,6 +6,8 @@ const router = express.Router();
 //middleware
 router.use('/', authRequired);
 
+//TODO /:id verify && judge verify && case verify
+
 /**
  * @swagger
  * components:

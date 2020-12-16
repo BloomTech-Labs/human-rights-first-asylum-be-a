@@ -12,33 +12,57 @@ const findBy = (filter) => {
 
 const findById = async (id) => {
   const user = await db('profiles').where({ id }).first().select('*');
-  let book_marked_cases = await db('book_mark_cases');
-  let book_marked_judges = await db('book_mark_judges');
+  let book_marked_cases = await db('book_mark_cases').where({ user_id: id });
+  let book_marked_judges = await db('book_mark_judges').where({ user_id: id });
 
   if (book_marked_cases.length > 0) {
     const cases = [];
     for (let i = 0; i < book_marked_cases.length; i++) {
       const one_case = await db('cases')
         .where({
-          case_id: book_marked_cases[i].case_id,
+          id: book_marked_cases[i].case_id,
         })
-        .select('case_id', 'case_status');
+        .select('*');
 
       cases.push({
-        case_id: one_case.case_id,
+        case_id: one_case.id,
+        case_url: one_case.case_url,
+        court_type: one_case.court_type,
+        hearing_type: one_case.hearing_type,
+        refugee_origin: one_case.refugee_origin,
+        hearing_location: one_case.hearing_location,
+        protected_ground: one_case.protected_ground,
+        hearing_date: one_case.hearing_location,
+        decision_date: one_case.decision_date,
+        credibility_of_refugee: one_case.credibility_of_refugee,
         case_status: one_case.case_status,
+        social_group_type: one_case.social_group_type,
+        judge_decision: one_case.judge_decision,
+        judge_name: one_case.judge_name,
       });
       book_marked_cases = cases;
     }
     if (book_marked_judges.length > 0) {
       const judges = [];
       for (let i = 0; i < book_marked_judges.length; i++) {
-        const judge = await db('judges').where({
-          name: book_marked_judges[i].name,
-          judge_image: book_marked_judges[i].judge_image,
-          judge_county: book_marked_judges[i].judge_county,
+        const one_judge = await db('judges')
+          .where({
+            name: book_marked_judges[i].judge_name,
+          })
+          .select('*');
+        judges.push({
+          name: one_judge.name,
+          judge_county: one_judge.county,
+          judge_image: one_judge.image,
+          date_appointed: one_judge.date_appointed,
+          birth_date: one_judge.birth_date,
+          biography: one_judge.biography,
+          positive_keywords: one_judge.positive_keywords,
+          negative_keywords: one_judge.negative_keywords,
+          denial_rate: one_judge.denial_rate,
+          approval_rate: one_judge.approval_rate,
+          appointed_by: one_judge.appointed_by,
         });
-        judges.push(judge);
       }
       book_marked_judges = judges;
     }
