@@ -1,6 +1,7 @@
 /* 
 
 const CronJob = require('cron').CronJob;
+const cacache = require('cacache')
 const axios = require('axios');
 const Judge = require('../api/judges/judgeModel');
 const Case = require('../api/cases/caseModel');
@@ -75,6 +76,21 @@ const update = new CronJob(
   'America/Los_Angeles'
 );
 
+* runs at 00:30 daily
+* '0 0 * * sun' => Runs Weekly, 00:30 Sunday - PST
+
+const clearCache = new CronJob(
+  '0 30 * * *',
+  function () {
+cacache.rm.all(cachePath).then(() => {
+  console.log('THE APOCALYPSE IS UPON US 😱')
+})
+},
+  null,
+  true,
+  'America/Los_Angeles' );
+
 update.start();
+clearCache.start();
 
 */
