@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const dsModel = require('./dsModel');
 const authRequired = require('../middleware/authRequired');
-const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 const mime = require('mime-types');
 

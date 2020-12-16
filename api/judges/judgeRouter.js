@@ -1,6 +1,7 @@
 const express = require('express');
 const Judges = require('./judgeModel');
 const verify = require('../middleware/verifyDataID');
+const Cache = require('../middleware/cache');
 const fs = require('fs');
 const JSZip = require('jszip');
 
@@ -15,9 +16,11 @@ router.use('/:name', verify.verifyJudge);
 
 //routes
 
-router.get('/', (req, res) => {
+router.get('/', Cache.checkCache, (req, res) => {
+  const key = 'judges';
   Judges.findAll()
     .then((judges) => {
+      Cache.makeCache(key, String(judges));
       res.status(200).json(judges);
     })
     .catch((err) => {
@@ -25,10 +28,12 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:name', (req, res) => {
+router.get('/:name', Cache.checkCache, (req, res) => {
   const name = String(req.params.name);
+  const key = String(req.originalUrl);
   Judges.findFullDataByName(name)
     .then((judges) => {
+      Cache.makeCache(key, String(judges));
       res.status(200).json(judges);
     })
     .catch((err) => {
@@ -36,8 +41,9 @@ router.get('/:name', (req, res) => {
     });
 });
 
-router.get('/:name/csv', (req, res) => {
+router.get('/:name/csv', Cache.fileCache, (req, res) => {
   const name = String(req.params.name);
+  const key = String(req.originalUrl);
   Judges.writeCSV(name)
     .then((csv) => {
       res.header('Content-Type', 'application/zip');
@@ -52,6 +58,7 @@ router.get('/:name/csv', (req, res) => {
         .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
         .pipe(fs.createWriteStream(`${name}_data.zip`))
         .on('finish', function () {
+          Cache.makeFileCache(key, `${name}_data.zip`);
           res.status(200).download(`${name}_data.zip`);
         });
     })
@@ -62,6 +69,7 @@ router.get('/:name/csv', (req, res) => {
 
 router.get('/:name/pdf', (req, res) => {
   const id = String(req.params.id);
+  // const key = String(req.originalUrl);
   Judges.writePDF(id)
     .then((judges) => {
       res.status(200).json(judges);
