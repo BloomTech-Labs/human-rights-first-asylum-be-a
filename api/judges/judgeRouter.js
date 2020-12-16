@@ -1,6 +1,7 @@
 const express = require('express');
 const Judges = require('./judgeModel');
 const verify = require('../middleware/verifyDataID');
+const Cache = require('../middleware/cache');
 const fs = require('fs');
 const JSZip = require('jszip');
 
@@ -15,9 +16,11 @@ router.use('/:name', verify.verifyJudge);
 
 //routes
 
-router.get('/', (req, res) => {
+router.get('/', Cache.checkCache, (req, res) => {
+  const key = 'judges';
   Judges.findAll()
     .then((judges) => {
+      Cache.makeCache(key, String(judges));
       res.status(200).json(judges);
     })
     .catch((err) => {
@@ -25,10 +28,12 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:name', (req, res) => {
+router.get('/:name', Cache.checkCache, (req, res) => {
   const name = String(req.params.name);
+  const key = name + 'data';
   Judges.findFullDataByName(name)
     .then((judges) => {
+      Cache.makeCache(key, String(judges));
       res.status(200).json(judges);
     })
     .catch((err) => {
