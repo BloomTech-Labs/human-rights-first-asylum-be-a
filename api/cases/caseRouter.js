@@ -14,7 +14,7 @@ router.use('/:id', Verify.verifyCase);
 //routes
 
 router.get('/', Cache.checkCache, (req, res) => {
-  key = 'cases';
+  const key = String(req.originalUrl);
   Cases.findAll()
     .then((cases) => {
       Cache.makeCache(key, String(cases));
@@ -28,7 +28,7 @@ router.get('/', Cache.checkCache, (req, res) => {
 
 router.get('/:id', Cache.checkCache, (req, res) => {
   const id = String(req.params.id);
-  const key = id + 'data';
+  const key = String(req.originalUrl);
   Cases.findById(id)
     .then((cases) => {
       Cache.makeCache(key, String(cases));
@@ -43,6 +43,7 @@ router.get('/:id', Cache.checkCache, (req, res) => {
 router.get('/:id/original-pdf', (req, res) => {
   // * returns csv of case data
   const id = String(req.params.id);
+  const key = String(req.originalUrl);
   Cases.writeCSV(id)
     .then((cases) => {
       res.header('Content-Type', 'text/csv');
@@ -56,7 +57,8 @@ router.get('/:id/original-pdf', (req, res) => {
 });
 
 router.get('/:id/view-pdf', (req, res) => {
-  const id = req.params.id;
+  const id = String(req.params.id);
+  const key = String(req.originalUrl);
   AWS.make_view_params(id)
     .then((params) => {
       AWS.fetch_pdf_view(params)
@@ -76,7 +78,8 @@ router.get('/:id/view-pdf', (req, res) => {
 
 router.get('/:id/download-pdf', (req, res) => {
   // * returns pdf of ORIGINAL case
-  const id = req.params.id;
+  const id = String(req.params.id);
+  const key = String(req.originalUrl);
   AWS.make_dl_params(id)
     .then((params) => {
       AWS.fetch_pdf_download(params).then((data) => {
@@ -90,10 +93,10 @@ router.get('/:id/download-pdf', (req, res) => {
 
 router.get('/:id/download-csv', Cache.checkCache, (req, res) => {
   const id = String(req.params.id);
-  const key = id + 'singlecsv';
+  const key = String(req.originalUrl);
   Cases.writeCSV(id)
     .then((csv) => {
-      Cache.makeCache(key, String(csv));
+      Cache.makeCache(key, csv);
       res.header('Content-Type', 'text/csv');
       res.attachment(`${id}_data.csv`);
       res.status(200).send(csv);
