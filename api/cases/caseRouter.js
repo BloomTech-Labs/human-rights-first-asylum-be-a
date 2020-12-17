@@ -65,7 +65,8 @@ router.get('/:id/view-pdf', (req, res) => {
         .then((data) => {
           //* write file locally as temp file
           // * res.status(200).render('temp.pdf')
-          res.status(200).json({ message: 'Completed', data });
+          console.log(data);
+          res.status(200).json({ message: 'Completed' });
         })
         .catch((err) => {
           res.status(500).json({ message: err.message });
@@ -83,7 +84,8 @@ router.get('/:id/download-pdf', (req, res) => {
   AWS.make_dl_params(id)
     .then((params) => {
       AWS.fetch_pdf_download(params).then((data) => {
-        res.json({ message: 'Completed', data });
+        console.log(data);
+        res.json({ message: 'Completed' });
       });
     })
     .catch((err) => {

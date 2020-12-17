@@ -5,6 +5,16 @@ const add = async (data) => {
   return await db('cases').insert(data);
 };
 
+const findAll = async () => {
+  const cases = await db('cases').select('id');
+  let all_cases = [];
+  for (let i = 0; i < cases.length; i++) {
+    let one_case = await findById(cases[i].id);
+    all_cases.push(one_case);
+  }
+  return all_cases;
+};
+
 const findById = async (id) => {
   const cases = await db('cases').where({ id }).first().select('*');
   const protected_ground = await db('protected_join')
@@ -36,16 +46,6 @@ const findById = async (id) => {
   cases['social_group_type'] = social_groups;
 
   return cases;
-};
-
-const findAll = async () => {
-  const cases = await db('cases');
-  let all_cases = [];
-  for (let i = 0; i < cases.length; i++) {
-    let one_case = await findById(cases[i].id);
-    all_cases.push(one_case);
-  }
-  return all_cases;
 };
 
 const findBy = async (filter) => {
