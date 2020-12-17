@@ -9,7 +9,6 @@ const findAll = async () => {
   let tags = [];
   for (let i = 0; i < tagsAll.length; i++) {
     let tag = Object.values(tagsAll[i]);
-    console.log(tag);
     tags.push(tag[0]);
   }
 
