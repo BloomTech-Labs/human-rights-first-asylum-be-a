@@ -8,7 +8,6 @@ exports.up = function (knex) {
       table.string('hearing_type');
       table.string('refugee_origin');
       table.string('hearing_location');
-      table.string('protected_ground');
       table.string('hearing_date');
       table.string('decision_date');
       table.string('credibility_of_refugee');
