@@ -5,7 +5,15 @@ const add = async (data) => {
 };
 
 const findAll = async () => {
-  return await db('protected_tags');
+  const tagsAll = await db('social_tags');
+  let tags = [];
+  for (let i = 0; i < tagsAll.length; i++) {
+    let tag = Object.values(tagsAll[i]);
+    console.log(tag);
+    tags.push(tag[0]);
+  }
+
+  return tags;
 };
 
 const findByTag = async (ground_tag) => {
