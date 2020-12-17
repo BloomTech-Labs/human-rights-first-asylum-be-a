@@ -13,7 +13,6 @@ const cases = [...new Array(5)].map((i, idx) => ({
   decision_date: '01-11-16',
   credibility_of_refugee: 'Very credible?',
   case_status: 'closed',
-  social_group_type: 'Female',
   judge_decision: 'No',
   judge_name: 'Test001 User',
 }));
