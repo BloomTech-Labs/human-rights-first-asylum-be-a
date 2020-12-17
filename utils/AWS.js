@@ -4,6 +4,7 @@ const AWS = require('aws-sdk');
 // * create S3 class
 const awsConfig = require('../config/awsConfig');
 const S3 = new AWS.S3(awsConfig);
+const fs = require('fs');
 
 const make_view_params = async (case_id) => {
   const curr_case = await Cases.findById(case_id);
