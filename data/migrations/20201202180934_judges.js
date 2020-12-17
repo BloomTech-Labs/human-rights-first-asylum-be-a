@@ -8,7 +8,6 @@ exports.up = function (knex) {
       table.string('date_appointed');
       table.string('birth_date');
       table.string('biography');
-      table.string('positive_keywords');
       table.string('negative_keywords');
       table.float('denial_rate');
       table.float('approval_rate');

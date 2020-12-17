@@ -14,7 +14,6 @@ const judges = [...new Array(5)].map((i, idx) => ({
   approval_rate: 15.67,
   denial_rate: 87.27,
   biography: 'I was a judge',
-  positive_keywords: 'muffin cookie cat',
   negative_keywords: 'brussel-sprouts',
 }));
 

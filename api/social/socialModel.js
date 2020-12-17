@@ -15,12 +15,12 @@ const findAll = async () => {
   return tags;
 };
 
-const findByTag = async (ground_tag) => {
-  return await db('social_tags').where({ ground_tag });
+const findByTag = async (social_tag) => {
+  return await db('social_tags').where({ social_tag });
 };
 
-const createJoin = async (case_id, group) => {
-  return await db('social_join').insert({ case_id, group });
+const createJoin = async (case_id, social_group) => {
+  return await db('social_join').insert({ case_id, social_group });
 };
 
 module.exports = {

@@ -6,7 +6,6 @@ const checkCache = (req, res, next) => {
 
   cacache.get.info(cachePath, key).then((data) => {
     if (data) {
-      console.log('check');
       return data;
     } else {
       next();
