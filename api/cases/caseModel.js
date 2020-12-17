@@ -5,17 +5,51 @@ const add = async (data) => {
   return await db('cases').insert(data);
 };
 
-const findAll = async () => {
-  return await db('cases');
+const findById = async (id) => {
+  const cases = await db('cases').where({ id }).first().select('*');
+  const protected_ground = await db('protected_join')
+    .where({ case_id: id })
+    .select('protected_ground');
+  const social_groups = await db('social_join')
+    .where({ case_id: id })
+    .select('social_group');
+
+  if (protected_ground.length > 0) {
+    let tags = [];
+    for (let i = 0; i < protected_ground.length; i++) {
+      const tag = Object.values(protected_ground[i]);
+      tags.push(tag);
+    }
+    protected_ground = tags;
+  }
+
+  if (social_groups.length > 0) {
+    let tags = [];
+    for (let i = 0; i < social_groups.length; i++) {
+      const tag = Object.values(social_groups[i]);
+      tags.push(tag);
+    }
+    social_groups = tags;
+  }
+
+  cases['protected_ground'] = protected_ground;
+  cases['social_group_type'] = social_groups;
+
+  return cases;
 };
 
-const findById = async (id) => {
-  return db('cases').where({ id }).first().select('*');
+const findAll = async () => {
+  const cases = await db('cases');
+  let all_cases = [];
+  for (let i = 0; i < cases.length; i++) {
+    let one_case = await findById(cases[i].id);
+    all_cases.push(one_case);
+  }
+  return all_cases;
 };
 
 const findBy = async (filter) => {
   return db('cases').where(filter);
-  // ? can this also be used to return the original PDF?
 };
 
 const writeCSV = async (id) => {
