@@ -14,7 +14,7 @@ router.use('/:id', Verify.verifyCase);
 //routes
 
 router.get('/', Cache.checkCache, (req, res) => {
-  const key = String(req.originalUrl);
+  const key = 'cases';
   Cases.findAll()
     .then((cases) => {
       Cache.makeCache(key, String(cases));
