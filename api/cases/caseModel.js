@@ -14,6 +14,9 @@ const findById = async (id) => {
   const protected_ground = await db('protected_join')
     .where({ case_id: id })
     .select('ground_tag');
+  const social_groups = await db('social_join')
+    .where({ case_id: id })
+    .select('social_tag');
 
   if (protected_ground.length > 0) {
     let tags = [];
@@ -23,7 +26,18 @@ const findById = async (id) => {
     }
     protected_ground = tags;
   }
+
+  if (social_groups.length > 0) {
+    let tags = [];
+    for (let i = 0; i < social_groups.length; i++) {
+      const tag = Object.values(social_groups[i]);
+      tags.push(tag);
+    }
+    social_groups = tags;
+  }
+
   cases['protected_ground'] = protected_ground;
+  cases['social_group_type'] = social_groups;
 
   return cases;
 };
