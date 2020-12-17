@@ -3,6 +3,7 @@ const router = express.Router();
 const dsModel = require('./dsModel');
 const authRequired = require('../middleware/authRequired');
 const bodyParser = require('body-parser');
+const { Parser } = require('json2csv');
 const mime = require('mime-types');
 
 /**
@@ -152,6 +153,16 @@ router.post(
             res.status(200).json({ message: 'PDF Successfully Uploaded' });
           })
           .catch((err) => res.status(500).json(err.message));
+      }
+      if (mime.lookup(uploadedFile) == 'application/json') {
+        dsModel
+          .sendJSON(uploadedFile)
+          .then((response) => {
+            res.status(200).json({ message: 'Form Successfully Uploaded' });
+          })
+          .catch((err) => {
+            res.status(500).json({ message: err.message });
+          });
       } else {
         res.status(400).json({ message: 'Please send valid file type.' });
       }
