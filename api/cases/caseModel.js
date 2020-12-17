@@ -10,12 +10,26 @@ const findAll = async () => {
 };
 
 const findById = async (id) => {
-  return db('cases').where({ id }).first().select('*');
+  const cases = await db('cases').where({ id }).first().select('*');
+  const protected_ground = await db('protected_join')
+    .where({ case_id: id })
+    .select('ground_tag');
+
+  if (protected_ground.length > 0) {
+    let tags = [];
+    for (let i = 0; i < protected_ground.length; i++) {
+      const tag = Object.values(protected_ground[i]);
+      tags.push(tag);
+    }
+    protected_ground = tags;
+  }
+  cases['protected_ground'] = protected_ground;
+
+  return cases;
 };
 
 const findBy = async (filter) => {
   return db('cases').where(filter);
-  // ? can this also be used to return the original PDF?
 };
 
 const writeCSV = async (id) => {
