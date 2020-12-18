@@ -11,7 +11,7 @@ const findAll = async () => {
   let judges = [];
   for (let i = 0; i < db_judges.length; i++) {
     judge = await findFullDataByName(Object.values(db_judges[i])[0]);
-    judges.push(judge[0]);
+    judges.push(judge);
   }
 
   return judges;
@@ -48,12 +48,12 @@ const findFullDataByName = async (name) => {
       negative_keywords.push(word);
     }
   }
-  judge['positive_keywords'] = positive_keywords;
-  judge['negative_keywords'] = negative_keywords;
-  judge['country_data'] = countries;
-  judge['case_data'] = cases;
+  judge[0]['positive_keywords'] = positive_keywords;
+  judge[0]['negative_keywords'] = negative_keywords;
+  judge[0]['country_data'] = countries;
+  judge[0]['case_data'] = cases;
 
-  return judge;
+  return judge[0];
 };
 
 const caseData = async (judge_name) => {
