@@ -64,6 +64,7 @@ module.exports = {
   addNeg,
   findAllPos,
   findAllNeg,
+  findAll,
   findByPosTag,
   findByNegTag,
   createPosJoin,
