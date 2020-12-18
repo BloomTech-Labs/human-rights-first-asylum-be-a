@@ -26,22 +26,9 @@ router.get('/', Cache.checkCache, (req, res) => {
     });
 });
 
-router.get('/form', Cache.checkCache, (req, res) => {
-  const key = 'form';
-  Cases.formData()
-    .then((form) => {
-      Cache.makeCache(key, String(form));
-      res.status(200).json(form);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({ message: err.message });
-    });
-});
-
-router.get('/:id', Cache.checkCache, (req, res) => {
+router.get('/:id', (req, res) => {
   const id = String(req.params.id);
-  const key = String(req.originalUrl);
+  const key = 'cases' + id;
   Cases.findById(id)
     .then((cases) => {
       Cache.makeCache(key, String(cases));
@@ -90,7 +77,7 @@ router.get('/:id/download-pdf', (req, res) => {
     });
 });
 
-router.get('/:id/download-csv', Cache.checkCache, (req, res) => {
+router.get('/:id/download-csv', (req, res) => {
   const id = String(req.params.id);
   const key = String(req.originalUrl);
   Cases.writeCSV(id)

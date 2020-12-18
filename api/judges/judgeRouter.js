@@ -18,17 +18,19 @@ router.use('/:name', verify.verifyJudge);
 
 router.get('/', Cache.checkCache, (req, res) => {
   const key = 'judges';
+
   Judges.findAll()
     .then((judges) => {
+      console.log(judges);
       Cache.makeCache(key, String(judges));
-      res.status(200).json(judges);
+      res.status(200).json(judges[0]);
     })
     .catch((err) => {
       res.status(500).json({ message: err.message });
     });
 });
 
-router.get('/:name', Cache.checkCache, (req, res) => {
+router.get('/:name', (req, res) => {
   const name = String(req.params.name);
   const key = String(req.originalUrl);
   Judges.findFullDataByName(name)
@@ -41,7 +43,7 @@ router.get('/:name', Cache.checkCache, (req, res) => {
     });
 });
 
-router.get('/:name/csv', Cache.fileCache, (req, res) => {
+router.get('/:name/csv', (req, res) => {
   const name = String(req.params.name);
   const key = String(req.originalUrl);
   Judges.writeCSV(name)
