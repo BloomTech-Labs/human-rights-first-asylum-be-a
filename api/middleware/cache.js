@@ -2,15 +2,20 @@ const cacache = require('cacache');
 
 const checkCache = (req, res, next) => {
   const cachePath = '/tmp/data';
-  const key = String(req.originalUrl);
-
-  cacache.get.info(cachePath, key).then((data) => {
-    if (data) {
-      return data;
-    } else {
+  let key = String(req.originalUrl);
+  cacache
+    .get(cachePath, key)
+    .then((data) => {
+      if (data) {
+        result = JSON.parse(data.data.toString('utf-8'));
+        res.status(200).json(result);
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
       next();
-    }
-  });
+    });
 };
 
 const makeCache = (key, value) => {

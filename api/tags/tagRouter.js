@@ -8,10 +8,10 @@ const router = express.Router();
 //routes
 
 router.get('/grounds', Cache.checkCache, (req, res) => {
-  const key = 'tags/grounds';
+  const key = String(req.originalUrl);
   Tags.findAllProt()
     .then((Tags) => {
-      Cache.makeCache(key, String(Tags));
+      Cache.makeCache(key, JSON.stringify(Tags));
       res.status(200).json(Tags);
     })
     .catch((err) => {
@@ -20,10 +20,10 @@ router.get('/grounds', Cache.checkCache, (req, res) => {
 });
 
 router.get('/social', Cache.checkCache, (req, res) => {
-  const key = 'tags/social';
+  const key = String(req.originalUrl);
   Tags.findAllSoc()
     .then((Tags) => {
-      Cache.makeCache(key, String(Tags));
+      Cache.makeCache(key, JSON.stringify(Tags));
       res.status(200).json(Tags);
     })
     .catch((err) => {

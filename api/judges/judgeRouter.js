@@ -17,12 +17,12 @@ router.use('/:name', verify.verifyJudge);
 //routes
 
 router.get('/', Cache.checkCache, (req, res) => {
-  const key = 'judges';
+  const key = String(req.originalUrl);
 
   Judges.findAll()
     .then((judges) => {
       console.log(judges);
-      Cache.makeCache(key, String(judges));
+      Cache.makeCache('/judges', JSON.stringify(judges));
       res.status(200).json(judges);
     })
     .catch((err) => {
@@ -30,12 +30,12 @@ router.get('/', Cache.checkCache, (req, res) => {
     });
 });
 
-router.get('/:name', (req, res) => {
+router.get('/:name', Cache.checkCache, (req, res) => {
   const name = String(req.params.name);
   const key = String(req.originalUrl);
   Judges.findFullDataByName(name)
     .then((judges) => {
-      Cache.makeCache(key, String(judges));
+      Cache.makeCache(key, JSON.stringify(judges));
       res.status(200).json(judges);
     })
     .catch((err) => {

@@ -4,6 +4,7 @@ const AWS = require('../../utils/AWS');
 const Verify = require('../middleware/verifyDataID');
 const Cache = require('../middleware/cache');
 const router = express.Router();
+const cacache = require('cacache');
 
 // TODO add auth to route also - final phase
 
@@ -14,10 +15,12 @@ router.use('/:id', Verify.verifyCase);
 //routes
 
 router.get('/', Cache.checkCache, (req, res) => {
-  const key = 'cases';
+  const key = String(req.originalUrl);
+
   Cases.findAll()
     .then((cases) => {
-      Cache.makeCache(key, String(cases));
+      console.log('run');
+      Cache.makeCache(key, JSON.stringify(cases));
       res.status(200).json(cases);
     })
     .catch((err) => {
@@ -28,10 +31,10 @@ router.get('/', Cache.checkCache, (req, res) => {
 
 router.get('/:id', (req, res) => {
   const id = String(req.params.id);
-  const key = 'cases' + id;
+  const key = String(req.originalUrl) + id;
   Cases.findById(id)
     .then((cases) => {
-      Cache.makeCache(key, String(cases));
+      Cache.makeCache(key, JSON.stringify(cases));
       res.status(200).json(cases);
     })
     .catch((err) => {
