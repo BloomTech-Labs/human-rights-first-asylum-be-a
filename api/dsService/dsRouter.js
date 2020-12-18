@@ -4,6 +4,7 @@ const dsModel = require('./dsModel');
 const authRequired = require('../middleware/authRequired');
 const bodyParser = require('body-parser');
 const mime = require('mime-types');
+const Cache = require('../middleware/cache');
 
 /**
  * @swagger
@@ -121,11 +122,12 @@ router.get('/viz/:state', authRequired, function (req, res) {
 
 // TODO create Swagger Docs
 
-router.get('/form', (req, res) => {
-  const key = 'form';
+router.get('/form', Cache.checkCache, (req, res) => {
+  const key = String(req.originalUrl);
   dsModel
     .formData()
     .then((form) => {
+      Cache.makeCache(key, JSON.stringify(form));
       res.status(200).json(form);
     })
     .catch((err) => {
