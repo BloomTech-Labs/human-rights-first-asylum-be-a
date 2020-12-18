@@ -5,8 +5,46 @@ const add = async (data) => {
   return db('judges').insert(data);
 };
 
+const formData = async () => {
+  const formData = {};
+  const judge = await db('judges').select('name');
+  const social = await db('social_tags').select('social_tag');
+  const protected = await db('protected_tags').select('ground_tag');
+
+  let judges = [];
+  for (let i = 0; i < judge.length; i++) {
+    let tag = Object.values(judge[i]);
+    judge.push(word);
+  }
+  let socials = [];
+  for (let i = 0; i < social.length; i++) {
+    let tag = Object.values(social[i]);
+    socials.push(word);
+  }
+
+  let protecteds = [];
+  for (let i = 0; i < protected.length; i++) {
+    let tag = Object.values(protected[i]);
+    protecteds.push(word);
+  }
+
+  formData['judge_names'] = judges;
+  formData['social_group_type'] = socials;
+  formData['protected_ground'] = protecteds;
+
+  return formData;
+};
+
 const findAll = async () => {
-  return await db('judges');
+  const db_judges = await db('judges').select('name');
+
+  let judges = [];
+  for (let i = 0; i < db_judges.length; i++) {
+    judge = await findFullDataByName(Object.values(judges[i]));
+    judges.push(judge);
+  }
+
+  return judges;
 };
 
 const findByName = async (name) => {
@@ -21,6 +59,10 @@ const findFullDataByName = async (name) => {
     .where({ judge_name: name })
     .select('positive_word');
 
+  const negatives = await db('negative_join')
+    .where({ judge_name: name })
+    .select('negative_word');
+
   if (positives.length > 0) {
     let positive_keywords = [];
     for (let i = 0; i < positives.length; i++) {
@@ -28,6 +70,15 @@ const findFullDataByName = async (name) => {
       positive_keywords.push(word);
     }
     judge['positive_keywords'] = positive_keywords;
+  }
+
+  if (negatives.length > 0) {
+    let negative_keywords = [];
+    for (let i = 0; i < negatives.length; i++) {
+      let word = Object.values(negatives[i]);
+      negative_keywords.push(word);
+    }
+    judge['negative_keywords'] = negative_keywords;
   }
 
   judge['country_data'] = countries;
