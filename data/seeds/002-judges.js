@@ -14,7 +14,6 @@ const judges = [...new Array(5)].map((i, idx) => ({
   approval_rate: 15.67,
   denial_rate: 87.27,
   biography: 'I was a judge',
-  negative_keywords: 'brussel-sprouts',
 }));
 
 exports.seed = function (knex) {
