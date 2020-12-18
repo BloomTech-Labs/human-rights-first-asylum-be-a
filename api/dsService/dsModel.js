@@ -18,6 +18,36 @@ const sendCSV = (csv) => {
   return dsClient.post('/upload/csv', csv);
 };
 
+const formData = async () => {
+  const formData = {};
+  const judge = await db('judges').select('name');
+  const social = await db('social_tags').select('social_tag');
+  const protected = await db('protected_tags').select('ground_tag');
+
+  let judges = [];
+  for (let i = 0; i < judge.length; i++) {
+    let tag = Object.values(judge[i]);
+    judges.push(tag[0]);
+  }
+  let socials = [];
+  for (let i = 0; i < social.length; i++) {
+    let tag = Object.values(social[i]);
+    socials.push(tag[0]);
+  }
+
+  let protecteds = [];
+  for (let i = 0; i < protected.length; i++) {
+    let tag = Object.values(protected[i]);
+    protecteds.push(tag[0]);
+  }
+
+  formData['judge_names'] = judges;
+  formData['social_group_type'] = socials;
+  formData['protected_ground'] = protecteds;
+
+  return formData;
+};
+
 const sendJSON = (json) => {
   //* create fields
   const form_fields = [];
@@ -35,4 +65,11 @@ const sendJSON = (json) => {
   }
 };
 
-module.exports = { getPrediction, getViz, sendPDF, sendCSV, sendJSON };
+module.exports = {
+  getPrediction,
+  getViz,
+  sendPDF,
+  sendCSV,
+  sendJSON,
+  formData,
+};

@@ -52,36 +52,6 @@ const findBy = async (filter) => {
   return db('cases').where(filter);
 };
 
-const formData = async () => {
-  const formData = {};
-  const judge = await db('judges').select('name');
-  const social = await db('social_tags').select('social_tag');
-  const protected = await db('protected_tags').select('ground_tag');
-
-  let judges = [];
-  for (let i = 0; i < judge.length; i++) {
-    let tag = Object.values(judge[i]);
-    judge.push(word);
-  }
-  let socials = [];
-  for (let i = 0; i < social.length; i++) {
-    let tag = Object.values(social[i]);
-    socials.push(word);
-  }
-
-  let protecteds = [];
-  for (let i = 0; i < protected.length; i++) {
-    let tag = Object.values(protected[i]);
-    protecteds.push(word);
-  }
-
-  formData['judge_names'] = judges;
-  formData['social_group_type'] = socials;
-  formData['protected_ground'] = protecteds;
-
-  return formData;
-};
-
 const writeCSV = async (id) => {
   // *  get only case data
   const case_data = await findById(id);
@@ -108,6 +78,5 @@ module.exports = {
   findAll,
   findById,
   findBy,
-  formData,
   writeCSV,
 };

@@ -3,7 +3,6 @@ const router = express.Router();
 const dsModel = require('./dsModel');
 const authRequired = require('../middleware/authRequired');
 const bodyParser = require('body-parser');
-const { Parser } = require('json2csv');
 const mime = require('mime-types');
 
 /**
@@ -121,6 +120,18 @@ router.get('/viz/:state', authRequired, function (req, res) {
 });
 
 // TODO create Swagger Docs
+
+router.get('/form', (req, res) => {
+  const key = 'form';
+  dsModel
+    .formData()
+    .then((form) => {
+      res.status(200).json(form);
+    })
+    .catch((err) => {
+      res.status(500).json({ message: err.message });
+    });
+});
 
 router.post(
   '/case/upload',

@@ -4,6 +4,10 @@ const addPos = async (data) => {
   return await db('positive_tags').insert(data);
 };
 
+const addNeg = async (data) => {
+  return await db('negative_tags').insert(data);
+};
+
 const findAllPos = async () => {
   const tagsAll = await db('positive_tags');
   let tags = [];
