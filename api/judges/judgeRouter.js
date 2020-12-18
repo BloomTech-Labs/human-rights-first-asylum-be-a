@@ -23,7 +23,7 @@ router.get('/', Cache.checkCache, (req, res) => {
     .then((judges) => {
       console.log(judges);
       Cache.makeCache(key, String(judges));
-      res.status(200).json(judges[0]);
+      res.status(200).json(judges);
     })
     .catch((err) => {
       res.status(500).json({ message: err.message });
