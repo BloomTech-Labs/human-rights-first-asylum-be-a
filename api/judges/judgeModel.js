@@ -6,7 +6,15 @@ const add = async (data) => {
 };
 
 const findAll = async () => {
-  return await db('judges');
+  const db_judges = await db('judges').select('name');
+
+  let judges = [];
+  for (let i = 0; i < db_judges.length; i++) {
+    judge = await findFullDataByName(Object.values(db_judges[i])[0]);
+    judges.push(judge[0]);
+  }
+
+  return judges;
 };
 
 const findByName = async (name) => {
@@ -14,12 +22,37 @@ const findByName = async (name) => {
 };
 
 const findFullDataByName = async (name) => {
-  const judge = await db('judges').where({ name }).first().select('*');
+  const judge = await findByName(name);
   const countries = await countryData(name);
   const cases = await caseData(name);
+  const positives = await db('positive_join')
+    .where({ judge_name: name })
+    .select('positive_word');
+  const negatives = await db('negative_join')
+    .where({ judge_name: name })
+    .select('negative_word');
 
+  let positive_keywords = [];
+  let negative_keywords = [];
+
+  if (positives.length > 0) {
+    for (let i = 0; i < positives.length; i++) {
+      let word = Object.values(positives[i]);
+      positive_keywords.push(word);
+    }
+  }
+
+  if (negatives.length > 0) {
+    for (let i = 0; i < negatives.length; i++) {
+      let word = Object.values(negatives[i]);
+      negative_keywords.push(word);
+    }
+  }
+  judge['positive_keywords'] = positive_keywords;
+  judge['negative_keywords'] = negative_keywords;
   judge['country_data'] = countries;
   judge['case_data'] = cases;
+
   return judge;
 };
 

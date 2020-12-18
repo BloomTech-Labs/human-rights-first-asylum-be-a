@@ -14,7 +14,7 @@ router.use('/:id', Verify.verifyCase);
 //routes
 
 router.get('/', Cache.checkCache, (req, res) => {
-  const key = String(req.originalUrl);
+  const key = 'cases';
   Cases.findAll()
     .then((cases) => {
       Cache.makeCache(key, String(cases));
@@ -26,29 +26,13 @@ router.get('/', Cache.checkCache, (req, res) => {
     });
 });
 
-router.get('/:id', Cache.checkCache, (req, res) => {
+router.get('/:id', (req, res) => {
   const id = String(req.params.id);
-  const key = String(req.originalUrl);
+  const key = 'cases' + id;
   Cases.findById(id)
     .then((cases) => {
       Cache.makeCache(key, String(cases));
       res.status(200).json(cases);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({ message: err.message });
-    });
-});
-
-router.get('/:id/original-pdf', (req, res) => {
-  // * returns csv of case data
-  const id = String(req.params.id);
-  const key = String(req.originalUrl);
-  Cases.writeCSV(id)
-    .then((cases) => {
-      res.header('Content-Type', 'text/csv');
-      res.attachment(`${id}_case_data.csv`);
-      res.status(200).send(cases);
     })
     .catch((err) => {
       console.log(err);
@@ -65,7 +49,8 @@ router.get('/:id/view-pdf', (req, res) => {
         .then((data) => {
           //* write file locally as temp file
           // * res.status(200).render('temp.pdf')
-          res.status(200).json({ message: 'Completed', data });
+          console.log(data);
+          res.status(200).json({ message: 'Completed' });
         })
         .catch((err) => {
           res.status(500).json({ message: err.message });
@@ -83,7 +68,8 @@ router.get('/:id/download-pdf', (req, res) => {
   AWS.make_dl_params(id)
     .then((params) => {
       AWS.fetch_pdf_download(params).then((data) => {
-        res.json({ message: 'Completed', data });
+        console.log(data);
+        res.json({ message: 'Completed' });
       });
     })
     .catch((err) => {
@@ -91,7 +77,7 @@ router.get('/:id/download-pdf', (req, res) => {
     });
 });
 
-router.get('/:id/download-csv', Cache.checkCache, (req, res) => {
+router.get('/:id/download-csv', (req, res) => {
   const id = String(req.params.id);
   const key = String(req.originalUrl);
   Cases.writeCSV(id)

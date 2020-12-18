@@ -2,7 +2,7 @@ const cacache = require('cacache');
 
 const checkCache = (req, res, next) => {
   const cachePath = '/tmp/data';
-  const key = req.originalUrl;
+  const key = String(req.originalUrl);
 
   cacache.get.info(cachePath, key).then((data) => {
     if (data) {
