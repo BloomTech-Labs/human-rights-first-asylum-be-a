@@ -26,13 +26,12 @@ router.get('/', Cache.checkCache, (req, res) => {
     });
 });
 
-router.get('/:id', Cache.checkCache, (req, res) => {
-  const id = String(req.params.id);
-  const key = String(req.originalUrl);
-  Cases.findById(id)
-    .then((cases) => {
-      Cache.makeCache(key, String(cases));
-      res.status(200).json(cases);
+router.get('/form', Cache.checkCache, (req, res) => {
+  const key = 'form';
+  Cases.formData()
+    .then((form) => {
+      Cache.makeCache(key, String(form));
+      res.status(200).json(form);
     })
     .catch((err) => {
       console.log(err);
@@ -40,15 +39,13 @@ router.get('/:id', Cache.checkCache, (req, res) => {
     });
 });
 
-router.get('/:id/original-pdf', (req, res) => {
-  // * returns csv of case data
+router.get('/:id', Cache.checkCache, (req, res) => {
   const id = String(req.params.id);
   const key = String(req.originalUrl);
-  Cases.writeCSV(id)
+  Cases.findById(id)
     .then((cases) => {
-      res.header('Content-Type', 'text/csv');
-      res.attachment(`${id}_case_data.csv`);
-      res.status(200).send(cases);
+      Cache.makeCache(key, String(cases));
+      res.status(200).json(cases);
     })
     .catch((err) => {
       console.log(err);
