@@ -5,6 +5,8 @@ const Cache = require('../middleware/cache');
 // router
 const router = express.Router();
 
+// TODO add auth to router
+
 //routes
 
 /**

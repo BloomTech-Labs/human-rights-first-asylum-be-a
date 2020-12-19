@@ -120,7 +120,61 @@ router.get('/viz/:state', authRequired, function (req, res) {
     });
 });
 
-// TODO create Swagger Docs
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *    Form:
+ *      type: object
+ *      required:
+ *        - judge_names
+ *        - social_group_type
+ *        - protected_grounds
+ *      properties:
+ *        judge_names:
+ *          type: array
+ *          description: An array of tags for different tags
+ *        social_group_type:
+ *          type: array
+ *          description: An array of tags for different tags
+ *        protected_grounds:
+ *          type: array
+ *          description: An array of tags for different tags
+ *      example:
+ *        judge_names: ["Bob Smith", "Jane Doe"]
+ *        social_group_type: ['female', 'LGBTQ']
+ *        protected_grounds: ['LGBTQ']
+ *
+ * /data/form:
+ *  get:
+ *    description: Returns three lists of strings
+ *    summary: Get a list of all strings
+ *    security:
+ *      - okta: []
+ *    tags:
+ *    - data
+ *    form:
+ *      - judge_names
+ *        social_group_type
+ *        protected_grounds
+ *    responses:
+ *      200:
+ *        description: array of strings
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Form'
+ *              example:
+ *                -  judge_names: ["Bob Smith", "Jane Doe"]
+ *                   social_group_type: ['female', 'LGBTQ']
+ *                   protected_grounds: ['LGBTQ']
+ *      401:
+ *        $ref: '#/components/responses/UnauthorizedError'
+ *      403:
+ *        $ref: '#/components/responses/UnauthorizedError'
+ */
 
 router.get('/form', Cache.checkCache, (req, res) => {
   const key = String(req.originalUrl);
