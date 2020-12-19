@@ -19,6 +19,8 @@ router.use('/', authRequired);
  *        - email
  *        - name
  *        - avatarUrl
+ *        - case_bookmarks
+ *        - judge_bookmarks
  *      properties:
  *        id:
  *          type: string
@@ -30,11 +32,19 @@ router.use('/', authRequired);
  *        avatarUrl:
  *          type: string
  *          description: public url of profile avatar
+ *        case_bookmarks:
+ *          type: array
+ *          description: An array of Case Objects that the user has favorited
+ *        judge_bookmarks:
+ *          type: array
+ *          description: An array of Judge Objects that the user has favorited
  *      example:
  *        id: '00uhjfrwdWAQvD8JV4x6'
  *        email: 'frank@example.com'
  *        name: 'Frank Martinez'
  *        avatarUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/hermanobrother/128.jpg'
+ *        case_bookmarks: ['etc']
+ *        judge_bookmarks: ['etc']
  *
  * /profiles:
  *  get:
@@ -58,10 +68,14 @@ router.use('/', authRequired);
  *                  email: 'frank@example.com'
  *                  name: 'Frank Martinez'
  *                  avatarUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/hermanobrother/128.jpg'
+ *                  case_bookmarks: ['etc']
+ *                  judge_bookmarks: ['etc']
  *                - id: '013e4ab94d96542e791f'
  *                  email: 'cathy@example.com'
  *                  name: 'Cathy Warmund'
  *                  avatarUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/geneseleznev/128.jpg'
+ *                  case_bookmarks: ['etc']
+ *                  judge_bookmarks: ['etc']
  *      401:
  *        $ref: '#/components/responses/UnauthorizedError'
  *      403:
