@@ -2,10 +2,10 @@ module.exports = {
   definition: {
     openapi: '3.0.1',
     info: {
-      title: 'Lambda Labs Starter API',
+      title: 'Lambda Labs 29 Human Rights First Asylum Project',
       version: '1.0.0',
       description:
-        'A basic API server to act as a starting point for Labs projects',
+        'An API for going between AWS & DS API to serve important refugee information',
       license: {
         name: 'MIT',
         url: 'https://en.wikipedia.org/wiki/MIT_License',
@@ -23,6 +23,24 @@ module.exports = {
       {
         name: 'data',
         description: 'Operations for data science service',
+      },
+      {
+        name: 'cases',
+        description: 'Operations for cases',
+      },
+      {
+        name: 'judges',
+        description: 'Operations for judges',
+      },
+      ,
+      {
+        name: 'keywords',
+        description: 'Operations for judge keywords',
+      },
+      ,
+      {
+        name: 'tags',
+        description: 'Operations for case tags',
       },
     ],
     externalDocs: {
