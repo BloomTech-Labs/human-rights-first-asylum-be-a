@@ -188,7 +188,43 @@ router.get('/form', Cache.checkCache, (req, res) => {
       res.status(500).json({ message: err.message });
     });
 });
-
+/**
+ * @swagger
+ * /data/upload:
+ *  post:
+ *    summary: Post a form OR upload a document to the database
+ *    security:
+ *      - okta: []
+ *    tags:
+ *      - data
+ *
+ *    requestBody:
+ *      description: Data object/file to to be added
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Case'
+ *        multipart/form-data:
+ *            schema:
+ *                type: string
+ *                form: binary
+ *    responses:
+ *      400:
+ *        $ref: '#/components/responses/BadRequest'
+ *      401:
+ *        $ref: '#/components/responses/UnauthorizedError'
+ *      200:
+ *        description: A confirmation message
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  description: A message about the result
+ *                  example: file uploaded
+ */
 router.post(
   '/case/upload',
   bodyParser.json(),
