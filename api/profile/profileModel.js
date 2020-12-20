@@ -73,16 +73,15 @@ const findOrCreateProfile = async (profileObj) => {
   }
 };
 
-// const add_bookmark
 const add_judge_bookmark = async (user_id, judge_name) => {
   await db('book_mark_judges').insert({ user_id, judge_name });
-
+  // return await db('judges').where({name: judge_name})
   return await db('book_mark_judges').where({ user_id });
 };
 
 const add_case_bookmark = async (user_id, case_id) => {
   await db('book_mark_cases').insert({ user_id, case_id });
-
+  // return db('cases').where({id: case_id})
   return await db('book_mark_cases').where({ user_id });
 };
 // const remove_bookmark
