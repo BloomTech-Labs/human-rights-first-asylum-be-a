@@ -338,6 +338,37 @@ router.post('/:id/case/:case_id', (req, res) => {
     });
 });
 
+/**
+ * @swagger
+ * /profile/{id}/judge/{name}:
+ *  delete:
+ *    summary: Remove a judge from the followed list
+ *    security:
+ *      - okta: []
+ *    tags:
+ *      - profile
+ *    parameters:
+ *      - $ref: '#/components/parameters/profileId'
+ *      - $ref: '#/components/parameters/judgeName'
+ *    responses:
+ *      401:
+ *        $ref: '#/components/responses/UnauthorizedError'
+ *      404:
+ *        $ref: '#/components/responses/NotFound'
+ *      200:
+ *        description: A profile object
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  description: A message about the result
+ *                  example: Sucessfully deleted.
+ *                profile:
+ *                  $ref: '#/components/schemas/Profile'
+ */
 router.delete('/:id/judge/:name', (req, res) => {
   const id = req.params.id;
   const name = req.params.name;
@@ -349,6 +380,38 @@ router.delete('/:id/judge/:name', (req, res) => {
       res.status(500).json(err.message);
     });
 });
+
+/**
+ * @swagger
+ * /profile/{id}/case/{case_id}:
+ *  delete:
+ *    summary: Remove a case from the followed list
+ *    security:
+ *      - okta: []
+ *    tags:
+ *      - profile
+ *    parameters:
+ *      - $ref: '#/components/parameters/profileId'
+ *      - $ref: '#/components/parameters/caseId'
+ *    responses:
+ *      401:
+ *        $ref: '#/components/responses/UnauthorizedError'
+ *      404:
+ *        $ref: '#/components/responses/NotFound'
+ *      200:
+ *        description: A profile object
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  description: A message about the result
+ *                  example: Sucessfully deleted.
+ *                profile:
+ *                  $ref: '#/components/schemas/Profile'
+ */
 router.delete('/:id/case/:case_id', (req, res) => {
   const id = req.params.id;
   const case_id = req.params.case_id;
