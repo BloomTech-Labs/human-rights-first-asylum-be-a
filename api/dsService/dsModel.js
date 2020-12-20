@@ -23,6 +23,8 @@ const formData = async () => {
   const judge = await db('judges').select('name');
   const social = await db('social_tags').select('social_tag');
   const protected = await db('protected_tags').select('ground_tag');
+  const pos_keywords = await db('positive_tags').select('positive_tag');
+  const neg_keywords = await db('negative_tags').select('negative_tag');
 
   let judges = [];
   for (let i = 0; i < judge.length; i++) {
@@ -41,9 +43,21 @@ const formData = async () => {
     protecteds.push(tag[0]);
   }
 
+  let keywords = [];
+  for (let i = 0; i < neg_keywords.length; i++) {
+    let tag = Object.values(neg_keywords[i]);
+    keywords.push(tag[0]);
+  }
+
+  for (let i = 0; i < pos_keywords.length; i++) {
+    let tag = Object.values(pos_keywords[i]);
+    keywords.push(tag[0]);
+  }
+
   formData['judge_names'] = judges;
   formData['social_group_type'] = socials;
   formData['protected_ground'] = protecteds;
+  formData['keywords'] = keywords;
 
   return formData;
 };
