@@ -313,6 +313,48 @@ router.delete('/:id', (req, res) => {
 });
 
 // TODO attach middleware for judge/:name route && case/:id route
+/**
+ * @swagger
+ * components:
+ *  parameters:
+ *    judgeName:
+ *      name: name
+ *      in: path
+ *      description: Name of Judge to Add/Remove
+ *      required: true
+ *      example: Mark%20Smith
+ *      schema:
+ *        type: string
+ *
+ * /profile/{id}/judge/{name}:
+ *  post:
+ *    summary: Add a judge to the followed list
+ *    security:
+ *      - okta: []
+ *    tags:
+ *      - profile
+ *    parameters:
+ *      - $ref: '#/components/parameters/profileId'
+ *      - $ref: '#/components/parameters/judgeName'
+ *    responses:
+ *      401:
+ *        $ref: '#/components/responses/UnauthorizedError'
+ *      404:
+ *        $ref: '#/components/responses/NotFound'
+ *      200:
+ *        description: A judge object
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  description: A message about the result
+ *                  example: Sucessfully deleted.
+ *                judge:
+ *                  $ref: '#/components/schemas/Judge'
+ */
 router.post('/:id/judge/:name', (req, res) => {
   const id = req.params.id;
   const name = req.params.name;
@@ -326,6 +368,48 @@ router.post('/:id/judge/:name', (req, res) => {
       res.status(500).send(err.message);
     });
 });
+
+/**
+ * @swagger
+ * components:
+ *  parameters:
+ *    caseId:
+ *      name: case_id
+ *      in: path
+ *      description: case number to reference
+ *      required: true
+ *      example: LDB334BIA
+ *      schema:
+ *        type: string
+ * /profile/{id}/case/{case_id}:
+ *  post:
+ *    summary: Add a judge to the followed list
+ *    security:
+ *      - okta: []
+ *    tags:
+ *      - profile
+ *    parameters:
+ *      - $ref: '#/components/parameters/profileId'
+ *      - $ref: '#/components/parameters/caseId'
+ *    responses:
+ *      401:
+ *        $ref: '#/components/responses/UnauthorizedError'
+ *      404:
+ *        $ref: '#/components/responses/NotFound'
+ *      200:
+ *        description: A case object
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  description: A message about the result
+ *                  example: Sucessfully deleted.
+ *                case:
+ *                  $ref: '#/components/schemas/Case'
+ */
 router.post('/:id/case/:case_id', (req, res) => {
   const id = req.params.id;
   const case_id = req.params.case_id;
