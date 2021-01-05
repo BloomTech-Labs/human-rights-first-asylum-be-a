@@ -18,6 +18,8 @@ const sendCSV = (csv) => {
   return dsClient.post('/upload/csv', csv);
 };
 
+// * Creates a CSV file from JSON data -> DS has an easier time parsing CSV data, apparently
+// * Made their job easier
 const formData = async () => {
   const formData = {};
   const judge = await db('judges').select('name');

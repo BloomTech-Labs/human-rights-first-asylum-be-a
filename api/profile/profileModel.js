@@ -1,7 +1,5 @@
 const db = require('../../data/db-config');
 
-//add functionality to add/remove bookmarks
-
 const findAll = async () => {
   return await db('profiles');
 };
@@ -84,7 +82,6 @@ const add_case_bookmark = async (user_id, case_id) => {
   // return db('cases').where({id: case_id})
   return await db('book_mark_cases').where({ user_id });
 };
-// const remove_bookmark
 
 const remove_judge_bookmark = async (user_id, judge_name) => {
   return await db('book_mark_judges').where({ user_id, judge_name }).del();

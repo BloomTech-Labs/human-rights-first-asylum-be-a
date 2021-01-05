@@ -15,6 +15,7 @@ const findAll = async () => {
   return all_cases;
 };
 
+// * This function takes a moment because of the data attached
 const findById = async (id) => {
   const cases = await db('cases').where({ id }).first().select('*');
   const protected_ground = await db('protected_join')
@@ -58,7 +59,7 @@ const writeCSV = async (id) => {
 
   // * create fields
   const case_fields = [];
-  for (let field in case_data[0]) {
+  for (let field in case_data) {
     case_fields.push(field);
   }
   const case_opts = { fields: case_fields };
@@ -67,6 +68,8 @@ const writeCSV = async (id) => {
     const case_parser = new Parser(case_opts);
     const case_csv = case_parser.parse(case_data);
     // * return variable with csv data
+
+    console.log(case_fields);
     return case_csv;
   } catch (err) {
     return err.message;
