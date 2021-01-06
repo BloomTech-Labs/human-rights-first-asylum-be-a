@@ -82,6 +82,8 @@ const countryData = async (judge_name) => {
               country: countries[i].refugee_origin,
               count: 1,
               denial: 0,
+              grant: 0,
+              other: 0,
             };
             // ? should country data create the percentages here?
           } else {
@@ -89,8 +91,18 @@ const countryData = async (judge_name) => {
           }
           // * once instantiated, check the judge's decision for denied vs grant
           // ! (in future release, check if there are other options)
-          if (countries[i].refugee_origin.judge_decision == 'Denied') {
+          if (
+            countries[i].refugee_origin.judge_decision == 'Denied' ||
+            countries[i].refugee_origin.judge_decision == 'Not Approved'
+          ) {
             countryDict.refugee_origin.denial++;
+          } else if (
+            countries[i].refugee_origin.judge_decision == 'Granted' ||
+            countries[i].refugee_origin.judge_decision == 'Approved'
+          ) {
+            countryDict.refugee_origin.grant++;
+          } else {
+            countryDict.refugee_origin.other++;
           }
         }
         // * change dictionary to list
