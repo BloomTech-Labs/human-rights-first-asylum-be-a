@@ -192,7 +192,7 @@ router.get('/', Cache.checkCache, (req, res) => {
  */
 router.get('/:id', (req, res) => {
   const id = String(req.params.id);
-  const key = String(req.originalUrl) + id;
+  const key = String(req.originalUrl);
   Cases.findById(id)
     .then((cases) => {
       Cache.makeCache(key, JSON.stringify(cases));
@@ -206,15 +206,15 @@ router.get('/:id', (req, res) => {
 
 router.get('/:id/view-pdf', (req, res) => {
   const id = String(req.params.id);
-  const key = String(req.originalUrl);
-  AWS.make_view_params(id)
+  const key = `${id}/pdf`;
+  AWS.make_params(id)
     .then((params) => {
-      AWS.fetch_pdf_view(params)
-        .then((data) => {
+      AWS.fetch_pdf_view(params, res)
+        .then((title) => {
           //* write file locally as temp file
-          // * res.status(200).render('temp.pdf')
-          console.log(data);
-          res.status(200).json({ message: 'Completed' });
+          //res.status(200).render('temp.pdf');
+          console.log(title);
+          // res.status(200).json({ message: 'Completed' });
         })
         .catch((err) => {
           res.status(500).json({ message: err.message });
@@ -229,7 +229,7 @@ router.get('/:id/download-pdf', (req, res) => {
   // * returns pdf of ORIGINAL case
   const id = String(req.params.id);
   const key = String(req.originalUrl);
-  AWS.make_dl_params(id)
+  AWS.make_params(id)
     .then((params) => {
       AWS.fetch_pdf_download(params).then((data) => {
         console.log(data);
@@ -241,7 +241,7 @@ router.get('/:id/download-pdf', (req, res) => {
     });
 });
 
-router.get('/:id/download-csv', (req, res) => {
+router.get('/:id/download-csv', Cache.checkCache, (req, res) => {
   const id = String(req.params.id);
   const key = String(req.originalUrl);
   Cases.writeCSV(id)
