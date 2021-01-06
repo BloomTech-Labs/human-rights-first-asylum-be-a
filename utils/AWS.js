@@ -47,9 +47,10 @@ const fetch_pdf_view = async (params, res) => {
   return title;
 };
 
-const fetch_pdf_download = async (case_id) => {
-  var fileStream = fs.createWriteStream(`${case_id}.pdf`);
-  var s3Stream = S3.getObject(make_dl_params(case_id)).createReadStream();
+const fetch_pdf_download = async (params, res) => {
+  const title = params.Key;
+  const fileStream = fs.createWriteStream(`tempfile.pdf`);
+  const s3Stream = S3.getObject(params).createReadStream();
 
   // Listen for errors returned by the service
   s3Stream.on('error', function (err) {
