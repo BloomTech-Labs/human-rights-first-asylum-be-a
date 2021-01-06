@@ -3,6 +3,7 @@ const Cases = require('./caseModel');
 const AWS = require('../../utils/AWS');
 const Verify = require('../middleware/verifyDataID');
 const Cache = require('../middleware/cache');
+const CSV = require('csv-string');
 const router = express.Router();
 
 // TODO add auth to route also - final phase
@@ -209,16 +210,7 @@ router.get('/:id/view-pdf', (req, res) => {
   const key = `${id}/pdf`;
   AWS.make_params(id)
     .then((params) => {
-      AWS.fetch_pdf_view(params, res)
-        .then((title) => {
-          //* write file locally as temp file
-          //res.status(200).render('temp.pdf');
-          console.log(title);
-          // res.status(200).json({ message: 'Completed' });
-        })
-        .catch((err) => {
-          res.status(500).json({ message: err.message });
-        });
+      AWS.fetch_pdf_view(params, res);
     })
     .catch((err) => {
       res.status(500).json({ message: err.message });
@@ -231,22 +223,19 @@ router.get('/:id/download-pdf', (req, res) => {
   const key = String(req.originalUrl);
   AWS.make_params(id)
     .then((params) => {
-      AWS.fetch_pdf_download(params).then((data) => {
-        console.log(data);
-        res.json({ message: 'Completed' });
-      });
+      AWS.fetch_pdf_download(params);
     })
     .catch((err) => {
       res.status(500).json({ message: err.message });
     });
 });
 
-router.get('/:id/download-csv', Cache.checkCache, (req, res) => {
+router.get('/:id/download-csv', Cache.csvCache, (req, res) => {
   const id = String(req.params.id);
   const key = String(req.originalUrl);
   Cases.writeCSV(id)
     .then((csv) => {
-      Cache.makeCache(key, csv);
+      Cache.makeCache(key, CSV.stringify(csv));
       res.header('Content-Type', 'text/csv');
       res.attachment(`${id}_data.csv`);
       res.status(200).send(csv);
