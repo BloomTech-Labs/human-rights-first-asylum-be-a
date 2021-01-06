@@ -9,7 +9,7 @@ const fs = require('fs');
 const make_params = async (case_id) => {
   const curr_case = await Cases.findById(case_id);
   const params = {
-    Key: `pdf/125722233-Noe-Cesar-Hernandez-Avila-A079-531-484-BIA-Aug-30-2012.pdf`,
+    Key: `pdf/${curr_case.case_url}`,
     Bucket: 'hrf-asylum-dsa-documents',
   };
   return params;
@@ -47,9 +47,10 @@ const fetch_pdf_view = async (params, res) => {
   return title;
 };
 
-const fetch_pdf_download = async (case_id) => {
-  var fileStream = fs.createWriteStream(`${case_id}.pdf`);
-  var s3Stream = S3.getObject(make_dl_params(case_id)).createReadStream();
+const fetch_pdf_download = async (params, res) => {
+  const title = params.Key;
+  const fileStream = fs.createWriteStream(`tempfile.pdf`);
+  const s3Stream = S3.getObject(params).createReadStream();
 
   // Listen for errors returned by the service
   s3Stream.on('error', function (err) {

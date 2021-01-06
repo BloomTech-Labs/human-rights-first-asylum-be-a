@@ -1,4 +1,5 @@
 const cacache = require('cacache');
+const CSV = require('csv-string');
 
 const checkCache = (req, res, next) => {
   const cachePath = '/tmp/data';
@@ -25,6 +26,27 @@ const makeCache = (key, value) => {
   });
 };
 
+const csvCache = (req, res, next) => {
+  const cachePath = '/tmp/data';
+  let key = String(req.originalUrl);
+
+  cacache
+    .get(cachePath, key)
+    .then((data) => {
+      if (data) {
+        result = CSV.parse(data.data.toString('utf-8'));
+        res.header('Content-Type', 'text/csv');
+        res.attachment(`${req.params.id}_data.csv`);
+        res.status(200).send(result[0][0]);
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      next();
+    });
+};
+
 const fileCache = (req, res, next) => {
   const cachePath = '/tmp/file';
   const key = req.originalUrl;
@@ -47,6 +69,7 @@ const makeFileCache = (key, value) => {
 module.exports = {
   checkCache,
   makeCache,
+  csvCache,
   fileCache,
   makeFileCache,
 };
