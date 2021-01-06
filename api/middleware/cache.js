@@ -39,7 +39,7 @@ const fileCache = (req, res, next) => {
 
 const makeFileCache = (key, value) => {
   const cachePath = '/tmp/file';
-  cacache.put(cachePath, key, value).then((integrity) => {
+  cacache.put.stream(cachePath, key, value).then((integrity) => {
     console.log(`Saved content to ${cachePath}.`);
   });
 };

@@ -21,6 +21,8 @@ const findByName = async (name) => {
   return await db('judges').where({ name });
 };
 
+// * This call takes awhile because of the sheer amount of datajoins
+// * Would be great to streamline this in the future
 const findFullDataByName = async (name) => {
   const judge = await findByName(name);
   const countries = await countryData(name);

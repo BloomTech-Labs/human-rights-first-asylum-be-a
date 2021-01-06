@@ -209,13 +209,12 @@ router.get('/:id/view-pdf', (req, res) => {
   const key = `${id}/pdf`;
   AWS.make_params(id)
     .then((params) => {
-      AWS.fetch_pdf_view(params)
-        .then((data) => {
+      AWS.fetch_pdf_view(params, res)
+        .then((title) => {
           //* write file locally as temp file
           //res.status(200).render('temp.pdf');
-          console.log(data);
+          console.log(title);
           // res.status(200).json({ message: 'Completed' });
-          console.log('Success');
         })
         .catch((err) => {
           res.status(500).json({ message: err.message });
@@ -242,11 +241,12 @@ router.get('/:id/download-pdf', (req, res) => {
     });
 });
 
-router.get('/:id/download-csv', (req, res) => {
+router.get('/:id/download-csv', Cache.checkCache, (req, res) => {
   const id = String(req.params.id);
   const key = String(req.originalUrl);
   Cases.writeCSV(id)
     .then((csv) => {
+      Cache.makeCache(key, csv);
       res.header('Content-Type', 'text/csv');
       res.attachment(`${id}_data.csv`);
       res.status(200).send(csv);
