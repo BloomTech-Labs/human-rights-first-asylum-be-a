@@ -26,6 +26,42 @@ const makeCache = (key, value) => {
   });
 };
 
+const zipCache = (req, res, next) => {
+  const cachePath = '/tmp/data';
+  let key = String(req.originalUrl);
+  let name = req.params.name;
+
+  cacache
+    .get(cachePath, key)
+    .then((data) => {
+      if (data) {
+        result = CSV.parse(data.data.toString('utf-8'));
+
+        csv = result[0][0];
+
+        res.header('Content-Type', 'application/zip');
+        res.attachment(`${name}_data.zip`);
+        const zip = new JSZip();
+
+        zip.file(`${name}_judge_data.csv`, csv[0]);
+        zip.file(`${name}_country_data.csv`, csv[1]);
+        zip.file(`${name}_case_data.csv`, csv[2]);
+
+        zip
+          .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
+          .pipe(fs.createWriteStream(`${name}_data.zip`))
+          .on('finish', function () {
+            res.status(200).download(`${name}_data.zip`);
+          });
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      next();
+    });
+};
+
 const csvCache = (req, res, next) => {
   const cachePath = '/tmp/data';
   let key = String(req.originalUrl);
