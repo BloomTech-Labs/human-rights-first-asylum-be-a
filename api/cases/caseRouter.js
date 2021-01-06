@@ -223,7 +223,7 @@ router.get('/:id/download-pdf', (req, res) => {
   const key = String(req.originalUrl);
   AWS.make_params(id)
     .then((params) => {
-      AWS.fetch_pdf_download(params);
+      AWS.fetch_pdf_download(params, res);
     })
     .catch((err) => {
       res.status(500).json({ message: err.message });
