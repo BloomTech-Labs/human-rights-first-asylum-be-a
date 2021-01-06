@@ -5,10 +5,12 @@ const AWS = require('aws-sdk');
 const awsConfig = require('../config/awsConfig');
 const S3 = new AWS.S3(awsConfig);
 const fs = require('fs');
+const cacache = require('cacache');
 
 const make_params = async (case_id) => {
   const curr_case = await Cases.findById(case_id);
   const params = {
+    // ! Key: `pdf/${curr_case[0].case_url}`
     Key: `pdf/125722233-Noe-Cesar-Hernandez-Avila-A079-531-484-BIA-Aug-30-2012.pdf`,
     Bucket: 'hrf-asylum-dsa-documents',
   };
@@ -18,61 +20,75 @@ const make_params = async (case_id) => {
 // ! s3Stream should ACTUALLY pipe the file into a cacache temp folder
 // TODO set up the fetch to pipe into a cacache temp folder to serve to client
 const fetch_pdf_view = async (params, res) => {
-  const title = params.Key;
-  const fileStream = fs.createWriteStream(`tempfile.pdf`);
-  const s3Stream = S3.getObject(params).createReadStream();
-
-  // Listen for errors returned by the service
-  s3Stream.on('error', function (err) {
-    // NoSuchKey: The specified key does not exist
-    return err;
-  });
-
-  s3Stream
-    .pipe(fileStream)
-    .on('error', function (err) {
-      // capture any errors that occur when writing data to the file
-      console.log(err);
-    })
-    .on('close', function () {
-      console.log('Done.');
-    })
-    .on('finish', function () {
-      fs.readFile('tempfile.pdf', function (err, data) {
-        res.contentType('application/pdf');
-        res.send(data);
+  const cache = '/tmp/data';
+  cacache.tmp
+    .withTmp(cache, (dir) => {
+      const title = params.Key;
+      const fileStream = fs.createWriteStream(`${dir}.pdf`);
+      const s3Stream = S3.getObject(params).createReadStream();
+      // Listen for errors returned by the service
+      s3Stream.on('error', function (err) {
+        // NoSuchKey: The specified key does not exist
+        return err;
       });
-    });
 
-  return title;
+      s3Stream
+        .pipe(fileStream)
+        .on('error', function (err) {
+          // capture any errors that occur when writing data to the file
+          console.log(err);
+        })
+        .on('close', function () {
+          console.log('Done.');
+        })
+        .on('finish', function () {
+          fs.readFile(`${dir}.pdf`, function (err, data) {
+            res.contentType('application/pdf');
+            res.status(200).send(data);
+          });
+        });
+
+      return title;
+    })
+    .then(() => {
+      // `dir` no longer exists
+    });
 };
 
 const fetch_pdf_download = async (params, res) => {
-  const title = params.Key;
-  const fileStream = fs.createWriteStream(`tempfile.pdf`);
-  const s3Stream = S3.getObject(params).createReadStream();
+  const cache = '/tmp/data';
+  cacache.tmp
+    .withTmp(cache, (dir) => {
+      const title = params.Key;
+      const fileStream = fs.createWriteStream(`${dir}.pdf`);
+      const s3Stream = S3.getObject(params).createReadStream();
 
-  // Listen for errors returned by the service
-  s3Stream.on('error', function (err) {
-    // NoSuchKey: The specified key does not exist
-    res.status(404).json({ message: err.message });
-  });
+      // Listen for errors returned by the service
+      s3Stream.on('error', function (err) {
+        // NoSuchKey: The specified key does not exist
+        res.status(404).json({ message: err.message });
+      });
 
-  s3Stream
-    .pipe(fileStream)
-    .on('error', function (err) {
-      // capture any errors that occur when writing data to the file
-      res.status(500).json({ message: err.message });
+      s3Stream
+        .pipe(fileStream)
+        .on('error', function (err) {
+          // capture any errors that occur when writing data to the file
+          res.status(500).json({ message: err.message });
+        })
+        .on('close', function () {
+          console.log('Done.');
+        })
+        .on('finish', function () {
+          res.header('application/pdf');
+          res.attachment(`${dir}.pdf`);
+          res.status(200).download(`${dir}.pdf`);
+        });
+
+      return title;
     })
-    .on('close', function () {
-      console.log('Done.');
-    })
-    .on('finish', function () {
-      res.header('application/pdf');
-      res.attachment(`${title}.pdf`);
-      res.status(200).download(`tempfile.pdf`);
+    .then(() => {
+      // `dir` no longer exists
     });
-  return case_id;
 };
 
 module.exports = {
