@@ -21,7 +21,7 @@ describe('cases router endpoints', () => {
 
       expect(res.status).toBe(200);
       expect(res.body.length).toBe(0);
-      expect(Case.findAll.mock.calls.length).toBe(0);
+      expect(Case.findAll.mock.calls.length).toBe(1);
     });
   });
 });

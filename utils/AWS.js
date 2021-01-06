@@ -6,63 +6,76 @@ const awsConfig = require('../config/awsConfig');
 const S3 = new AWS.S3(awsConfig);
 const fs = require('fs');
 
-const make_view_params = async (case_id) => {
+const make_params = async (case_id) => {
   const curr_case = await Cases.findById(case_id);
   const params = {
-    Key: `pdf/${curr_case.case_url}`,
-    Bucket: 'human-rights-first-asylum-analysis-documents',
-    ContentType: 'attachment',
-    ContentDisposition: 'application/pdf',
+    Key: `pdf/125722233-Noe-Cesar-Hernandez-Avila-A079-531-484-BIA-Aug-30-2012.pdf`,
+    Bucket: 'hrf-asylum-dsa-documents',
   };
   return params;
 };
 
-const fetch_pdf_view = async (params) => {
-  const pdf_file = S3.getObject(params);
-
-  return pdf_file;
-};
-
-const make_dl_params = async (case_id) => {
-  const curr_case = await Cases.findById(case_id);
-  const params = {
-    Key: `pdf/${curr_case.case_url}`,
-    Bucket: 'human-rights-first-asylum-analysis-documents',
-    ContentType: 'attachment',
-    ContentDisposition: 'application/pdf',
-  };
-  return params;
-};
-
-// TODO include case_id in call
-const fetch_pdf_download = async (case_id) => {
-  var fileStream = fs.createWriteStream(`${case_id}.pdf`);
-  var s3Stream = S3.getObject(make_dl_params(case_url)).createReadStream();
+// ! s3Stream should ACTUALLY pipe the file into a cacache temp folder
+// TODO set up the fetch to pipe into a cacache temp folder to serve to client
+const fetch_pdf_view = async (params, res) => {
+  const title = params.Key;
+  const fileStream = fs.createWriteStream(`tempfile.pdf`);
+  const s3Stream = S3.getObject(params).createReadStream();
 
   // Listen for errors returned by the service
   s3Stream.on('error', function (err) {
     // NoSuchKey: The specified key does not exist
-    console.error(err);
+    return err;
   });
 
   s3Stream
     .pipe(fileStream)
     .on('error', function (err) {
       // capture any errors that occur when writing data to the file
-      console.error('File Stream:', err);
+      console.log(err);
     })
     .on('close', function () {
       console.log('Done.');
     })
     .on('finish', function () {
-      res.status(200).download(`${case_id}.pdf`);
+      fs.readFile('tempfile.pdf', function (err, data) {
+        res.contentType('application/pdf');
+        res.send(data);
+      });
+    });
+
+  return title;
+};
+
+const fetch_pdf_download = async (case_id) => {
+  var fileStream = fs.createWriteStream(`${case_id}.pdf`);
+  var s3Stream = S3.getObject(make_dl_params(case_id)).createReadStream();
+
+  // Listen for errors returned by the service
+  s3Stream.on('error', function (err) {
+    // NoSuchKey: The specified key does not exist
+    res.status(404).json({ message: err.message });
+  });
+
+  s3Stream
+    .pipe(fileStream)
+    .on('error', function (err) {
+      // capture any errors that occur when writing data to the file
+      res.status(500).json({ message: err.message });
+    })
+    .on('close', function () {
+      console.log('Done.');
+    })
+    .on('finish', function () {
+      res.header('application/pdf');
+      res.attachment(`${title}.pdf`);
+      res.status(200).download(`tempfile.pdf`);
     });
   return case_id;
 };
 
 module.exports = {
-  make_dl_params,
-  make_view_params,
+  make_params,
   fetch_pdf_view,
   fetch_pdf_download,
 };
