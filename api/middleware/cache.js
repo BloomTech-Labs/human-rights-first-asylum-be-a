@@ -48,12 +48,12 @@ const zipCache = (req, res, next) => {
         zip.file(`${name}_case_data.csv`, csv[2]);
 
         cacache.tmp
-          .withTmp('/tmp/data', (dir) => {
+          .withTmp(cache, (dir) => {
             zip
               .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
               .pipe(fs.createWriteStream(`${dir}.zip`))
               .on('finish', function () {
-                res.status(200).download(`${dir}.zip`);
+                res.status(200).download(`${dir}_data.zip`);
               });
           })
           .then(() => {
@@ -112,7 +112,7 @@ module.exports = {
   checkCache,
   makeCache,
   csvCache,
-  zipCache,
   fileCache,
   makeFileCache,
+  zipCache,
 };

@@ -204,26 +204,37 @@ router.get('/:name/csv', Cache.zipCache, (req, res) => {
 
   Judges.writeCSV(name)
     .then((csv) => {
-      res.header('Content-Type', 'application/zip');
-      res.attachment(`${name}_data.zip`);
       const zip = new JSZip();
 
       zip.file(`${name}_judge_data.csv`, csv[0]);
       zip.file(`${name}_country_data.csv`, csv[1]);
       zip.file(`${name}_case_data.csv`, csv[2]);
 
-      cacache.tmp
-        .withTmp('/tmp/data', (dir) => {
-          zip
-            .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
-            .pipe(fs.createWriteStream(`${dir}.zip`))
-            .on('finish', function () {
-              res.status(200).download(`${dir}.zip`);
-            });
-        })
-        .then(() => {
-          // `dir` no longer exists
-        });
+      cacache.tmp.mkdir('/tmp/data/').then((dir) => {
+        zip
+          .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
+          .pipe(fs.createWriteStream(`${dir}.zip`))
+          .on('finish', function () {
+            res.header('Content-Type', 'application/zip');
+            res.attachment(`${name}_data.zip`);
+            res.status(200).download(`${dir}.zip`);
+          });
+      });
+
+      // cacache.tmp
+      //   .withTmp('/tmp/data', (dir) => {
+      //     zip
+      //       .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
+      //       .pipe(fs.createWriteStream(`${dir}.zip`))
+      //       .on('finish', function () {
+      //         res.header('Content-Type', 'application/zip');
+      //         res.attachment(`${name}_data.zip`);
+      //         res.status(200).download(`${dir}.zip`);
+      //       });
+      //   })
+      //   .then(() => {
+      //     // `dir` no longer exists
+      //   });
     })
     .catch((err) => {
       res.status(500).json({ message: err.message });
