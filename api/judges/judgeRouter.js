@@ -200,6 +200,7 @@ router.get('/:name', Cache.checkCache, (req, res) => {
 router.get('/:name/csv', (req, res) => {
   const name = String(req.params.name);
   const key = String(req.originalUrl);
+
   Judges.writeCSV(name)
     .then((csv) => {
       res.header('Content-Type', 'application/zip');
@@ -208,13 +209,12 @@ router.get('/:name/csv', (req, res) => {
 
       zip.file(`${name}_judge_data.csv`, csv[0]);
       zip.file(`${name}_country_data.csv`, csv[1]);
-      zip.file(`${name}_judge_data.csv`, csv[2]);
+      zip.file(`${name}_case_data.csv`, csv[2]);
 
       zip
         .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
         .pipe(fs.createWriteStream(`${name}_data.zip`))
         .on('finish', function () {
-          Cache.makeFileCache(key, `${name}_data.zip`);
           res.status(200).download(`${name}_data.zip`);
         });
     })
