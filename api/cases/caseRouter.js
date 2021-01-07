@@ -147,12 +147,10 @@ router.get('/', Cache.checkCache, (req, res) => {
 
   Cases.findAll()
     .then((cases) => {
-      console.log('run');
       Cache.makeCache(key, JSON.stringify(cases));
       res.status(200).json(cases);
     })
     .catch((err) => {
-      console.log(err);
       res.status(500).json({ message: err.message });
     });
 });
@@ -200,7 +198,6 @@ router.get('/:id', (req, res) => {
       res.status(200).json(cases);
     })
     .catch((err) => {
-      console.log(err);
       res.status(500).json({ message: err.message });
     });
 });
