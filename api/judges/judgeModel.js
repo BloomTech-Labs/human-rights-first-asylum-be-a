@@ -151,14 +151,14 @@ const secondaryData = async (judge_name) => {
             other: 0,
           };
         } else {
-          socialDict[social_groups[i]].count += 1;
+          socialDict[social_groups[i]].count++;
         }
         if (decision == 'Granted' || decision == 'Approved') {
-          socialDict.social_group.grant += 1;
+          socialDict.social_group.grant++;
         } else if (decision == 'Denied' || decision == 'Not Approved') {
-          socialDict.social_group.denial += 1;
+          socialDict.social_group.denial++;
         } else {
-          socialDict.social_group.other += 1;
+          socialDict.social_group.other++;
         }
       }
 

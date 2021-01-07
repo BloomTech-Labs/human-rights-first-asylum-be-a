@@ -184,7 +184,7 @@ router.get('/', Cache.checkCache, (req, res) => {
  *        description: 'judge not found'
  */
 
-router.get('/:name', (req, res) => {
+router.get('/:name', Cache.checkCache, (req, res) => {
   const name = String(req.params.name);
   const key = String(req.originalUrl);
   Judges.findFullDataByName(name)

@@ -69,7 +69,6 @@ const writeCSV = async (id) => {
     const case_csv = case_parser.parse(case_data);
     // * return variable with csv data
 
-    console.log(case_fields);
     return case_csv;
   } catch (err) {
     return err.message;

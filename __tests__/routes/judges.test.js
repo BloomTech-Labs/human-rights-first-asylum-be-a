@@ -34,7 +34,6 @@ describe('judges router endpoints', () => {
         date_appointed: Date.now(),
       });
       const res = await request(server).get('/judges/Test001%20User');
-      console.log(res.body);
       expect(res.status).toBe(200);
       expect(res.body.name).toBe('Test001 User');
       expect(Judges.findFullDataByName.mock.calls.length).toBe(0);
