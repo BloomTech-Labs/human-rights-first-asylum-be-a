@@ -140,7 +140,6 @@ router.get('/', Cache.checkCache, (req, res) => {
 
   Judges.findAll()
     .then((judges) => {
-      console.log(judges);
       Cache.makeCache('/judges', JSON.stringify(judges));
       res.status(200).json(judges);
     })
@@ -185,7 +184,7 @@ router.get('/', Cache.checkCache, (req, res) => {
  *        description: 'judge not found'
  */
 
-router.get('/:name', Cache.checkCache, (req, res) => {
+router.get('/:name', (req, res) => {
   const name = String(req.params.name);
   const key = String(req.originalUrl);
   Judges.findFullDataByName(name)
