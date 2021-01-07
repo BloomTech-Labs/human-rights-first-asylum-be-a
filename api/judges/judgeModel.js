@@ -1,4 +1,5 @@
 const db = require('../../data/db-config');
+const cases = require('../cases/caseModel');
 const { Parser } = require('json2csv');
 
 const add = async (data) => {
@@ -27,6 +28,7 @@ const findFullDataByName = async (name) => {
   const judge = await findByName(name);
   const countries = await countryData(name);
   const cases = await caseData(name);
+  const secondary = await secondaryData(name);
   const positives = await db('positive_join')
     .where({ judge_name: name })
     .select('positive_word');
@@ -52,6 +54,8 @@ const findFullDataByName = async (name) => {
   }
   judge[0]['positive_keywords'] = positive_keywords;
   judge[0]['negative_keywords'] = negative_keywords;
+  judge[0]['social_data'] = secondary[0];
+  judge[0]['grounds_data'] = secondary[1];
   judge[0]['country_data'] = countries;
   judge[0]['case_data'] = cases;
 
@@ -95,14 +99,14 @@ const countryData = async (judge_name) => {
             countries[i].refugee_origin.judge_decision == 'Denied' ||
             countries[i].refugee_origin.judge_decision == 'Not Approved'
           ) {
-            countryDict.refugee_origin.denial++;
+            countryDict[countries[i].refugee_origin].denial++;
           } else if (
             countries[i].refugee_origin.judge_decision == 'Granted' ||
             countries[i].refugee_origin.judge_decision == 'Approved'
           ) {
-            countryDict.refugee_origin.grant++;
+            countryDict[countries[i].refugee_origin].grant++;
           } else {
-            countryDict.refugee_origin.other++;
+            countryDict[countries[i].refugee_origin].other++;
           }
         }
         // * change dictionary to list
@@ -111,17 +115,98 @@ const countryData = async (judge_name) => {
           if (countryDict.hasOwnProperty(key)) {
             country_data.push([countryDict[key]]);
           }
-          return Object.values(country_data[0]);
         }
+        return Object.values(country_data[0]);
       }
     })
     .catch((err) => {
       return err;
     });
 };
+
+const secondaryData = async (judge_name) => {
+  // * search cases db by judge name & return case_id
+  const case_ids = await db('cases').where({ judge_name }).select('id');
+
+  let socialDict = {};
+  let groundsDict = {};
+
+  let social_data = [];
+  let grounds_data = [];
+  // * for every case, pull the social group type & protected ground
+  for (let i = 0; i < case_ids.length; i++) {
+    let one_case = await cases.findById(case_ids[i].id);
+    let social_groups = one_case['social_group_type'];
+    let protected_grounds = one_case['protected_ground'];
+    let decision = one_case['judge_decision'];
+
+    if (social_groups.length > 0) {
+      for (let i = 0; i < social_groups.length; i++) {
+        if (!socialDict.hasOwnProperty(social_groups[i])) {
+          socialDict[social_groups[i]] = {
+            social_group: social_groups[i],
+            count: 1,
+            denial: 0,
+            grant: 0,
+            other: 0,
+          };
+        } else {
+          socialDict[social_groups[i]].count += 1;
+        }
+        if (decision == 'Granted' || decision == 'Approved') {
+          socialDict.social_group.grant += 1;
+        } else if (decision == 'Denied' || decision == 'Not Approved') {
+          socialDict.social_group.denial += 1;
+        } else {
+          socialDict.social_group.other += 1;
+        }
+      }
+
+      if (protected_grounds.length > 0) {
+        for (let i = 0; i < protected_grounds.length; i++) {
+          if (!groundsDict.hasOwnProperty(protected_grounds[i])) {
+            groundsDict[protected_grounds[i]] = {
+              protected_ground: protected_grounds[i],
+              count: 1,
+              denial: 0,
+              grant: 0,
+              other: 0,
+            };
+          } else {
+            groundsDict[protected_grounds[i]].count += 1;
+          }
+          if (decision == 'Granted' || decision == 'Approved') {
+            groundsDict.protected_ground.grant += 1;
+          } else if (decision == 'Denied' || decision == 'Not Approved') {
+            groundsDict.protected_ground.denial += 1;
+          } else {
+            groundsDict.protected_ground.other += 1;
+          }
+        }
+      }
+
+      for (var key in socialDict) {
+        if (socialDict.hasOwnProperty(key)) {
+          social_data.push([socialDict[key]]);
+        }
+        social_data = Object.values(social_data[0]);
+      }
+
+      for (var key in groundsDict) {
+        if (groundsDict.hasOwnProperty(key)) {
+          ground_data.push([groundsDict[key]]);
+        }
+        grounds_data = Object.values(grounds_data[0]);
+      }
+    }
+  }
+  return [social_data, grounds_data];
+};
+
 const update = async (name, data) => {
   return db('judges').where({ name }).first().update(data);
 };
+
 const writeCSV = async (name) => {
   // * get judge data
   const judge_data = await findByName(name);
