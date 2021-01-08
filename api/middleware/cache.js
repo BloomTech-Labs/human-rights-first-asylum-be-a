@@ -56,7 +56,6 @@ const zipCache = (req, res, next) => {
               .pipe(fs.createWriteStream(`${dir}.zip`))
               .on('finish', function () {
                 res.status(200).download(`${dir}_data.zip`);
-                console.log('cache checked');
               });
           })
           .then(() => {
