@@ -5,6 +5,7 @@ const Cache = require('../middleware/cache');
 const fs = require('fs');
 const JSZip = require('jszip');
 const cacache = require('cacache');
+const CSV = require('csv-string');
 
 // TODO add auth to router - final phase
 
@@ -203,11 +204,14 @@ router.get('/:name/csv', Cache.zipCache, (req, res) => {
 
   Judges.writeCSV(name)
     .then((csv) => {
+      Cache.makeCache(key, CSV.stringify(csv));
       const zip = new JSZip();
 
       zip.file(`${name}_judge_data.csv`, csv[0]);
       zip.file(`${name}_country_data.csv`, csv[1]);
       zip.file(`${name}_case_data.csv`, csv[2]);
+      zip.file(`${name}_social_data.csv`, csv[3]);
+      zip.file(`${name}_grounds_data.csv`, csv[4]);
 
       cacache.tmp
         .withTmp('/tmp/data', (dir) => {
@@ -223,18 +227,6 @@ router.get('/:name/csv', Cache.zipCache, (req, res) => {
         .then(() => {
           // `dir` no longer exists
         });
-    })
-    .catch((err) => {
-      res.status(500).json({ message: err.message });
-    });
-});
-
-router.get('/:name/pdf', (req, res) => {
-  const id = String(req.params.id);
-  // const key = String(req.originalUrl);
-  Judges.writePDF(id)
-    .then((judges) => {
-      res.status(200).json(judges);
     })
     .catch((err) => {
       res.status(500).json({ message: err.message });
