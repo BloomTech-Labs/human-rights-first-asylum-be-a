@@ -29,7 +29,7 @@ const makeCache = (key, value) => {
 const zipCache = (req, res, next) => {
   const cachePath = '/tmp/data';
   let key = String(req.originalUrl);
-  let name = req.params.name;
+  let name = String(req.params.name);
 
   cacache
     .get(cachePath, key)
@@ -46,6 +46,8 @@ const zipCache = (req, res, next) => {
         zip.file(`${name}_judge_data.csv`, csv[0]);
         zip.file(`${name}_country_data.csv`, csv[1]);
         zip.file(`${name}_case_data.csv`, csv[2]);
+        zip.file(`${name}_social_data.csv`, csv[3]);
+        zip.file(`${name}_grounds_data.csv`, csv[4]);
 
         cacache.tmp
           .withTmp(cache, (dir) => {
@@ -54,6 +56,7 @@ const zipCache = (req, res, next) => {
               .pipe(fs.createWriteStream(`${dir}.zip`))
               .on('finish', function () {
                 res.status(200).download(`${dir}_data.zip`);
+                console.log('cache checked');
               });
           })
           .then(() => {
