@@ -6,7 +6,7 @@ const Case = require('../cases/caseModel');
 const verifyJudge = (req, res, next) => {
   const name = String(req.params.name);
   Judge.findByName(name)
-    .then((res) => {
+    .then(() => {
       next();
     })
     .catch((err) => {
@@ -17,7 +17,7 @@ const verifyJudge = (req, res, next) => {
 const verifyCase = (req, res, next) => {
   const id = String(req.params.id);
   Case.findById(id)
-    .then((res) => {
+    .then(() => {
       next();
     })
     .catch((err) => {

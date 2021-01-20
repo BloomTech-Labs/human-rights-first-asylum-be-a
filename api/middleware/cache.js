@@ -8,13 +8,13 @@ const checkCache = (req, res, next) => {
     .get(cachePath, key)
     .then((data) => {
       if (data) {
-        result = JSON.parse(data.data.toString('utf-8'));
+        const result = JSON.parse(data.data.toString('utf-8'));
         res.status(200).json(result);
       } else {
         next();
       }
     })
-    .catch((err) => {
+    .catch(() => {
       next();
     });
 };
@@ -35,9 +35,9 @@ const zipCache = (req, res, next) => {
     .get(cachePath, key)
     .then((data) => {
       if (data) {
-        result = CSV.parse(data.data.toString('utf-8'));
+        const result = CSV.parse(data.data.toString('utf-8'));
 
-        csv = result[0][0];
+        const csv = result[0][0];
 
         res.header('Content-Type', 'application/zip');
         res.attachment(`${name}_data.zip`);
@@ -65,7 +65,7 @@ const zipCache = (req, res, next) => {
         next();
       }
     })
-    .catch((err) => {
+    .catch(() => {
       next();
     });
 };
@@ -78,7 +78,7 @@ const csvCache = (req, res, next) => {
     .get(cachePath, key)
     .then((data) => {
       if (data) {
-        result = CSV.parse(data.data.toString('utf-8'));
+        const result = CSV.parse(data.data.toString('utf-8'));
         res.header('Content-Type', 'text/csv');
         res.attachment(`${req.params.id}_data.csv`);
         res.status(200).send(result[0][0]);
@@ -86,7 +86,7 @@ const csvCache = (req, res, next) => {
         next();
       }
     })
-    .catch((err) => {
+    .catch(() => {
       next();
     });
 };

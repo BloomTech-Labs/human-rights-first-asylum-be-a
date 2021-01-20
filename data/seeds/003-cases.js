@@ -14,7 +14,6 @@ const cases = [...new Array(5)].map((i, idx) => ({
   credibility_of_refugee: 'Very credible?',
   case_status: 'closed',
   judge_decision: 'No',
-  judge_name: 'Test001 User',
 }));
 
 exports.seed = function (knex) {

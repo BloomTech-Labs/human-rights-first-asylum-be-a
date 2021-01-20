@@ -11,7 +11,7 @@ const findAll = async () => {
 
   let judges = [];
   for (let i = 0; i < db_judges.length; i++) {
-    judge = await findFullDataByName(Object.values(db_judges[i])[0]);
+    const judge = await findFullDataByName(Object.values(db_judges[i])[0]);
     judges.push(judge);
   }
 
@@ -192,9 +192,10 @@ const secondaryData = async (judge_name) => {
         social_data = Object.values(social_data[0]);
       }
 
-      for (var key in groundsDict) {
-        if (groundsDict.hasOwnProperty(key)) {
-          ground_data.push([groundsDict[key]]);
+      for (var key2 in groundsDict) {
+        if (groundsDict.hasOwnProperty(key2)) {
+          const ground_data = [];
+          ground_data.push([groundsDict[key2]]);
         }
         grounds_data = Object.values(grounds_data[0]);
       }
