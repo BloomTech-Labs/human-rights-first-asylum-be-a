@@ -1,5 +1,7 @@
 const cacache = require('cacache');
 const CSV = require('csv-string');
+const JSZip = require('jszip');
+const fs = require('fs');
 
 const checkCache = (req, res, next) => {
   const cachePath = '/tmp/data';
