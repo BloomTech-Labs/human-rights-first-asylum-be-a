@@ -18,10 +18,10 @@ const findAll = async () => {
 // * This function takes a moment because of the data attached
 const findById = async (id) => {
   const cases = await db('cases').where({ id }).first().select('*');
-  const protected_ground = await db('protected_join')
+  let protected_ground = await db('protected_join')
     .where({ case_id: id })
     .select('protected_ground');
-  const social_groups = await db('social_join')
+  let social_groups = await db('social_join')
     .where({ case_id: id })
     .select('social_group');
 

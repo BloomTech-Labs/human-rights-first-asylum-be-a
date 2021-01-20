@@ -243,7 +243,7 @@ router.post(
         // * send to datascience csv endpoint through dsModel
         dsModel
           .sendCSV(uploadedFile)
-          .then((response) => {
+          .then(() => {
             res.status(200).json({ message: 'CSV Successfully Uploaded' });
           })
           .catch((err) => res.status(500).json(err.message));
@@ -252,7 +252,7 @@ router.post(
         // * send to datascience pdf endpoint through dsModel
         dsModel
           .sendPDF(uploadedFile)
-          .then((response) => {
+          .then(() => {
             res.status(200).json({ message: 'PDF Successfully Uploaded' });
           })
           .catch((err) => res.status(500).json(err.message));
@@ -260,7 +260,7 @@ router.post(
       if (mime.lookup(uploadedFile) == 'application/json') {
         dsModel
           .sendJSON(uploadedFile)
-          .then((response) => {
+          .then(() => {
             res.status(200).json({ message: 'Form Successfully Uploaded' });
           })
           .catch((err) => {

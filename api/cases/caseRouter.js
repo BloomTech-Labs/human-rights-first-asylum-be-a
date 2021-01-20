@@ -204,7 +204,6 @@ router.get('/:id', (req, res) => {
 
 router.get('/:id/view-pdf', (req, res) => {
   const id = String(req.params.id);
-  const key = `${id}/pdf`;
   AWS.make_params(id)
     .then((params) => {
       AWS.fetch_pdf_view(params, res);
@@ -217,7 +216,6 @@ router.get('/:id/view-pdf', (req, res) => {
 router.get('/:id/download-pdf', (req, res) => {
   // * returns pdf of ORIGINAL case
   const id = String(req.params.id);
-  const key = String(req.originalUrl);
   AWS.make_params(id)
     .then((params) => {
       AWS.fetch_pdf_download(params, res);
