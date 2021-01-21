@@ -137,8 +137,6 @@ router.use('/:name', verify.verifyJudge);
  */
 
 router.get('/', Cache.checkCache, (req, res) => {
-  const key = String(req.originalUrl);
-
   Judges.findAll()
     .then((judges) => {
       Cache.makeCache('/judges', JSON.stringify(judges));

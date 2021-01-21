@@ -93,7 +93,7 @@ router.get('/pos', Cache.checkCache, (req, res) => {
   const key = String(req.originalUrl);
   Keywords.findAllPos()
     .then((keyword) => {
-      Cache.makeCache(key, JSON.stringify(keyword));
+      const positive = Cache.makeCache(key, JSON.stringify(keyword));
       res.status(200).json(positive);
     })
     .catch((err) => {
