@@ -11,7 +11,7 @@ const findAll = async () => {
 
   let judges = [];
   for (let i = 0; i < db_judges.length; i++) {
-    judge = await findFullDataByName(Object.values(db_judges[i])[0]);
+    const judge = await findFullDataByName(Object.values(db_judges[i])[0]);
     judges.push(judge);
   }
 
@@ -124,6 +124,7 @@ const countryData = async (judge_name) => {
     });
 };
 
+let grounds_data = [];
 const secondaryData = async (judge_name) => {
   // * search cases db by judge name & return case_id
   const case_ids = await db('cases').where({ judge_name }).select('id');
@@ -132,7 +133,6 @@ const secondaryData = async (judge_name) => {
   let groundsDict = {};
 
   let social_data = [];
-  let grounds_data = [];
   // * for every case, pull the social group type & protected ground
   for (let i = 0; i < case_ids.length; i++) {
     let one_case = await cases.findById(case_ids[i].id);
@@ -185,15 +185,16 @@ const secondaryData = async (judge_name) => {
         }
       }
 
-      for (var key in socialDict) {
+      for (let key in socialDict) {
         if (socialDict.hasOwnProperty(key)) {
           social_data.push([socialDict[key]]);
         }
         social_data = Object.values(social_data[0]);
       }
 
-      for (var key in groundsDict) {
+      for (let key in groundsDict) {
         if (groundsDict.hasOwnProperty(key)) {
+          const ground_data = [];
           ground_data.push([groundsDict[key]]);
         }
         grounds_data = Object.values(grounds_data[0]);
