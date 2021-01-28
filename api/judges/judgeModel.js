@@ -6,6 +6,10 @@ const add = async (data) => {
   return db('judges').insert(data);
 };
 
+const findAllSimple = async () => {
+  return await db('judges');
+};
+
 const findAll = async () => {
   const db_judges = await db('judges').select('name');
 
@@ -290,6 +294,7 @@ module.exports = {
   add,
   findAll,
   findByName,
+  findAllSimple,
   findFullDataByName,
   update,
   writeCSV,

@@ -5,7 +5,6 @@ const Cache = require('../middleware/cache');
 const fs = require('fs');
 const JSZip = require('jszip');
 const cacache = require('cacache');
-const CSV = require('csv-string');
 
 // TODO add auth to router - final phase
 
@@ -17,7 +16,14 @@ const router = express.Router();
 router.use('/:name', verify.verifyJudge);
 
 //routes
-
+router.get('/', Cache.checkCache, (req, res) => {
+  Judges.findAllSimple()
+    .then((judges) => {
+      Cache.makeCache('/judges', JSON.stringify(judges));
+      res.status(200).json(judges);
+    })
+    .catch((err) => res.status(500).json({ message: err.message }));
+});
 /**
  * @swagger
  * components:
@@ -136,10 +142,10 @@ router.use('/:name', verify.verifyJudge);
  *                  cases: ['TBA']
  */
 
-router.get('/', Cache.checkCache, (req, res) => {
+router.get('/all', Cache.checkCache, (req, res) => {
   Judges.findAll()
     .then((judges) => {
-      Cache.makeCache('/judges', JSON.stringify(judges));
+      Cache.makeCache('/judges/all', JSON.stringify(judges));
       res.status(200).json(judges);
     })
     .catch((err) => {
@@ -185,7 +191,7 @@ router.get('/', Cache.checkCache, (req, res) => {
 
 router.get('/:name', Cache.checkCache, (req, res) => {
   const name = String(req.params.name);
-  const key = String(req.originalUrl);
+  const key = `/judge/${name}`;
   Judges.findFullDataByName(name)
     .then((judges) => {
       Cache.makeCache(key, JSON.stringify(judges));
@@ -198,11 +204,9 @@ router.get('/:name', Cache.checkCache, (req, res) => {
 
 router.get('/:name/csv', Cache.zipCache, (req, res) => {
   const name = String(req.params.name);
-  const key = String(req.originalUrl);
 
   Judges.writeCSV(name)
     .then((csv) => {
-      Cache.makeCache(key, CSV.stringify(csv));
       const zip = new JSZip();
 
       zip.file(`${name}_judge_data.csv`, csv[0]);
