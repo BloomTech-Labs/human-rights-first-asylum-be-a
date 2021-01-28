@@ -113,6 +113,9 @@ const zipCache = (req, res, next) => {
       const grounds_csv = grounds_parser.parse(grounds_data);
 
       const csv = [judge_csv, country_csv, case_csv, social_csv, grounds_csv];
+
+      if (!csv) return next();
+
       const zip = new JSZip();
 
       zip.file(`${name}_judge_data.csv`, csv[0]);
