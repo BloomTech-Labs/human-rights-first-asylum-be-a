@@ -10,9 +10,9 @@ const cacache = require('cacache');
 const make_params = async (case_id) => {
   const curr_case = await Cases.findById(case_id);
   const params = {
-    // ! Key: `pdf/${curr_case[0].case_url}`
-    Key: `pdf/125722233-Noe-Cesar-Hernandez-Avila-A079-531-484-BIA-Aug-30-2012.pdf`,
-    Bucket: 'hrf-asylum-dsa-documents',
+    // Key: `pdf/125722233-Noe-Cesar-Hernandez-Avila-A079-531-484-BIA-Aug-30-2012.pdf`,
+    Key: curr_case.case_url,
+    Bucket: process.env.AWS_BUCKET,
   };
   return params;
 };
