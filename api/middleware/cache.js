@@ -33,6 +33,7 @@ const makeCache = (key, value) => {
     .catch((err) => console.log(err.message));
 };
 
+// * This long function speeds up the /judge/:name/download-csv endpoint
 const zipCache = (req, res, next) => {
   const cachePath = '/tmp/data';
   const name = String(req.params.name);
