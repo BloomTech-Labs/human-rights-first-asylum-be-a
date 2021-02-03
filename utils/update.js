@@ -6,13 +6,14 @@
 // const Protected = require('../api/protected/protectedModel');
 // const Social = require('../api/social/socialModel');
 // const Keyword = require('../api/keywords/keywordsModel');
-// //  TODO uncomment code when DS gets a server running
 
-// //  * update automatically updates the server - cron is persistant across server updates
+//  TODO uncomment code when DS gets a server running
 
-// //  * '0 0 * * *' => Runs Daily at Midnight - PST
-// //  * '0 0 * * sun' => Runs Weekly, Midnight Sunday - PST
-// //  ! If DS changes when their backend updates, change cron appropriately
+//  * update automatically updates the server - cron is persistant across server updates
+//  * '0 0 * * *' => Runs Daily at Midnight - PST
+//  * '0 0 * * sun' => Runs Weekly, Midnight Sunday - PST
+//  ! If DS changes when their backend updates, change cron appropriately
+
 // const update = new CronJob(
 //   '0 0 * * *',
 //   function () {
