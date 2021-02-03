@@ -1,3 +1,5 @@
+// * This data was mocked by manually "scraping" PDFs that were provided to us.
+
 exports.seed = function (knex) {
   // Deletes ALL existing entries
   return knex('cases')

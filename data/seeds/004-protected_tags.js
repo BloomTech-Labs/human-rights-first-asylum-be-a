@@ -1,5 +1,7 @@
+// * Faker is a library used here to make seeding easier
+
 const faker = require('faker');
-const protected_tags = [...new Array(5)].map((i, idx) => ({
+const protected_tags = [...new Array(5)].map(() => ({
   ground_tag: `${faker.random.word()}`,
 }));
 exports.seed = function (knex) {

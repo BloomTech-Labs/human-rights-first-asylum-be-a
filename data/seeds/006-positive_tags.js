@@ -1,5 +1,5 @@
 const faker = require('faker');
-const positive_tags = [...new Array(5)].map((i, idx) => ({
+const positive_tags = [...new Array(5)].map(() => ({
   positive_tag: `${faker.random.word()}`,
 }));
 exports.seed = function (knex) {

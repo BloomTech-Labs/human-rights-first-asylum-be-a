@@ -1,4 +1,4 @@
-# Human Rights First Team A Back End
+# Human Rights First Back End
 
 ## Description
 
