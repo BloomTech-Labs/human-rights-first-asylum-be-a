@@ -1,10 +1,10 @@
-# Human Rights First Back End
+# Human Rights First - Asylum - Back End
 
 - This project is built with the Basic Node API Scaffold. To get started with the project, go [here](https://docs.labs.lambdaschool.com/labs-api-strarter/) and follow the instructions. Be sure to read the instructions carefully. We found it easiest to use ElephantSQL for setting up your local database.
-- This project is deployed at https://asylum-a-api.herokuapp.com/ using Heroku Postgres.
-- You can view the Swagger docs (backend endpoint visualization) by going to https://asylum-a-api.herokuapp.com/api-docs/
-- The front end of this project is deployed at https://a.humanrightsfirstasylum.dev/ using AWS.
-- The front end repo for this project is at https://github.com/Lambda-School-Labs/human-rights-first-asylum-fe-a
+- [Project deployed here](https://asylum-a-api.herokuapp.com/), using Heroku Postgres.
+- [View the Swagger docs](https://asylum-a-api.herokuapp.com/api-docs/) (backend endpoint visualization)
+- [Corresponding Front-end Repository](https://github.com/Lambda-School-Labs/human-rights-first-asylum-fe-a)
+- [Front-end deployment](https://a.humanrightsfirstasylum.dev/), using AWS Amplify.
 
 ### Dependencies
 
@@ -14,16 +14,12 @@
 [json2csv](https://www.npmjs.com/package/json2csv)
 [aws-sdk](https://www.npmjs.com/package/aws-sdk)
 
-### Uncompleted Tasks
-
-- Add auth to various endpoints
-- Add an edit case endpoint
-
-### Improvements
-
-- ds - unsure if code will properly post to datascience pg database. Datascience PG database was unavailable during the project.
-- The update function written in middleware only works in theory. Once the DS server is up, it will need to be tested and tweaked.
-- Testing needs to be written more fully. The only tests that reliably pass are the profile tests.
+### To get started:
+- Create a local Postgres database/instance.
+- Clone the repo locally to your machine
+- Create an .env file on the top level of the repo, with the provided credentials.
+- run: `npm install` to download all dependencies.
+- run: `npm run watch:dev` to start your local development server.
 
 ## Labs30 Notes
 
@@ -35,6 +31,26 @@
 - Adding profiles was not in scope for this iteration, but there is an endpoint created for it. Because of the Okta integration, we were told that adding profiles was not something we would be doing.
 - The `.env.sample` file contains all of the environment variables needed and where to find the values in order to run the project locally.
 - It is encouraged that you install the "Better Comments" extension for VSCode, there are several comments that were written with this extension in mind.
+
+### Bugs
+- No known bugs!
+
+### Uncompleted Tasks
+- Add auth to various endpoints
+- Add an edit case endpoint
+
+### Improvements
+
+- Better mock seed data.  Currently, only user profiles, cases, and judges are seeded.  Future seeding:
+  - Protected Grounds: Race, Religion, Nationality, Political Opinion, Protected Social Group
+  - Protected Social Groups
+  - Positive Tags 
+  - Negative Tags
+  - All Join tables
+- DS - Code has not been tested whether it will properly post to datascience Postgres database. Datascience PG database was unavailable during the project.
+- The update function written in middleware only works in theory. Once the DS server is up, it will need to be tested and tweaked.
+- Testing needs to be written more fully. The only tests that reliably pass are the profile tests.
+- Some Case PDFs have the case ID's redacted.  If it is not provided by the DS db, we need to generate an (autoincremented) ID
 
 <br />
 <br />
