@@ -21,6 +21,9 @@
 - run: `npm install` to download all dependencies.
 - run: `npm run watch:dev` to start your local development server.
 
+### Current Back-End Database Schema
+![Asylum Case Analyzer - Database Schema](./reference/current_db_schema.png?raw=true)
+
 ## Labs30 Notes
 
 - There are several comments throughout the code that are in place for the Swagger docs, these comments should remain untouched unless the endpoints change.
@@ -31,6 +34,9 @@
 - Adding profiles was not in scope for this iteration, but there is an endpoint created for it. Because of the Okta integration, we were told that adding profiles was not something we would be doing.
 - The `.env.sample` file contains all of the environment variables needed and where to find the values in order to run the project locally.
 - It is encouraged that you install the "Better Comments" extension for VSCode, there are several comments that were written with this extension in mind.
+
+### Proposed Back-End Database Schema with BIA Judges
+![Asylum Case Analyzer - Database Schema](./reference/proposed_db_schema.jpg?raw=true)
 
 ### Bugs
 - No known bugs!
@@ -51,9 +57,6 @@
 - The update function written in middleware only works in theory. Once the DS server is up, it will need to be tested and tweaked.
 - Testing needs to be written more fully. The only tests that reliably pass are the profile tests.
 - Some Case PDFs have the case ID's redacted.  If it is not provided by the DS db, we need to generate an (autoincremented) ID
-
-<br />
-<br />
 
 ## Contributors
 
