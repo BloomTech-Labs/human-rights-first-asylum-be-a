@@ -1,68 +1,64 @@
-# Basic Node API Scaffold
+# Human Rights First Back End
 
-Welcome to your `Basic Node API Repository`. Use this to start your own Greenfield Project using nodejs, express and common industry standards.
+- This project is built with the Basic Node API Scaffold. To get started with the project, go [here](https://docs.labs.lambdaschool.com/labs-api-strarter/) and follow the instructions. Be sure to read the instructions carefully. We found it easiest to use ElephantSQL for setting up your local database.
+- This project is deployed at https://asylum-a-api.herokuapp.com/ using Heroku Postgres.
+- You can view the Swagger docs (backend endpoint visualization) by going to https://asylum-a-api.herokuapp.com/api-docs/
+- The front end of this project is deployed at https://a.humanrightsfirstasylum.dev/ using AWS.
+- The front end repo for this project is at https://github.com/Lambda-School-Labs/human-rights-first-asylum-fe-a
 
-This repository assumes a handful of industry practices and standards. We strive to keep you on the bleeding edge of the industry and as a result, we have made some opinions for you so that you don't have to; you're welcome.
+### Dependencies
 
-Read more at <https://docs.labs.lambdaschool.com/labs-api-strarter/>
+[cacache](https://www.npmjs.com/package/cacache)
+[cron](https://www.npmjs.com/package/cron)
+[mime-types](https://www.npmjs.com/package/mime-types)
+[json2csv](https://www.npmjs.com/package/json2csv)
+[aws-sdk](https://www.npmjs.com/package/aws-sdk)
 
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=labs-api-starter&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=labs-api-starter)
+### Uncompleted Tasks
 
-## Requirements
+- Add auth to various endpoints
+- Add an edit case endpoint
 
-Labs teams must follow all [Labs Engineering Standards](https://labs.lambdaschool.com/topics/node-js/).
+### Improvements
 
+- ds - unsure if code will properly post to datascience pg database. Datascience PG database was unavailable during the project.
+- The update function written in middleware only works in theory. Once the DS server is up, it will need to be tested and tweaked.
+- Testing needs to be written more fully. The only tests that reliably pass are the profile tests.
 
-## Getting Started
+## Labs30 Notes
 
-### Enviornment Variables
+- There are several comments throughout the code that are in place for the Swagger docs, these comments should remain untouched unless the endpoints change.
+- Once there is an actionable API from DS, this backend will use AWS to connect to the API and update our database. This `update` function can be found in `./utils/update.js`
+- Currently, there is a function to clear this cache every 30 days (located in `./utils/update.js`), but it is currently commented out. We are still waiting for a working DS model before we uncomment that file.
+- As we near the end of labs, we are learning of some potential changes from the stakeholder regarding judge types, the stakeholder now wants to keep track of Board of Immigration Appeals (BIA) judges that are assigned to cases as well as the Immigration Judge (IJ) assigned. This could mean that the database as it stands will need to be redone and new queries will need to be written in the `judgeModel`. If this new information is confirmed, there will be a lot of work to be done. We have drawn up a proposed database schema in the event that a rework of the database is necessary. Both the current database schema and the proposed database schema can be found in `./reference`.
+- Currently, only the `/profile` endpoints require authentication. In the future, auth will need to be added to all endpoints however it has not been done yet to make it easier for the entire team to work with the data.
+- Adding profiles was not in scope for this iteration, but there is an endpoint created for it. Because of the Okta integration, we were told that adding profiles was not something we would be doing.
+- The `.env.sample` file contains all of the environment variables needed and where to find the values in order to run the project locally.
+- It is encouraged that you install the "Better Comments" extension for VSCode, there are several comments that were written with this extension in mind.
 
-- `PORT` - API port (optional, but helpful with FE running as well)
-  - The following ports are whitelisted for use with okta
-    - 3000
-    - 8000
-    - 8080
-- `DS_API_URL` - URL to a data science api. (eg. <https://ds-bw-test.herokuapp.com/>)
-- `DS_API_TOKEN` - authorization header token for data science api (eg. SUPERSECRET)
-- `DATABASE_URL` - connection string for postgres database
-- `OKTA_URL_ISSUER` - The complete issuer URL for verifying okta access tokens. `https://example.okta.com/oauth2/default`
-- `OKTA_CLIENT_ID` - the okta client ID.
+<br />
+<br />
 
-See .env.sample for example values
+## Contributors
 
-### Setup postgres
+### Labs29 - Team A
 
-There are 3 options to get postgresql installed locally [Choose one]:
+|                                                                                                                                          |                                                                                                                                         |                                                                                                                                              |
+| :--------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------: |
+|                                               [Ava Wingfield](https://github.com/avawing)                                                |                                                 [Tom Bauer](https://github.com/TBau23)                                                  |                                                  [Ryan Lee](https://github.com/SassyFatCat)                                                  |
+| [<img src="https://ca.slack-edge.com/ESZCHB482-W014G4L7R1P-5e90ae004407-512" width = "200" align="center"/>](https://github.com/avawing) | [<img src="https://ca.slack-edge.com/ESZCHB482-W015P694SUV-84c590ba765c-512" width = "200" align="center"/>](https://github.com/TBau23) | [<img src="https://ca.slack-edge.com/ESZCHB482-W014G4N2FEV-9b9fece7a4af-512" width = "200" align="center"/>](https://github.com/SassyFatCat) |
+|                                          [Linkedin](https://www.linkedin.com/in/avawingfield/)                                           |                                           [Linkedin](https://www.linkedin.com/in/tombauer11/)                                           |                                             [Linkedin](https://www.linkedin.com/in/sassyfatcat/)                                             |
 
-1. Use docker. [Install](https://docs.docker.com/get-docker/) for your platform
-    - run: `docker-compose up -d` to start up the postgresql database and pgadmin.
-    - Open a browser to [pgadmin](http://localhost:5050/) and you should see the Dev server already defined.
-    - If you need to start over you will need to delete the folder `$ rm -rf ./data/pg` as this is where all of the server data is stored.
-      - if the database `api-dev` was not created then start over.
-2. Download and install postgresql directly from the [main site](https://www.postgresql.org/download/)
-    - make note of the port, username and password you use to setup the database.
-    - Connect your client to the server manually using the values previously mentioned
-    - You will need to create a database manually using a client.
-    - Make sure to update the DATABASE_URL connection string with the values for username/password, databasename and server port (if not 5432).
-3. Setup a free account at [ElephantSQL](https://www.elephantsql.com/plans.html)
-    - Sign up for a free `Tiney Turtle` plan
-    - copy the URL to the DATABASE_URL .env variable
-    - make sure to add `?ssl=true` to the end of this url
+<br />
 
-### Setup the application
+### Labs30 - Team A
 
-- create your project repo by forking or using this as a template.
-- run: `npm install` to download all dependencies.
-- run: `cp .env.sample .env` and update the enviornment variables to match your local setup.
-- run: `npm run knex migrate:latest` to create the starting schema.
-- run: `npm run knex seed:run` to populate your db with some data.
-- run: `npm run tests` to confirm all is setup and tests pass.
-- run: `npm run watch:dev` to start nodemon in local dev enviornment.
-
-> Make sure to update the details of the app name, description and version in
-> the `package.json` and `config/jsdoc.js` files.
-
-## Contributing
-
-See the [contributing doc](https://github.com/Lambda-School-Labs/labs-api-starter/blob/main/CONTRIBUTING.md)
-for more info.
+|                                                                                                                                                                               |                                                                                                                                                                              |                                                                                                                                                                                   |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|                                                                [Tzong-Lian Tsay](https://github.com/tzonglian)                                                                |                                                               [Trevor Beadle](https://github.com/TrevorBeadle)                                                               |                                                                [Reuben Palumbo](https://github.com/reubenPalumbo)                                                                 |
+| [<img src="https://avatars.githubusercontent.com/u/68922354?s=460&u=93ce3bbc5de94dd89246239b70828545b5dcac5e&v=4" width = "200" align="center"/>](https://github.com/avawing) | [<img src="https://avatars.githubusercontent.com/u/66217015?s=460&u=bc4a490d18d80167985a032f5ca86b9193124a6c&v=4" width = "200" align="center"/>](https://github.com/TBau23) | [<img src="https://avatars.githubusercontent.com/u/68444266?s=460&u=ff38ccc9dcb83047c2134ce9852e0dfef1fae8fb&v=4" width = "200" align="center"/>](https://github.com/SassyFatCat) |
+|                                                                [Linkedin](https://www.linkedin.com/in/tltsay/)                                                                |                                                       [Linkedin](https://www.linkedin.com/in/trevor-beadle-1850481b6/)                                                       |                                                              [Linkedin](https://www.linkedin.com/in/reuben-palumbo/)                                                              |
+|                                                                                                                                                                               |                                                                                                                                                                              |                                                                                                                                                                                   |
+|                                                                [Anna Brander](https://github.com/aelise17264)                                                                 |                                                              [Maycie Morris](https://github.com/maycie-morris)                                                               |                                                                   [Lynda Santiago](https://github.com/lyntechi)                                                                   |
+| [<img src="https://avatars.githubusercontent.com/u/66019108?s=460&u=b98ac38b13155691c2189b10914cff7a092ab5a5&v=4" width = "200" align="center"/>](https://github.com/avawing) | [<img src="https://avatars.githubusercontent.com/u/67204638?s=460&u=57c9c3585fd3326f80ce34c02cbb7939a3ddc0fa&v=4" width = "200" align="center"/>](https://github.com/TBau23) | [<img src="https://avatars.githubusercontent.com/u/64440403?s=460&u=ebd52037cfa31421477942f041a43a6ef88267ca&v=4" width = "200" align="center"/>](https://github.com/SassyFatCat) |
+|                                                             [Linkedin](https://www.linkedin.com/in/aelise17264/)                                                              |                                                            [Linkedin](https://www.linkedin.com/in/mayciemorris/)                                                             |                                                         [Linkedin](https://www.linkedin.com/in/lynda-santiago-7b58221b4/)                                                         |

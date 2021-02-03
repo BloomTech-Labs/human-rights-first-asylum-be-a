@@ -86,6 +86,7 @@ const countryData = async (judge_name) => {
           // * if the country doesn't exist in the dictionary, instantiate
           // ? how to filter the approval/denial? Are there other possible options?
           if (!countryDict.hasOwnProperty(countries[i].refugee_origin)) {
+            // these `hasOwnProperty` issues are only issues with the linter, they don't actually stop the code from running
             countryDict[countries[i].refugee_origin] = {
               country: countries[i].refugee_origin,
               count: 1,
