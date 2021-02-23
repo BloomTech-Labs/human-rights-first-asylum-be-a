@@ -35,7 +35,7 @@ exports.seed = function (knex) {
           credibility_of_refugee: '',
           case_status: '',
           judge_decision: '',
-          submissionStatus: 'pending',
+          submissionStatus: 'submitted',
         },
         {
           id: 'A071-996-819',
