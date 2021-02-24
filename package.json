@@ -74,7 +74,7 @@
     "mime-types": "^2.1.27",
     "morgan": "~1.9.1",
     "pdf": "^0.1.0",
-    "pg": "^8.2.1",
+    "pg": "^8.5.1",
     "swagger-jsdoc": "^4.0.0",
     "swagger-ui-express": "^4.1.4"
   },
