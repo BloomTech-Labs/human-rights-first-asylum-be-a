@@ -24,6 +24,7 @@ const profileRouter = require('./profile/profileRouter');
 const dsRouter = require('./dsService/dsRouter');
 const judgeRouter = require('./judges/judgeRouter');
 const caseRouter = require('./cases/caseRouter');
+const newCaseRouter = require('./newCases/newCaseRouter');
 const tagRouter = require('./tags/tagRouter');
 const keywordRouter = require('./keywords/keywordsRouter');
 
@@ -56,6 +57,7 @@ app.use('/', indexRouter);
 app.use(['/profile', '/profiles'], profileRouter);
 app.use(['/judge', '/judges'], judgeRouter);
 app.use(['/case', '/cases'], caseRouter);
+app.use('/newcase', newCaseRouter);
 app.use('/tags', tagRouter);
 app.use('/keywords', keywordRouter);
 app.use('/data', dsRouter);
