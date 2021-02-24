@@ -242,9 +242,8 @@ router.get('/:id/download-csv', Cache.csvCache, (req, res) => {
     });
 });
 
-router.get('/approved',(req,res) => {
+router.get('/approved', (req, res) => {
   const key = String(req.originalUrl);
-  
   Cases.findAllApproved()
     .then((cases) => {
       Cache.makeCache(key, JSON.stringify(cases));
@@ -253,6 +252,6 @@ router.get('/approved',(req,res) => {
     .catch((err) => {
       res.status(500).json({ message: err.message });
     });
-})
+});
 
 module.exports = router;
