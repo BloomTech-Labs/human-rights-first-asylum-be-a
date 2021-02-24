@@ -85,8 +85,12 @@ const countryData = async (judge_name) => {
           // * if denied = denial ++
           // * if the country doesn't exist in the dictionary, instantiate
           // ? how to filter the approval/denial? Are there other possible options?
-          if (!countryDict.hasOwnProperty(countries[i].refugee_origin)) {
-            // these `hasOwnProperty` issues are only issues with the linter, they don't actually stop the code from running
+          if (
+            !Object.prototype.hasOwnProperty.call(
+              countryDict,
+              countries[i].refugee_origin
+            )
+          ) {
             countryDict[countries[i].refugee_origin] = {
               country: countries[i].refugee_origin,
               count: 1,
@@ -117,7 +121,7 @@ const countryData = async (judge_name) => {
         // * change dictionary to list
         let country_data = [];
         for (var key in countryDict) {
-          if (countryDict.hasOwnProperty(key)) {
+          if (Object.prototype.hasOwnProperty.call(countryDict, key)) {
             country_data.push([countryDict[key]]);
           }
         }
@@ -147,7 +151,9 @@ const secondaryData = async (judge_name) => {
 
     if (social_groups.length > 0) {
       for (let i = 0; i < social_groups.length; i++) {
-        if (!socialDict.hasOwnProperty(social_groups[i])) {
+        if (
+          !Object.prototype.hasOwnProperty.call(socialDict, social_groups[i])
+        ) {
           socialDict[social_groups[i]] = {
             social_group: social_groups[i],
             count: 1,
@@ -169,7 +175,12 @@ const secondaryData = async (judge_name) => {
 
       if (protected_grounds.length > 0) {
         for (let i = 0; i < protected_grounds.length; i++) {
-          if (!groundsDict.hasOwnProperty(protected_grounds[i])) {
+          if (
+            !Object.prototype.hasOwnProperty.call(
+              groundsDict,
+              protected_grounds[i]
+            )
+          ) {
             groundsDict[protected_grounds[i]] = {
               protected_ground: protected_grounds[i],
               count: 1,
@@ -191,14 +202,14 @@ const secondaryData = async (judge_name) => {
       }
 
       for (let key in socialDict) {
-        if (socialDict.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(socialDict, key)) {
           social_data.push([socialDict[key]]);
         }
         social_data = Object.values(social_data[0]);
       }
 
       for (let key in groundsDict) {
-        if (groundsDict.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(groundsDict, key)) {
           const ground_data = [];
           ground_data.push([groundsDict[key]]);
         }
