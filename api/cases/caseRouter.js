@@ -63,6 +63,9 @@ router.use('/:id', Verify.verifyCase);
  *        credibility_of_refugee:
  *            type: string
  *            description: TBD
+ *        credibility_of_case:
+ *            type: boolean
+ *            description: TBD
  *        case_status:
  *            type: string
  *            description: TBD
@@ -88,6 +91,7 @@ router.use('/:id', Verify.verifyCase);
  *        hearing_date: '11-06-2020'
  *        decision_date: '11-06-2020'
  *        credibility_of_refugee: 'TBA'
+ *        credibility_of_case: false
  *        case_status: 'Closed'
  *        judge_decision: 'Denied'
  *        judge_name: 'John Smith'
@@ -121,6 +125,7 @@ router.use('/:id', Verify.verifyCase);
  *                  hearing_date: '11-06-2020'
  *                  decision_date: '11-06-2020'
  *                  credibility_of_refugee: 'TBA'
+ *                  credibility_of_case: true
  *                  case_status: 'Closed'
  *                  judge_decision: 'Denied'
  *                  judge_name: 'John Smith'
@@ -135,6 +140,7 @@ router.use('/:id', Verify.verifyCase);
  *                  hearing_date: '11-06-2020'
  *                  decision_date: '11-06-2020'
  *                  credibility_of_refugee: 'TBA'
+ *                  credibility_of_case: false
  *                  case_status: 'Closed'
  *                  judge_decision: 'Denied'
  *                  judge_name: 'John Smith'
