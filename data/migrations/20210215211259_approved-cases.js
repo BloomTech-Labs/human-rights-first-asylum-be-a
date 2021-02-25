@@ -1,8 +1,7 @@
-
-exports.up = function(knex) {
+exports.up = function (knex) {
   return knex.schema
-  .raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
-  .createTable('approved-cases',function(table){
+    .raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
+    .createTable('approved-cases', function (table) {
       table.string('id').notNullable().primary();
       table.string('case_url');
       table.string('court_type');
@@ -15,9 +14,9 @@ exports.up = function(knex) {
       table.string('case_status');
       table.string('judge_decision');
       table.string('judge_name');
-  })
+    });
 };
 
-exports.down = function(knex) {
-    return knex.schema.dropTableIfExists('cases');
+exports.down = function (knex) {
+  return knex.schema.dropTableIfExists('approved-cases');
 };
