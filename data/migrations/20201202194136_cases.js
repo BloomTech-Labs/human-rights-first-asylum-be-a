@@ -11,6 +11,7 @@ exports.up = function (knex) {
       table.string('hearing_date');
       table.string('decision_date');
       table.string('credibility_of_refugee');
+      table.boolean('credibility_of_case').defaultTo(0);
       table.string('case_status');
       table.string('judge_decision');
       table.string('judge_name');
