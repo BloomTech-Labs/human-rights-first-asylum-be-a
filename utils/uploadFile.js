@@ -1,4 +1,5 @@
 const mime = require('mime-types');
+const dsModel = require('../api/dsService/dsModel');
 
 const uploadFile = async (res, uploadedFile) => {
   try {
