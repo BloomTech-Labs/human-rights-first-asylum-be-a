@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const dsModel = require('./dsModel');
 const authRequired = require('../middleware/authRequired');
-const bodyParser = require('body-parser');
 const Cache = require('../middleware/cache');
 const upload = require('../../utils/uploadFile');
 
@@ -152,22 +151,8 @@ router.get('/form', Cache.checkCache, (req, res) => {
  *                  description: A message about the result
  *                  example: file uploaded
  */
-router.post(
-  '/upload',
-  bodyParser.json(),
-  bodyParser.urlencoded({ extended: true }),
-  (req, res) => {
-    if (!req.files) {
-      res.send({
-        status: false,
-        message: 'No file uploaded',
-      });
-    } else {
-      // * Use the name of the input field (i.e. "avatar", "for_ds") to retrieve the uploaded file
-      let uploadedFile = req.files.for_datascience;
-      upload.uploadFile(res, uploadedFile);
-    }
-  }
-);
+router.post('/upload', async (req, res) => {
+  upload.uploadFile(req, res);
+});
 
 module.exports = router;
