@@ -1,4 +1,6 @@
 const axios = require('axios');
+var request = require('request');
+var fs = require('fs');
 const dsConfig = require('../../config/dsConfig');
 const dsClient = axios.create(dsConfig);
 const db = require('../../data/db-config');
@@ -8,8 +10,29 @@ const getViz = (state) => {
   return dsClient.get(`/viz/${state}`);
 };
 
-const sendPDF = (pdf) => {
-  return dsClient.post('/upload/pdf', pdf);
+const sendPDF = (req) => {
+  let uploadedFile = req.files.file;
+  return request.post({
+    url: 'https://asylum-app-ds-labs31.herokuapp.com/get_fields',
+    headers: {},
+    formData: {
+      file: {
+        value: fs.createReadStream(
+          Buffer.alloc(15, req.files.file.data, 'base64')
+        ),
+        options: {
+          filename: req.files.file.name,
+          contentType: null,
+        },
+      },
+    },
+    function(error, response, body) {
+      console.log('error:', error);
+      console.log('response', response);
+      console.log('body', body);
+      res.send(body);
+    },
+  });
 };
 
 const sendCSV = (csv) => {

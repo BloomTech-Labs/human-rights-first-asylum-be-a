@@ -65,6 +65,7 @@
     "express": "~4.16.1",
     "express-fileupload": "^1.2.1",
     "faker": "^4.1.0",
+    "fs": "0.0.1-security",
     "helmet": "^3.23.1",
     "http-errors": "~1.6.3",
     "json2csv": "^5.0.5",
@@ -74,6 +75,7 @@
     "morgan": "~1.9.1",
     "pdf": "^0.1.0",
     "pg": "^8.5.1",
+    "request": "^2.88.2",
     "swagger-jsdoc": "^4.0.0",
     "swagger-ui-express": "^4.1.4"
   },
