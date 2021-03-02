@@ -161,6 +161,7 @@ router.get('/', Cache.checkCache, (req, res) => {
       res.status(500).json({ message: err.message });
     });
 });
+
 /**
  * @swagger
  * components:
@@ -196,6 +197,7 @@ router.get('/', Cache.checkCache, (req, res) => {
  *      404:
  *        description: 'case not found'
  */
+
 router.get('/:id', (req, res) => {
   const id = String(req.params.id);
   const key = String(req.originalUrl);
@@ -241,6 +243,18 @@ router.get('/:id/download-csv', Cache.csvCache, (req, res) => {
       res.header('Content-Type', 'text/csv');
       res.attachment(`${id}_data.csv`);
       res.status(200).send(csv);
+    })
+    .catch((err) => {
+      res.status(500).json({ message: err.message });
+    });
+});
+
+router.get('/approved', (req, res) => {
+  const key = String(req.originalUrl);
+  Cases.findAllApproved()
+    .then((cases) => {
+      Cache.makeCache(key, JSON.stringify(cases));
+      res.status(200).json(cases);
     })
     .catch((err) => {
       res.status(500).json({ message: err.message });
