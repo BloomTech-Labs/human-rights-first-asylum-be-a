@@ -1,6 +1,7 @@
 const axios = require('axios');
 var request = require('request');
-var fs = require('fs');
+const dotenv = require('dotenv');
+dotenv.config({ path: '../.env' });
 const dsConfig = require('../../config/dsConfig');
 const dsClient = axios.create(dsConfig);
 const db = require('../../data/db-config');
@@ -15,7 +16,7 @@ const sendPDF = (req, res) => {
   return request(
     {
       method: 'POST',
-      url: 'https://asylum-app-ds-labs31.herokuapp.com/get_fields',
+      url: `${process.env.DS_API_URL}/get_fields`,
       headers: {},
       formData: {
         file: {
