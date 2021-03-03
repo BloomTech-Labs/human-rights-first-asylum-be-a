@@ -10,29 +10,30 @@ const getViz = (state) => {
   return dsClient.get(`/viz/${state}`);
 };
 
-const sendPDF = (req) => {
-  let uploadedFile = req.files.file;
-  return request.post({
-    url: 'https://asylum-app-ds-labs31.herokuapp.com/get_fields',
-    headers: {},
-    formData: {
-      file: {
-        value: fs.createReadStream(
-          Buffer.alloc(15, req.files.file.data, 'base64')
-        ),
-        options: {
-          filename: req.files.file.name,
-          contentType: null,
+const sendPDF = (req, res) => {
+  console.log(req.files.file);
+  return request(
+    {
+      method: 'POST',
+      url: 'https://asylum-app-ds-labs31.herokuapp.com/get_fields',
+      headers: {},
+      formData: {
+        file: {
+          value: JSON.stringify(req.files.file),
+          options: {
+            filename: req.files.file.name,
+            contentType: null,
+          },
         },
       },
     },
-    function(error, response, body) {
-      console.log('error:', error);
-      console.log('response', response);
+    function (error, response, body) {
+      // console.log('error:', error);
+      // console.log('response', response);
       console.log('body', body);
       res.send(body);
-    },
-  });
+    }
+  );
 };
 
 const sendCSV = (csv) => {
