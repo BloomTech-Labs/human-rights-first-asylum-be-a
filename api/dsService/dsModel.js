@@ -29,9 +29,9 @@ const sendPDF = (req, res) => {
       },
     },
     function (error, response, body) {
-      // console.log('error:', error);
+      if (error) throw new Error(error);
       // console.log('response', response);
-      console.log('body', body);
+      // console.log('body', body);
       res.send(body);
     }
   );
