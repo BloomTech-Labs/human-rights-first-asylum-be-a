@@ -12,34 +12,27 @@ const uploadFile = async (req, res) => {
       let uploadedFile = req.files.file;
       // ! if mime.lookup(uploadedFile) does not parse properly, use uploadedFile.mimetype
       if (uploadedFile.mimetype === 'text/csv') {
-        console.log('CSV*****');
         // * send to datascience csv endpoint through dsModel
-        // dsModel
-        //   .sendCSV(uploadedFile)
-        //   .then(() => {
-        //     res.status(200).json({ message: 'CSV Successfully Uploaded' });
-        //   })
-        //   .catch((err) => res.status(500).json(err.message));
+        dsModel
+          .sendCSV(uploadedFile)
+          .then(() => {
+            res.status(200).json({ message: 'CSV Successfully Uploaded' });
+          })
+          .catch((err) => res.status(500).json(err.message));
       }
       if (uploadedFile.mimetype === 'application/pdf') {
-        console.log('PDF*****');
         // * send to datascience pdf endpoint through dsModel
-        dsModel.sendPDF(req);
-        // .then(() => {
-        //   res.status(200).json({ message: 'PDF Successfully Uploaded' });
-        // })
-        // .catch((err) => res.status(500).json(err.message));
+        dsModel.sendPDF(req, res);
       }
       if (uploadedFile.mimetype === 'application/json') {
-        console.log('JSON*****');
-        // dsModel
-        //   .sendJSON(uploadedFile)
-        //   .then(() => {
-        //     res.status(200).json({ message: 'Form Successfully Uploaded' });
-        //   })
-        //   .catch((err) => {
-        //     res.status(500).json({ message: err.message });
-        //   });
+        dsModel
+          .sendJSON(uploadedFile)
+          .then(() => {
+            res.status(200).json({ message: 'Form Successfully Uploaded' });
+          })
+          .catch((err) => {
+            res.status(500).json({ message: err.message });
+          });
       } else {
         res.status(400).json({ message: 'Please send valid file type.' });
       }
