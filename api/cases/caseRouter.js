@@ -34,7 +34,6 @@ router.use('/:id', Verify.verifyCase);
  *        - judge_decision
  *        - judge_name
  *        - social_group_type
- *        - protected_ground
  *      properties:
  *        id:
  *          type: string
@@ -236,18 +235,6 @@ router.get('/:id/download-csv', Cache.csvCache, (req, res) => {
       res.header('Content-Type', 'text/csv');
       res.attachment(`${id}_data.csv`);
       res.status(200).send(csv);
-    })
-    .catch((err) => {
-      res.status(500).json({ message: err.message });
-    });
-});
-
-router.get('/approved', (req, res) => {
-  const key = String(req.originalUrl);
-  Cases.findAllApproved()
-    .then((cases) => {
-      Cache.makeCache(key, JSON.stringify(cases));
-      res.status(200).json(cases);
     })
     .catch((err) => {
       res.status(500).json({ message: err.message });
