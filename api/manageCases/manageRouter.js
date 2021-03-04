@@ -59,9 +59,8 @@ router.get('/all', (req, res) => {
  *        description: 'approved case not found'
  */
 router.post('/approve', (req, res) => {
-  Cases.approve()
+  Cases.approve(req.body)
     .then((cases) => {
-      // Cache.makeCache(JSON.stringify(cases));
       res.status(200).json(cases);
     })
     .catch((err) => {
@@ -92,7 +91,7 @@ router.post('/approve', (req, res) => {
  *        description: 'approved cases not found'
  */
 router.delete('/reject', (req, res) => {
-  Cases.approve()
+  Cases.reject(req.body)
     .then((cases) => {
       // Cache.makeCache(JSON.stringify(cases));
       res.status(200).json(cases);
