@@ -68,6 +68,15 @@ const router = express.Router();
  *        judge_decision: 'Denied'
  *        judge_name: 'John Smith'
  *        submissionStatus: pending
+ *  parameters:
+ *    id:
+ *      name: id
+ *      in: path
+ *      description: ID of the unapproved case to delete
+ *      required: true
+ *      example: A094-216-526
+ *      schema:
+ *        type: string
  *
  * /newcase:
  *  get:
@@ -133,8 +142,6 @@ router.get('/', (req, res) => {
  * /newcase:
  *  post:
  *    summary: Add a newly created case to the database
- *    security:
- *      - okta: []
  *    tags:
  *      - newcase
  *    requestBody:
@@ -153,8 +160,6 @@ router.get('/', (req, res) => {
  *              type: object
  *      400:
  *        $ref: '#/components/responses/InvalidFormat'
- *      401:
- *        $ref: '#/components/responses/UnauthorizedError'
  */
 router.post('/', async (req, res) => {
   const newCase = req.body;
@@ -167,6 +172,46 @@ router.post('/', async (req, res) => {
       console.error(e);
       res.status(500).json({ message: e.message });
     });
+});
+
+/**
+ * @swagger
+ * /newcase/:id:
+ *  delete:
+ *    summary: remove an unapproved case from the database
+ *    tags:
+ *      - newcase
+ *    parameters:
+ *      - $ref: '#/components/parameters/id'
+ *    responses:
+ *      200:
+ *        description:
+ *        content:
+ *          application/json:
+ *            example: { message: 'case A094-216-526 is deleted.'}
+ *            schema:
+ *              type: object
+ *      500:
+ *        description:
+ *        content:
+ *          application/json:
+ *            example: { message: 'Could not delete case with ID: A094-216-526'}
+ *            schema:
+ *              type: object
+ */
+
+router.delete('/:id', (req, res) => {
+  const id = req.params.id;
+  try {
+    NewCases.remove(id).then(() => {
+      res.status(200).json({ message: `case '${id}' is deleted.` });
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: `Could not delete case with ID: ${id}`,
+      error: err.message,
+    });
+  }
 });
 
 module.exports = router;
