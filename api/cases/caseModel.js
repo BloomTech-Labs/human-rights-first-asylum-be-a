@@ -15,16 +15,6 @@ const findAll = async () => {
   return all_cases;
 };
 
-const findAllAproved = async () => {
-  const cases = await db('approved-cases').select('id');
-  let all_cases = [];
-  for (let i = 0; i < cases.length; i++) {
-    let one_case = await findById(cases[i].id);
-    all_cases.push(one_case);
-  }
-  return all_cases;
-};
-
 // * This function takes a moment because of the data attached
 const findById = async (id) => {
   const cases = await db('cases').where({ id }).first().select('*');
@@ -88,7 +78,6 @@ const writeCSV = async (id) => {
 module.exports = {
   add,
   findAll,
-  findAllAproved,
   findById,
   findBy,
   writeCSV,
