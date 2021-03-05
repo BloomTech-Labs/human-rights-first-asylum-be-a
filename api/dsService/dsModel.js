@@ -1,4 +1,7 @@
 const axios = require('axios');
+var request = require('request');
+const dotenv = require('dotenv');
+dotenv.config({ path: '../.env' });
 const dsConfig = require('../../config/dsConfig');
 const dsClient = axios.create(dsConfig);
 const db = require('../../data/db-config');
@@ -8,8 +11,30 @@ const getViz = (state) => {
   return dsClient.get(`/viz/${state}`);
 };
 
-const sendPDF = (pdf) => {
-  return dsClient.post('/upload/pdf', pdf);
+const sendPDF = (req, res) => {
+  console.log(req.files.file);
+  return request(
+    {
+      method: 'POST',
+      url: `${process.env.DS_API_URL}/get_fields`,
+      headers: {},
+      formData: {
+        file: {
+          value: JSON.stringify(req.files.file),
+          options: {
+            filename: req.files.file.name,
+            contentType: null,
+          },
+        },
+      },
+    },
+    function (error, response, body) {
+      if (error) throw new Error(error);
+      // console.log('response', response);
+      // console.log('body', body);
+      res.send(body);
+    }
+  );
 };
 
 const sendCSV = (csv) => {

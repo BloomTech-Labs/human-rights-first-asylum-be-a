@@ -10,11 +10,11 @@
 
 [cacache](https://www.npmjs.com/package/cacache)
 [cron](https://www.npmjs.com/package/cron)
-[mime-types](https://www.npmjs.com/package/mime-types)
 [json2csv](https://www.npmjs.com/package/json2csv)
 [aws-sdk](https://www.npmjs.com/package/aws-sdk)
 
 ### To get started:
+
 - Create a local Postgres database/instance.
 - Clone the repo locally to your machine
 - Create an .env file on the top level of the repo, with the provided credentials.
@@ -22,6 +22,7 @@
 - run: `npm run watch:dev` to start your local development server.
 
 ### Current Back-End Database Schema
+
 ![Asylum Case Analyzer - Database Schema](./reference/current_db_schema.png?raw=true)
 
 ## Labs30 Notes
@@ -36,27 +37,30 @@
 - It is encouraged that you install the "Better Comments" extension for VSCode, there are several comments that were written with this extension in mind.
 
 ### Proposed Back-End Database Schema with BIA Judges
+
 ![Asylum Case Analyzer - Database Schema](./reference/proposed_db_schema.jpg?raw=true)
 
 ### Bugs
+
 - No known bugs!
 
 ### Uncompleted Tasks
+
 - Add auth to various endpoints
 - Add an edit case endpoint
 
 ### Improvements
 
-- Better mock seed data.  Currently, only user profiles, cases, and judges are seeded.  Future seeding:
+- Better mock seed data. Currently, only user profiles, cases, and judges are seeded. Future seeding:
   - Protected Grounds: Race, Religion, Nationality, Political Opinion, Protected Social Group
   - Protected Social Groups
-  - Positive Tags 
+  - Positive Tags
   - Negative Tags
   - All Join tables
 - DS - Code has not been tested whether it will properly post to datascience Postgres database. Datascience PG database was unavailable during the project.
 - The update function written in middleware only works in theory. Once the DS server is up, it will need to be tested and tweaked.
 - Testing needs to be written more fully. The only tests that reliably pass are the profile tests.
-- Some Case PDFs have the case ID's redacted.  If it is not provided by the DS db, we need to generate an (autoincremented) ID
+- Some Case PDFs have the case ID's redacted. If it is not provided by the DS db, we need to generate an (autoincremented) ID
 
 ## Contributors
 
