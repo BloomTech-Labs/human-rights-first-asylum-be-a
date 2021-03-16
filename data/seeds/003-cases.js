@@ -181,7 +181,7 @@ exports.seed = function (knex) {
           applicant_sex: 'Female',
           type_of_violence_experienced: 'Not Applicable',
           application_type: 'initial',
-          protected_ground: true,
+          protected_ground: 'true',
         },
         {
           case_id: 'A028-803-028',
@@ -254,7 +254,7 @@ exports.seed = function (knex) {
           case_id: 'A095-094-694 ',
           case_url:
             'pdf/139810918-Rony-Rene-Anariba-A095-094-694-BIA-Nov-16-2012.pdf',
-          judge_name: 'Charles K. Adkins-Blanch',
+          judge: 'Charles K. Adkins-Blanch',
           initial_or_appellate: false,
           // hearing_type: 'Reopening',
           nation_of_origin: 'Jamaica',
