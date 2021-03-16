@@ -52,7 +52,7 @@ exports.seed = function (knex) {
           // case_status: 'Closed' These fields are pending review by stakeholder,
         },
         {
-          id: 'A043-400-049',
+          case_id: 'A043-400-049',
           case_url:
             'pdf/127028716-Patrick-Anthony-Brown-A043-400-049-BIA-Dec-18-2012.pdf',
           hearing_date: '12-18-2012',
@@ -74,7 +74,7 @@ exports.seed = function (knex) {
           // case_status: 'Closed' These fields are pending review by stakeholder,
         },
         {
-          id: 'A088-268-610',
+          case_id: 'A088-268-610',
           case_url:
             'pdf/127030786-Joao-Silva-Laudelino-A088-268-610-BIA-Dec-14-2012.pdf',
           judge: 'Neil P. Miller',
@@ -96,7 +96,7 @@ exports.seed = function (knex) {
           protected_ground: 'true',
         },
         {
-          id: 'A057-056-1193',
+          case_id: 'A057-056-1193',
           case_url:
             'pdf/127445747-Nowel-Q-Dela-Cruz-A057-056-093-BIA-Feb-8-2013.pdf',
           judge: 'David B. Holmes',
@@ -118,7 +118,7 @@ exports.seed = function (knex) {
           protected_ground: 'true',
         },
         {
-          id: 'A071-996-819',
+          case_id: 'A071-996-819',
           case_url:
             'pdf/130578801-Fowobi-George-A071-996-819-BIA-Sept-14-2012.pdf',
           judge: 'David B. Holmes',
@@ -140,7 +140,7 @@ exports.seed = function (knex) {
           protected_ground: 'true',
         },
         {
-          id: 'A093-138-113',
+          case_id: 'A093-138-113',
           case_url:
             'pdf/133809871-Maria-de-Jesus-Ortiz-Mejia-A093-138-113-BIA-Mar-7-2013.pdf',
           judge: 'Linda S. Wendtland',
@@ -162,7 +162,7 @@ exports.seed = function (knex) {
           protected_ground: 'true',
         },
         {
-          id: 'A027-392-198',
+          case_id: 'A027-392-198',
           case_url:
             'pdf/135034041-Dong-Van-Nguyen-A027-392-198-BIA-Jun-12-2012.pdf',
           judge: 'Neil P. Miller',
@@ -184,7 +184,7 @@ exports.seed = function (knex) {
           protected_ground: true,
         },
         {
-          id: 'A028-803-028',
+          case_id: 'A028-803-028',
           case_url:
             'pdf/135169606-Javier-Torres-Ponce-A028-803-028-BIA-Apr-3-2012.pdf',
           judge: 'Neil P. Miller',
@@ -207,7 +207,7 @@ exports.seed = function (knex) {
           protected_ground: 'true',
         },
         {
-          id: 'A089-207-04',
+          case_id: 'A089-207-04',
           case_url:
             'pdf/135613749-Marcelo-Alejandro-Cao-A089-207-044-BIA-Jan-31-2012.pdf',
           judge: 'Patricia A. Cole',
@@ -229,7 +229,7 @@ exports.seed = function (knex) {
           protected_ground: 'true',
         },
         {
-          id: 'A044-857-956',
+          case_id: 'A044-857-956',
           case_url:
             'pdf/137815992-Christopher-Charles-Kerr-A044-857-956-BIA-Dec-15-2011.pdf',
           judge: 'Patricia A. Cole',
@@ -251,7 +251,7 @@ exports.seed = function (knex) {
           protected_ground: 'true',
         },
         {
-          id: 'A095-094-694 ',
+          case_id: 'A095-094-694 ',
           case_url:
             'pdf/139810918-Rony-Rene-Anariba-A095-094-694-BIA-Nov-16-2012.pdf',
           judge_name: 'Charles K. Adkins-Blanch',
@@ -273,7 +273,7 @@ exports.seed = function (knex) {
           protected_ground: 'true',
         },
         {
-          id: 'A076-593-027',
+          case_id: 'A076-593-027',
           case_url:
             'pdf/144068181-Eduardo-Yanez-A076-593-027-BIA-Oct-18-2012.pdf',
           judge: 'Gary D. Malphrus',
@@ -295,7 +295,7 @@ exports.seed = function (knex) {
           protected_ground: 'true',
         },
         {
-          id: 'A027-824-163',
+          case_id: 'A027-824-163',
           case_url:
             'pdf/145869741-Dung-Tuan-Pham-A027-824-163-BIA-May-30-2013.pdf',
           judge: 'John Guendelsberger',
@@ -317,7 +317,7 @@ exports.seed = function (knex) {
           protected_ground: 'true',
         },
         {
-          id: 'A074-787-749',
+          case_id: 'A074-787-749',
           case_url:
             'pdf/130265170-Servando-Pinon-Ramos-A074-787-749-BIA-Feb-28-2013.pdf',
           judge: 'David B. Holmes',
