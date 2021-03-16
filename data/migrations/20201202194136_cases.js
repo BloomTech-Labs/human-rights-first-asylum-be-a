@@ -2,23 +2,25 @@ exports.up = function (knex) {
   return knex.schema
     .raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
     .createTable('cases', function (table) {
-      table.string('id').notNullable().primary();
+      table.string('case_id').notNullable().primary();
       table.string('case_url');
-      table.string('court_type');
-      table.string('hearing_type');
-      table.string('refugee_origin');
-      table.string('hearing_location');
+      table.boolean('initial_or_appellate');
       table.string('hearing_date');
-      table.string('decision_date');
-      table.string('credibility_of_refugee');
-      table.string('determined_applicant_credibility');
-      table.string('applicant_access_to_interpreter');
-      table.string('is_applicant_indigenous');
+      table.string('judge');
+      table.string('case_origin');
+      table.boolean('case_filed_within_one_year');
+      table.string('application_type');
+      table.string('protected_ground');
+      table.string('case_outcome');
+      table.string('nation_of_origin');
+      table.string('applicant_sex'); // should this be gender identity
+      table.string('type_of_violence_experienced');
+      table.string('applicant_indigenous_group');
       table.string('applicant_language');
-      table.string('one_year_guideline');
-      table.string('case_status');
-      table.string('judge_decision');
-      table.string('judge_name');
+      table.boolean('applicant_access_to_interpreter');
+      table.boolean('applicant_perceived_credibility');
+      //table.string('case_status'); This field is not present pending a review by the stakeholder. Also present in Seeds, bookmark case, approved case and unapproved case tables
+      //table.string('hearing_type'); This field is not present pending a review by the stakeholder. Also present in Seeds, bookmark case, approved case and unapproved case tables
     });
 };
 
