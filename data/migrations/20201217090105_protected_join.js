@@ -10,7 +10,7 @@ exports.up = function (knex) {
         .onDelete('CASCADE');
       table
         .string('case_id')
-        .references('id')
+        .references('case_id')
         .inTable('cases')
         .onUpdate('CASCADE')
         .onDelete('CASCADE');
