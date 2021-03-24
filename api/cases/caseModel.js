@@ -6,23 +6,19 @@ const add = async (data) => {
 };
 
 const findAll = async () => {
-  const cases = await db('cases').select('case_id');
-  let all_cases = [];
-  for (let i = 0; i < cases.length; i++) {
-    let one_case = await findById(cases[i].case_id);
-    all_cases.push(one_case);
-  }
-  return all_cases;
+  return await db('cases as c')
+    .join('judges as j', 'j.judge_id', 'c.judge')
+    .select('c.*', 'j.name as judge_name');
 };
 
 // * This function takes a moment because of the data attached
-const findById = async (case_id) => {
-  const cases = await db('cases').where({ case_id }).first().select('*');
+const findById = async (primary_key) => {
+  const cases = await db('cases').where({ primary_key }).first().select('*');
   let protected_ground = await db('protected_join')
-    .where({ case_id: case_id })
+    .where({ case_id: primary_key })
     .select('protected_ground');
   let social_groups = await db('social_join')
-    .where({ case_id: case_id })
+    .where({ case_id: primary_key })
     .select('social_group');
 
   if (protected_ground.length > 0) {
