@@ -9,6 +9,7 @@ exports.seed = function (knex) {
       // Inserts seed entries
       return knex('judges').insert([
         {
+          judge_id: 1,
           name: 'David W. Crosland',
           judge_county: 'Baltimore',
           judge_image: faker.image.avatar(),
@@ -20,6 +21,7 @@ exports.seed = function (knex) {
           biography: 'https://www.justice.gov/eoir/BaltimoreNatzCer03072012',
         },
         {
+          judge_id: 2,
           name: 'Patricia A. Cole',
           judge_county: 'Virginia Falls',
           judge_image: faker.image.avatar(),
@@ -32,6 +34,7 @@ exports.seed = function (knex) {
             'Appears to be retired? https://www.justice.gov/sites/default/files/eoir/legacy/2014/02/04/BIA_Bios_February2014.pdf',
         },
         {
+          judge_id: 3,
           name: 'David B. Holmes',
           judge_county: 'Virginia Falls',
           judge_image: faker.image.avatar(),
@@ -44,6 +47,7 @@ exports.seed = function (knex) {
             'Appears to be retired? https://www.justice.gov/sites/default/files/eoir/legacy/2014/02/04/BIA_Bios_February2014.pdf',
         },
         {
+          judge_id: 4,
           name: 'Neil P. Miller',
           judge_county: 'Virginia Falls',
           judge_image: faker.image.avatar(),
@@ -56,6 +60,7 @@ exports.seed = function (knex) {
             'Appears to be retired? https://www.justice.gov/sites/default/files/eoir/legacy/2014/02/04/BIA_Bios_February2014.pdf',
         },
         {
+          judge_id: 5,
           name: 'Linda S. Wendtland',
           judge_county: 'Virginia Falls',
           judge_image: faker.image.avatar(),
@@ -68,6 +73,7 @@ exports.seed = function (knex) {
             'Appears to be retired? https://www.justice.gov/archive/opa/pr/2008/December/08-eoir-1110.html',
         },
         {
+          judge_id: 6,
           name: 'Charles K. Adkins-Blanch',
           judge_county: 'Virginia Falls',
           judge_image: faker.image.avatar(),
@@ -80,6 +86,7 @@ exports.seed = function (knex) {
             'https://www.justice.gov/eoir/board-of-immigration-appeals-bios#CharlesAdkins-Blanch',
         },
         {
+          judge_id: 7,
           name: 'Gary D. Malphrus',
           judge_county: 'Virginia Falls',
           judge_image: faker.image.avatar(),
@@ -92,6 +99,7 @@ exports.seed = function (knex) {
             'https://www.justice.gov/eoir/board-of-immigration-appeals-bios#GarryMalphrus',
         },
         {
+          judge_id: 8,
           name: 'John Guendelsberger',
           judge_county: 'Virginia Falls',
           judge_image: faker.image.avatar(),
