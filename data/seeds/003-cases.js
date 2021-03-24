@@ -9,7 +9,7 @@ exports.seed = function (knex) {
       return knex('cases').insert([
         {
           primary_key: 1,
-          user_id: 1,
+          user_id: '00ulthapbErVUwVJy4x6',
           case_id: 'A094-216-526',
           hearing_date: '1-24-2013',
           judge: 1,
@@ -29,7 +29,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 2,
-          user_id: 2,
+          user_id: '00ultwew80Onb2vOT4x6',
           case_id: 'A079-531-484',
           hearing_date: '8-30-2012',
           judge: 2,
@@ -49,7 +49,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 3,
-          user_id: 1,
+          user_id: '00ulthapbErVUwVJy4x6',
           case_id: 'A043-400-049',
           hearing_date: '12-18-2012',
           judge: 3,
@@ -69,7 +69,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 4,
-          user_id: 4,
+          user_id: '00ultwqjtqt4VCcS24x6',
           case_id: 'A088-268-610',
           judge: 4,
           initial_or_appellate: false,
@@ -89,7 +89,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 5,
-          user_id: 3,
+          user_id: '00ultx74kMUmEW8054x6',
           case_id: 'A057-056-1193',
           judge: 5,
           initial_or_appellate: false,
@@ -109,7 +109,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 6,
-          user_id: 3,
+          user_id: '00ultx74kMUmEW8054x6',
           case_id: 'A071-996-819',
           judge: 3,
           initial_or_appellate: false,
@@ -129,7 +129,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 7,
-          user_id: 2,
+          user_id: '00ultwew80Onb2vOT4x6',
           case_id: 'A093-138-113',
           judge: 5,
           initial_or_appellate: false,
@@ -149,7 +149,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 8,
-          user_id: 4,
+          user_id: '00ultwqjtqt4VCcS24x6',
           case_id: 'A027-392-198',
           judge: 4,
           initial_or_appellate: false,
@@ -169,7 +169,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 9,
-          user_id: 3,
+          user_id: '00ultx74kMUmEW8054x6',
           case_id: 'A028-803-028',
           judge: 4,
           initial_or_appellate: false,
@@ -189,7 +189,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 10,
-          user_id: 2,
+          user_id: '00ultwew80Onb2vOT4x6',
           case_id: 'A089-207-04',
           judge: 2,
           initial_or_appellate: false,
@@ -209,7 +209,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 11,
-          user_id: 3,
+          user_id: '00ultx74kMUmEW8054x6',
           case_id: 'A044-857-956',
           judge: 2,
           initial_or_appellate: false,
@@ -229,7 +229,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 12,
-          user_id: 2,
+          user_id: '00ultwew80Onb2vOT4x6',
           case_id: 'A095-094-694 ',
           judge: 6,
           initial_or_appellate: false,
@@ -249,7 +249,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 13,
-          user_id: 4,
+          user_id: '00ultwqjtqt4VCcS24x6',
           case_id: 'A076-593-027',
           judge: 7,
           initial_or_appellate: true,
@@ -269,7 +269,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 14,
-          user_id: 3,
+          user_id: '00ultx74kMUmEW8054x6',
           case_id: 'A027-824-163',
           judge: 8,
           initial_or_appellate: true,
@@ -289,7 +289,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 15,
-          user_id: 1,
+          user_id: '00ulthapbErVUwVJy4x6',
           case_id: 'A074-787-749',
           judge: 3,
           initial_or_appellate: true,
