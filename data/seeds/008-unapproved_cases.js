@@ -7,7 +7,7 @@ exports.seed = function (knex) {
       return knex('unapproved_cases').insert([
         {
           primary_key: 1,
-          user_id: 5,
+          user_id: '00u13omswyZM1xVya4x7',
           case_id: 'A094-216-526',
           initial_or_appellate: false,
           hearing_date: '',
@@ -26,8 +26,8 @@ exports.seed = function (knex) {
           applicant_perceived_credibility: false,
         },
         {
-          primary_key: 1,
-          user_id: 5,
+          primary_key: 2,
+          user_id: '00u13omswyZM1xVya4x7',
           case_id: 'A057-056-1193',
           initial_or_appellate: true,
           hearing_date: '',
@@ -46,8 +46,8 @@ exports.seed = function (knex) {
           applicant_perceived_credibility: false,
         },
         {
-          primary_key: 1,
-          user_id: 5,
+          primary_key: 3,
+          user_id: '00u13omswyZM1xVya4x7',
           case_id: 'A071-996-819',
           judge: '',
           initial_or_appellate: true,

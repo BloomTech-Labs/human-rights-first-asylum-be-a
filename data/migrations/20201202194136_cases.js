@@ -7,7 +7,7 @@ exports.up = function (knex) {
         .string('user_id')
         .references('id')
         .inTable('profiles')
-        .notNullable();
+        .onDelete('RESTRICT');
       table.string('case_id');
       table.boolean('initial_or_appellate');
       table.string('hearing_date');
