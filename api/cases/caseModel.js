@@ -13,7 +13,11 @@ const findAll = async () => {
 
 // * This function takes a moment because of the data attached
 const findById = async (primary_key) => {
-  const cases = await db('cases').where({ primary_key }).first().select('*');
+  const cases = await db('cases as c')
+    .where({ primary_key })
+    .first()
+    .join('judges as j', 'j.judge_id', 'c.judge')
+    .select('c.*', 'j.name as judge_name');
   let protected_ground = await db('protected_join')
     .where({ case_id: primary_key })
     .select('protected_ground');
@@ -46,12 +50,15 @@ const findById = async (primary_key) => {
 };
 
 const findBy = async (filter) => {
-  return db('cases').where(filter);
+  return db('cases')
+    .where(filter)
+    .join('judges as j', 'j.judge_id', 'c.judge')
+    .select('c.*', 'j.name as judge_name');
 };
 
-const writeCSV = async (id) => {
+const writeCSV = async (primary_key) => {
   // *  get only case data
-  const case_data = await findById(id);
+  const case_data = await findById(primary_key);
 
   // * create fields
   const case_fields = [];
