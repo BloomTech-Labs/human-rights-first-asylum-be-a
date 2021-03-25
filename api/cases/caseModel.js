@@ -6,23 +6,23 @@ const add = async (data) => {
 };
 
 const findAll = async () => {
-  const cases = await db('cases').select('id');
-  let all_cases = [];
-  for (let i = 0; i < cases.length; i++) {
-    let one_case = await findById(cases[i].id);
-    all_cases.push(one_case);
-  }
-  return all_cases;
+  return await db('cases as c')
+    .join('judges as j', 'j.judge_id', 'c.judge')
+    .select('c.*', 'j.name as judge_name');
 };
 
 // * This function takes a moment because of the data attached
-const findById = async (id) => {
-  const cases = await db('cases').where({ id }).first().select('*');
+const findById = async (primary_key) => {
+  const cases = await db('cases as c')
+    .where({ primary_key })
+    .first()
+    .join('judges as j', 'j.judge_id', 'c.judge')
+    .select('c.*', 'j.name as judge_name');
   let protected_ground = await db('protected_join')
-    .where({ case_id: id })
+    .where({ case_id: primary_key })
     .select('protected_ground');
   let social_groups = await db('social_join')
-    .where({ case_id: id })
+    .where({ case_id: primary_key })
     .select('social_group');
 
   if (protected_ground.length > 0) {
@@ -50,12 +50,15 @@ const findById = async (id) => {
 };
 
 const findBy = async (filter) => {
-  return db('cases').where(filter);
+  return db('cases')
+    .where(filter)
+    .join('judges as j', 'j.judge_id', 'c.judge')
+    .select('c.*', 'j.name as judge_name');
 };
 
-const writeCSV = async (id) => {
+const writeCSV = async (primary_key) => {
   // *  get only case data
-  const case_data = await findById(id);
+  const case_data = await findById(primary_key);
 
   // * create fields
   const case_fields = [];
