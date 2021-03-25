@@ -14,7 +14,9 @@ const s3 = new AWS.S3({
 });
 
 const uploadFile = (fileName) => {
-  const fileContent = fs.readFileSync(`./uploads/${fileName}.pdf`);
+  const fileContent = fs.readFileSync(
+    path.join(__dirname, `/uploads/${fileName}.pdf`)
+  );
 
   const params = {
     Bucket: process.env.AWS_BUCKET,
@@ -54,6 +56,7 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
+    console.log(req);
     return res.status(400).send('No files were uploaded.');
   }
 
@@ -68,3 +71,4 @@ router.post('/', (req, res) => {
     uploadFile(leUUID);
   });
 });
+module.exports = router;
