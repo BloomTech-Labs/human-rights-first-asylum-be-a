@@ -6,7 +6,6 @@ const logger = require('morgan');
 const helmet = require('helmet');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
-const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 const jsdocConfig = require('../config/jsdoc');
 const dotenv = require('dotenv');
@@ -30,6 +29,7 @@ const manageRouter = require('./manageCases/manageRouter');
 const newCaseRouter = require('./newCases/newCaseRouter');
 const tagRouter = require('./tags/tagRouter');
 const keywordRouter = require('./keywords/keywordsRouter');
+const uploadRouter = require('./upload/uploadRouter');
 
 const app = express();
 
@@ -54,12 +54,6 @@ app.use(
 app.use(logger('dev'));
 // app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// enable files upload
-app.use(
-  fileUpload({
-    createParentPath: true,
-  })
-);
 
 //add other middleware
 app.use(bodyParser.json());
@@ -67,6 +61,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // application routes
 app.use('/', indexRouter);
+app.use('/upload', uploadRouter);
 app.use(['/profile', '/profiles'], profileRouter);
 app.use(['/judge', '/judges'], judgeRouter);
 app.use(['/case', '/cases'], caseRouter);
