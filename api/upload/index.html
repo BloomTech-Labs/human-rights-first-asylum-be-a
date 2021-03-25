@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Node JS File Upload - W3jar.Com</title>
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      .container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+      }
+
+      [type='file'] {
+        border: 1px solid #cccccc;
+        background: #f9f9f9;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        font-size: 18px;
+        border-radius: 2px;
+      }
+      [type='submit'] {
+        cursor: pointer;
+        font-size: 16px;
+        background: #5d13e7;
+        color: #ffffff;
+        padding: 10px 20px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 3px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+          0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Node.js File Upload</h1>
+
+      <form action="" method="POST" enctype="multipart/form-data">
+        <input type="file" name="target_file" required />
+        <input type="submit" value="Upload" />
+      </form>
+    </div>
+  </body>
+</html>
