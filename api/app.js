@@ -6,7 +6,6 @@ const logger = require('morgan');
 const helmet = require('helmet');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
-const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 const jsdocConfig = require('../config/jsdoc');
 const dotenv = require('dotenv');
