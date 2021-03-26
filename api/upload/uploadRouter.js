@@ -75,6 +75,7 @@ const uploadFile = (fileName) => {
         db.add(test)
           .then(() => {
             console.log(data);
+            fs.unlinkSync(path.join(__dirname, 'uploads', `${fileName}.pdf`));
           })
           .catch((err) => {
             console.log(err);
