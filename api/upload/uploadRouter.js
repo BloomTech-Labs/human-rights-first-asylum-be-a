@@ -43,10 +43,7 @@ const uploadFile = (fileName) => {
     }
     console.log(`File uploaded successfully. ${data.Location}`);
     axios
-      .post(
-        `http://bucket-test-dev.us-east-1.elasticbeanstalk.com/items/${fileName}`,
-        { name: fileName }
-      )
+      .post(`${process.env.DS_API}${fileName}`, { name: fileName })
       .then((res) => {
         console.log('AwwwwWWW YASSSSS 👁️👄👁️ ');
         let data = res.data.body;
