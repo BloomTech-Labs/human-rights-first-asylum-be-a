@@ -174,6 +174,19 @@ router.post('/', async (req, res) => {
     });
 });
 
+router.post('/approve', async (req, res) => {
+  const id = req.body.primary_key;
+  const judgeId = req.body.judge_id;
+  NewCases.approve(id, judgeId)
+    .then((data) => {
+      res.status(200).json(data);
+    })
+    .catch((e) => {
+      console.error(e);
+      res.status(500).json({ message: e.message });
+    });
+});
+
 /**
  * @swagger
  * /newcase/:id:
