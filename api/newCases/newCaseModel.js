@@ -13,7 +13,7 @@ const add = async (data) => {
 };
 
 const approve = async (id, judgeId) => {
-  //protected_ground , case_outcome, hearing_date will be added
+  //protected_ground , case_outcome, hearing_date will be added ...
   const approvedCase = await db('unapproved_cases').where({ primary_key: id });
   approvedCase[0]['judge'] = judgeId;
   await db('cases').insert(approvedCase);
