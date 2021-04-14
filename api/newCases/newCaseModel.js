@@ -29,7 +29,6 @@ const approve = async (
   approvedCase['primary_key'] = uuidv4();
   await db('cases').insert(approvedCase);
   await db('unapproved_cases').where({ primary_key: id }).del();
-  console.log(await db('cases').where({ primary_key: id }));
   return await db('cases').where({ primary_key: id });
 };
 

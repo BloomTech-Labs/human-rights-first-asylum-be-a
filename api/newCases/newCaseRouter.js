@@ -132,7 +132,6 @@ router.get('/', (req, res) => {
       res.status(200).json(cases);
     })
     .catch((err) => {
-      console.log(err);
       res.status(500).json({ message: err.message });
     });
 });
@@ -169,7 +168,6 @@ router.post('/', async (req, res) => {
       res.status(200).json({ message: 'New case created' });
     })
     .catch((e) => {
-      console.error(e);
       res.status(500).json({ message: e.message });
     });
 });
@@ -186,7 +184,6 @@ router.post('/approve', async (req, res) => {
       res.status(200).json(data);
     })
     .catch((e) => {
-      console.error(e);
       res.status(500).json({ message: e.message });
     });
 });
