@@ -6,12 +6,12 @@ exports.seed = function (knex) {
       // Inserts seed entries
       return knex('unapproved_cases').insert([
         {
-          primary_key: 1,
+          primary_key: 150,
           user_id: '00u13omswyZM1xVya4x7',
           case_id: 'A094-216-526',
           initial_or_appellate: false,
           hearing_date: '',
-          judge: '',
+          judge: '3',
           case_origin: '',
           case_filed_within_one_year: true,
           application_type: 'initial',
@@ -26,12 +26,12 @@ exports.seed = function (knex) {
           applicant_perceived_credibility: false,
         },
         {
-          primary_key: 2,
+          primary_key: 250,
           user_id: '00u13omswyZM1xVya4x7',
           case_id: 'A057-056-1193',
           initial_or_appellate: true,
           hearing_date: '',
-          judge: '',
+          judge: '2',
           case_origin: 'Imperial, CA',
           application_type: 'initial',
           case_filed_within_one_year: false,
@@ -46,10 +46,10 @@ exports.seed = function (knex) {
           applicant_perceived_credibility: false,
         },
         {
-          primary_key: 3,
+          primary_key: 350,
           user_id: '00u13omswyZM1xVya4x7',
           case_id: 'A071-996-819',
-          judge: '',
+          judge: '1',
           initial_or_appellate: true,
           nation_of_origin: 'Mexico',
           case_origin: '',
