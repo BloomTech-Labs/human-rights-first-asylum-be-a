@@ -172,14 +172,10 @@ router.post('/', async (req, res) => {
     });
 });
 
-router.post('/approve', async (req, res) => {
-  const id = req.body.primary_key;
-  const judgeId = req.body.judge_id;
-  const protected_ground = req.body.protected_ground;
-  const case_outcome = req.params.case_outcome;
-  const hearing_date = req.params.hearing_date;
+router.post('/approve/:id', async (req, res) => {
+  const id = req.params.id;
 
-  NewCases.approve(id, judgeId, protected_ground, case_outcome, hearing_date)
+  NewCases.approve(id)
     .then((data) => {
       res.status(200).json(data);
     })
