@@ -10,36 +10,36 @@ const findBy = (filter) => {
 
 const findById = async (id) => {
   const user = await db('profiles').where({ id }).first().select('*');
-  let book_marked_cases = await db('book_mark_cases').where({ user_id: id });
-  let book_marked_judges = await db('book_mark_judges').where({ user_id: id });
+  // let book_marked_cases = await db('book_mark_cases').where({ user_id: id });
+  // let book_marked_judges = await db('book_mark_judges').where({ user_id: id });
 
-  if (book_marked_cases.length > 0) {
-    let cases = [];
-    for (let i = 0; i < book_marked_cases.length; i++) {
-      const one_case = await db('cases')
-        .where({
-          id: book_marked_cases[i].case_id,
-        })
-        .select('*');
+  // if (book_marked_cases.length > 0) {
+  //   let cases = [];
+  //   for (let i = 0; i < book_marked_cases.length; i++) {
+  //     const one_case = await db('cases')
+  //       .where({
+  //         id: book_marked_cases[i].case_id,
+  //       })
+  //       .select('*');
 
-      cases.push(Object.values(one_case)[0]);
-    }
-    book_marked_cases = cases;
-    if (book_marked_judges.length > 0) {
-      let judges = [];
-      for (let i = 0; i < book_marked_judges.length; i++) {
-        const one_judge = await db('judges')
-          .where({
-            name: book_marked_judges[i].judge_name,
-          })
-          .select('*');
-        judges.push(Object.values(one_judge)[0]);
-      }
-      book_marked_judges = judges;
-    }
-  }
-  user['case_bookmarks'] = book_marked_cases;
-  user['judge_bookmarks'] = book_marked_judges;
+  //     cases.push(Object.values(one_case)[0]);
+  //   }
+  //   book_marked_cases = cases;
+  //   if (book_marked_judges.length > 0) {
+  //     let judges = [];
+  //     for (let i = 0; i < book_marked_judges.length; i++) {
+  //       const one_judge = await db('judges')
+  //         .where({
+  //           name: book_marked_judges[i].judge_name,
+  //         })
+  //         .select('*');
+  //       judges.push(Object.values(one_judge)[0]);
+  //     }
+  //     book_marked_judges = judges;
+  //   }
+  // }
+  // user['case_bookmarks'] = book_marked_cases;
+  // user['judge_bookmarks'] = book_marked_judges;
 
   return user;
 };
