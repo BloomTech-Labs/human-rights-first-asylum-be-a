@@ -172,8 +172,8 @@ router.post('/', async (req, res) => {
     });
 });
 
-router.post('/approve/:id', async (req, res) => {
-  const id = req.params.id;
+router.post('/approve', async (req, res) => {
+  const id = req.body.id;
 
   NewCases.approve(id)
     .then((data) => {
