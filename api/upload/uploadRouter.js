@@ -42,16 +42,17 @@ const uploadFile = (fileName) => {
       throw err;
     }
     console.log(`File uploaded successfully. ${data.Location}`);
+
     axios
       .post(`${process.env.DS_API}${fileName}`, { name: fileName })
       .then((res) => {
-        console.log('AwwwwWWW YASSSSS 👁️👄👁️ ');
         let data = res.data.body;
 
         const test = {
           primary_key: fileName,
           user_id: '00ultwew80Onb2vOT4x6',
           case_id: 'A079-531-484',
+          case_url: `${fileName}.pdf`,
           hearing_date: data.date,
           judge: 2,
           initial_or_appellate: false,
@@ -71,7 +72,6 @@ const uploadFile = (fileName) => {
 
         db.add(test)
           .then(() => {
-            console.log(data);
             fs.unlinkSync(path.join(__dirname, 'uploads', `${fileName}.pdf`));
           })
           .catch((err) => {
