@@ -9,6 +9,7 @@ exports.up = function (knex) {
         .inTable('profiles')
         .onDelete('RESTRICT');
       table.string('case_id');
+      table.string('case_url');
       table.boolean('initial_or_appellate');
       table.string('hearing_date');
       table.string('judge').notNullable(); //Feature solution requires data science to be scraping this data
