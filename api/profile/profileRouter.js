@@ -2,6 +2,13 @@ const express = require('express');
 const authRequired = require('../middleware/authRequired');
 const Profiles = require('./profileModel');
 const router = express.Router();
+const okta = require('@okta/okta-sdk-nodejs');
+
+const client = new okta.Client({
+  orgUrl: process.env.OKTA_ORG_URL,
+  token: process.env.OKTA_SDK_TOKEN,
+  clientId: process.env.OKTA_CLIENT_ID,
+});
 
 //middleware
 router.use('/', authRequired);
@@ -180,17 +187,34 @@ router.get('/:id', function (req, res) {
  */
 router.post('/', async (req, res) => {
   const profile = req.body;
+  const newUser = {
+    profile: {
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+      email: profile.email,
+      login: profile.email,
+    },
+  };
   if (profile) {
     const id = profile.id || 0;
     try {
-      await Profiles.findById(id).then(async (pf) => {
+      Profiles.findById(id).then((pf) => {
         if (pf == undefined) {
           //profile not found so let's insert it
-          await Profiles.create(profile).then((profile) =>
-            res
-              .status(200)
-              .json({ message: 'profile created', profile: profile[0] })
-          );
+          client.createUser(newUser).then((user) => {
+            console.log('Created user', user);
+            const appUser = {
+              id: user.id,
+              email: profile.email,
+              name: profile.firstName + ' ' + profile.lastName,
+              role: profile.role,
+            };
+            Profiles.create(appUser).then((profile) =>
+              res
+                .status(200)
+                .json({ message: 'profile created', profile: profile[0] })
+            );
+          });
         } else {
           res.status(400).json({ message: 'profile already exists' });
         }

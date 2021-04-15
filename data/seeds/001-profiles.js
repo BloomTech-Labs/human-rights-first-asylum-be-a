@@ -6,7 +6,7 @@ const profiles = [...new Array(8)].map((i, idx) => ({
   id: idx + 1,
   email: `llama00${idx + 1}@maildrop.cc`,
   name: idx < 2 ? `Admin${idx + 1}` : `User${idx + 1}`,
-  is_admin: idx < 2 ? 1 : 0,
+  role: idx < 2 ? 'admin' : 'user',
   avatarUrl: faker.image.avatar(),
 }));
 
