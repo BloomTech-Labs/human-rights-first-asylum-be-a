@@ -48,7 +48,7 @@ app.use(helmet());
 app.use(express.json());
 app.use(
   cors({
-    origin: 'https://a.humanrightsfirstasylum.dev/',
+    origin: 'https://a.humanrightsfirstasylum.dev',
     credentials: true,
   })
 );
