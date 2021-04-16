@@ -44,7 +44,7 @@ const uploadFile = (fileName) => {
     console.log(`File uploaded successfully. ${data.Location}`);
 
     axios
-      .post(`${process.env.DS_API}${fileName}`, { name: fileName })
+      .post(`${process.env.DS_API_URL}${fileName}`, { name: fileName })
       .then((res) => {
         let data = res.data.body;
 
