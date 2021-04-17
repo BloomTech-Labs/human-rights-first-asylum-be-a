@@ -6,7 +6,7 @@ exports.up = (knex) => {
       table.string('email').notNullable().unique();
       table.string('name');
       table.string('avatarUrl');
-      table.string('role').notNullable();
+      table.string('role');
       table.timestamps(true, true);
     });
 };
