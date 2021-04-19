@@ -227,6 +227,15 @@ router.post('/', async (req, res) => {
     res.status(404).json({ message: 'Profile missing' });
   }
 });
+
+router.get('/okta', (req, res) => {
+  // const user = req.body.user;
+  client.getUser('llama001@maildrop.cc').then((user) => {
+    console.log(user);
+    res.status(200).json(user);
+  });
+});
+
 /**
  * @swagger
  * /profile:
