@@ -228,14 +228,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.get('/okta', (req, res) => {
-  // const user = req.body.user;
-  client.getUser('llama001@maildrop.cc').then((user) => {
-    console.log(user);
-    res.status(200).json(user);
-  });
-});
-
 /**
  * @swagger
  * /profile:
