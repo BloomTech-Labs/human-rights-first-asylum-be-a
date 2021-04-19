@@ -1,5 +1,3 @@
-const faker = require('faker');
-
 // Only 8 Okta-approved profiles
 // ID 1 and 2 are admins, ID 3-8 are users
 const profiles = [...new Array(8)].map((i, idx) => ({
@@ -7,7 +5,6 @@ const profiles = [...new Array(8)].map((i, idx) => ({
   email: `llama00${idx + 1}@maildrop.cc`,
   name: idx < 2 ? `Admin${idx + 1}` : `User${idx + 1}`,
   role: idx < 2 ? 'admin' : 'user',
-  avatarUrl: faker.image.avatar(),
 }));
 
 /*
