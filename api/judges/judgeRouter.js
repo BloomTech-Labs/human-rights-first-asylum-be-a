@@ -5,6 +5,7 @@ const Cache = require('../middleware/cache');
 const fs = require('fs');
 const JSZip = require('jszip');
 const cacache = require('cacache');
+const authRequired = require('../middleware/authRequired');
 
 // TODO add auth to router - final phase
 
@@ -14,6 +15,7 @@ const router = express.Router();
 //middleware
 
 router.use('/:name', verify.verifyJudge);
+router.use(authRequired);
 
 //routes
 router.get('/', Cache.checkCache, (req, res) => {
