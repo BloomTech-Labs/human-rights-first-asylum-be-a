@@ -82,8 +82,8 @@ const update = async (primary_key, changes) => {
   const RESULTS = await db('cases')
     .where({ primary_key })
     .update(changes)
-  return RESULTS
-}
+  return RESULTS;
+};
 
 module.exports = {
   add,
@@ -91,5 +91,5 @@ module.exports = {
   findById,
   findBy,
   writeCSV,
-  update
+  update,
 };
