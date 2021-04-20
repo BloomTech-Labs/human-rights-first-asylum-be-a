@@ -243,15 +243,18 @@ router.get('/:id/download-csv', Cache.csvCache, (req, res) => {
     });
 });
 
-router.put('/:id/update', (req, res) => {
-  const id = String(req.params.id)
-  Cases.update(id, req.body)
-    .then((updatedCase) => {
-      res.status(200).json(updatedCase)
-    })
-    .catch((err) => {
-      res.status(500).json(err.message)
-    });
-});
+
+//This still needs debugging! Do not delete
+// router.put('/:id/update', (req, res) => {
+//   const id = String(req.params.id)
+//   Cases.update(id, req.body)
+//     .then((updatedCase) => {
+//       console.log(updatedCase, "UPDATED CASE")
+//       res.status(200).json(updatedCase)
+//     })
+//     .catch((err) => {
+//       res.status(500).json(err.message)
+//     });
+// });
 
 module.exports = router;
