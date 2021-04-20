@@ -80,8 +80,7 @@ const writeCSV = async (primary_key) => {
 
 const update = async (primary_key, changes) => {
   const RESULTS = await db('cases')
-    .where({ primary_key })
-    .update(changes)
+    .where({ primary_key }).update(changes);
   return RESULTS;
 };
 

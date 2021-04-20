@@ -7,11 +7,8 @@ const CSV = require('csv-string');
 const router = express.Router();
 const authRequired = require('../middleware/authRequired');
 
-
 router.use('/:id', authRequired, Verify.verifyCase);
-
 //routes
-
 /**
  * @swagger
  * components:
@@ -249,12 +246,12 @@ router.get('/:id/download-csv', Cache.csvCache, (req, res) => {
 router.put('/:id/update', (req, res) => {
   const id = String(req.params.id)
   Cases.update(id, req.body)
-    .then(updatedCase => {
+    .then((updatedCase) => {
       res.status(200).json(updatedCase)
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).json(err.message)
-    })
+    });
 });
 
 module.exports = router;
