@@ -1,6 +1,10 @@
 const express = require('express');
 const NewCases = require('./newCaseModel');
 const router = express.Router();
+const authRequired = require('../middleware/authRequired');
+
+
+router.use(authRequired);
 
 /**
  * @swagger
