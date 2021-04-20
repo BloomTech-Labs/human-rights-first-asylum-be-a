@@ -14,8 +14,7 @@ const router = express.Router();
 
 //middleware
 
-router.use('/:name', verify.verifyJudge);
-router.use(authRequired);
+router.use('/:name', authRequired, verify.verifyJudge);
 
 //routes
 router.get('/', Cache.checkCache, (req, res) => {
