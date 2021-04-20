@@ -10,8 +10,7 @@ const authRequired = require("../middleware/authRequired");
 
 //middleware
 
-router.use('/:id', Verify.verifyCase);
-router.use(authRequired)
+router.use('/:id', authRequired, Verify.verifyCase);
 
 //routes
 
