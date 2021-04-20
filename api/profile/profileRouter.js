@@ -99,6 +99,17 @@ router.get('/', function (req, res) {
     });
 });
 
+router.get('/pending', function (req, res) {
+  Profiles.findAllPending()
+    .then((profiles) => {
+      res.status(200).json(profiles);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ message: err.message });
+    });
+});
+
 /**
  * @swagger
  * components:
@@ -137,6 +148,21 @@ router.get('/', function (req, res) {
 router.get('/:id', function (req, res) {
   const id = String(req.params.id);
   Profiles.findById(id)
+    .then((profile) => {
+      if (profile) {
+        res.status(200).json(profile);
+      } else {
+        res.status(404).json({ error: 'ProfileNotFound' });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err.message });
+    });
+});
+
+router.get('/pending/:id', function (req, res) {
+  const id = String(req.params.id);
+  Profiles.findPendingById(id)
     .then((profile) => {
       if (profile) {
         res.status(200).json(profile);
@@ -198,23 +224,51 @@ router.post('/', async (req, res) => {
   if (profile) {
     const id = profile.id || 0;
     try {
-      Profiles.findById(id).then((pf) => {
+      Profiles.findPendingById(id).then((pf) => {
+        if (pf == undefined) {
+          console.log('Admin invited user');
+        } else {
+          Profiles.removePending(pf.id).then(() => {
+            res.status(200).json({ message: 'pending user deleted' });
+          });
+        }
+        client.createUser(newUser).then((user) => {
+          console.log('Created user', user);
+          const appUser = {
+            id: user.id,
+            email: profile.email,
+            name: profile.firstName + ' ' + profile.lastName,
+            role: profile.role,
+          };
+          Profiles.create(appUser).then((profile) =>
+            res
+              .status(200)
+              .json({ message: 'profile created', profile: profile[0] })
+          );
+        });
+      });
+    } catch (e) {
+      console.error(e);
+      res.status(500).json({ message: e.message });
+    }
+  } else {
+    res.status(404).json({ message: 'Profile missing' });
+  }
+});
+
+router.post('/pending', async (req, res) => {
+  const profile = req.body;
+  if (profile) {
+    const id = profile.id || 0;
+    try {
+      Profiles.findPendingById(id).then((pf) => {
         if (pf == undefined) {
           //profile not found so let's insert it
-          client.createUser(newUser).then((user) => {
-            console.log('Created user', user);
-            const appUser = {
-              id: user.id,
-              email: profile.email,
-              name: profile.firstName + ' ' + profile.lastName,
-              role: profile.role,
-            };
-            Profiles.create(appUser).then((profile) =>
-              res
-                .status(200)
-                .json({ message: 'profile created', profile: profile[0] })
-            );
-          });
+          Profiles.createPending(profile).then((profile) =>
+            res
+              .status(200)
+              .json({ message: 'profile created', profile: profile[0] })
+          );
         } else {
           res.status(400).json({ message: 'profile already exists' });
         }
