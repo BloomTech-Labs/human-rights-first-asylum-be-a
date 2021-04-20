@@ -5,10 +5,8 @@ const Verify = require('../middleware/verifyDataID');
 const Cache = require('../middleware/cache');
 const CSV = require('csv-string');
 const router = express.Router();
-const authRequired = require("../middleware/authRequired");
-// TODO add auth to route also - final phase
+const authRequired = require('../middleware/authRequired');
 
-//middleware
 
 router.use('/:id', authRequired, Verify.verifyCase);
 
@@ -250,15 +248,12 @@ router.get('/:id/download-csv', Cache.csvCache, (req, res) => {
 
 router.put('/:id/update', (req, res) => {
   const id = String(req.params.id)
-  console.log("looked for id:", id)
   Cases.update(id, req.body)
     .then(updatedCase => {
-      console.log("UPDATED CASE:", updatedCase)
       res.status(200).json(updatedCase)
     })
     .catch(err => {
       res.status(500).json(err.message)
-      console.log("ERROR happened in put request")
     })
 });
 
