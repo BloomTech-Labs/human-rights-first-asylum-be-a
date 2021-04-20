@@ -6,7 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const AWS = require('aws-sdk');
 const router = express.Router();
-const db = require('../cases/caseModel');
+// const db = require('../cases/caseModel');
 require('dotenv').config();
 
 const s3 = new AWS.S3({
@@ -37,51 +37,16 @@ const uploadFile = (fileName) => {
     Key: `${fileName}.pdf`,
     Body: fileContent,
   };
-  s3.upload(params, function (err, data) {
-    if (err) {
-      throw err;
-    }
-    console.log(`File uploaded successfully. ${data.Location}`);
+  const s3Upload = s3.upload(params).promise();
 
-    axios
-      .post(`${process.env.DS_API_URL}${fileName}`, { name: fileName })
-      .then((res) => {
-        let data = res.data.body;
-
-        const test = {
-          primary_key: fileName,
-          user_id: '00ultwew80Onb2vOT4x6',
-          case_id: 'A079-531-484',
-          case_url: `${fileName}.pdf`,
-          hearing_date: data.date,
-          judge: 2,
-          initial_or_appellate: false,
-          case_origin: 'Los Angeles, CA',
-          case_filed_within_one_year: true,
-          application_type: 'initial',
-          protected_ground: 'true',
-          case_outcome: data.outcome,
-          nation_of_origin: data.country_of_origin,
-          applicant_gender: data.sex_of_applicant,
-          type_of_violence_experienced: 'Not Applicable',
-          applicant_indigenous_group: 'Not Applicable',
-          applicant_language: 'English',
-          applicant_access_to_interpreter: true,
-          applicant_perceived_credibility: false,
-        };
-
-        db.add(test)
-          .then(() => {
-            fs.unlinkSync(path.join(__dirname, 'uploads', `${fileName}.pdf`));
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
+  return s3Upload
+    .then((res) => {
+      console.log('Success');
+      return res;
+    })
+    .catch(() => {
+      console.log('Failure');
+    });
 };
 
 router.use(
@@ -95,7 +60,7 @@ router.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     console.log(req);
     return res.status(400).send('No files were uploaded.');
@@ -108,8 +73,13 @@ router.post('/', (req, res) => {
   //mv(path, CB function(err))
   targetFile.mv(path.join(__dirname, 'uploads', `${leUUID}.pdf`), (err) => {
     if (err) return res.status(500).send(err);
-    res.send('File uploaded!');
-    uploadFile(leUUID);
+    uploadFile(leUUID).then((res) => {
+      console.log(res);
+      axios
+        .post(`${process.env.DS_API_URL}${leUUID}`, { name: leUUID })
+        .then((res) => console.log(res));
+    });
+    return res.status(200).json({ message: 'We did it!', filename: leUUID });
   });
 });
 module.exports = router;
