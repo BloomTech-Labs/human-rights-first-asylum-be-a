@@ -4,8 +4,16 @@ const findAll = async () => {
   return await db('profiles');
 };
 
+const findAllPending = async () => {
+  return await db('pending_profiles');
+};
+
 const findBy = (filter) => {
   return db('profiles').where(filter);
+};
+
+const findPendingBy = (filter) => {
+  return db('pending_profiles').where(filter);
 };
 
 const findById = async (id) => {
@@ -44,8 +52,17 @@ const findById = async (id) => {
   return user;
 };
 
+const findPendingById = async (id) => {
+  const user = await db('pending_profiles').where({ id }).first().select('*');
+  return user;
+};
+
 const create = async (profile) => {
   return db('profiles').insert(profile).returning('*');
+};
+
+const createPending = async (profile) => {
+  return db('pending_profiles').insert(profile).returning('*');
 };
 
 const update = (id, profile) => {
@@ -58,6 +75,10 @@ const update = (id, profile) => {
 
 const remove = async (id) => {
   return await db('profiles').where({ id }).del();
+};
+
+const removePending = async (id) => {
+  return await db('pending_profiles').where({ id }).del();
 };
 
 const findOrCreateProfile = async (profileObj) => {
@@ -103,4 +124,9 @@ module.exports = {
   add_case_bookmark,
   remove_judge_bookmark,
   remove_case_bookmark,
+  findAllPending,
+  findPendingBy,
+  findPendingById,
+  createPending,
+  removePending,
 };
