@@ -2,7 +2,7 @@ exports.up = (knex) => {
   return knex.schema
     .raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
     .createTable('pending_profiles', function (table) {
-      table.increment('id').notNullable().unique().primary();
+      table.increments('id');
       table.string('email').notNullable().unique();
       table.string('firstName').notNullable();
       table.string('lastName').notNullable();
