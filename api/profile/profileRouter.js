@@ -259,24 +259,15 @@ router.post('/', async (req, res) => {
 router.post('/pending', async (req, res) => {
   const profile = req.body;
   if (profile) {
-    const id = profile.id || 0;
-    try {
-      Profiles.findPendingById(id).then((pf) => {
-        if (pf == undefined) {
-          //profile not found so let's insert it
-          Profiles.createPending(profile).then((profile) =>
-            res
-              .status(200)
-              .json({ message: 'profile created', profile: profile[0] })
-          );
-        } else {
-          res.status(400).json({ message: 'profile already exists' });
-        }
+    Profiles.createPending(profile)
+      .then((profile) => {
+        res
+          .status(200)
+          .json({ message: 'profile created', profile: profile[0] });
+      })
+      .catch((err) => {
+        res.status(500).json(err.message);
       });
-    } catch (e) {
-      console.error(e);
-      res.status(500).json({ message: e.message });
-    }
   } else {
     res.status(404).json({ message: 'Profile missing' });
   }
