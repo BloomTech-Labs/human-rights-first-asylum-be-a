@@ -41,8 +41,6 @@ router.get('/', Cache.checkCache, (req, res) => {
  *        - denial_rate
  *        - approval_rate
  *        - appointed_by
- *        - positive_keywords
- *        - negative_keywords
  *        - countries
  *        - cases
  *      properties:
@@ -73,12 +71,6 @@ router.get('/', Cache.checkCache, (req, res) => {
  *        appointed_by:
  *            type: string
  *            description: Which administration appointed the judge
- *        positive_keywords:
- *            type: array
- *            description: A list of keywords that seem to have the most positive effect on the judge
- *        negative_keywords:
- *            type: array
- *            description: A list of keywords that seem to have the most negative effect on the judge
  *        countries:
  *            type: array
  *            description: A list of objects of countries from which the refugees seeking asylum in the judge's court have come
@@ -94,8 +86,6 @@ router.get('/', Cache.checkCache, (req, res) => {
  *                  denial_rate: 98.2
  *                  approval_rate: 1.8
  *                  appointed_by: 'FDR'
- *                  positive_keywords: ['female', 'christian']
- *                  negative_keywords: ['male', 'farmer']
  *                  countries: ['TBA']
  *                  cases: ['TBA']
  *
@@ -125,8 +115,6 @@ router.get('/', Cache.checkCache, (req, res) => {
  *                  denial_rate: 98.2
  *                  approval_rate: 1.8
  *                  appointed_by: 'FDR'
- *                  positive_keywords: ['female', 'christian']
- *                  negative_keywords: ['male', 'farmer']
  *                  countries: ['TBA']
  *                  cases: ['TBA']
  *                - name: 'Frank Jones'
@@ -137,8 +125,6 @@ router.get('/', Cache.checkCache, (req, res) => {
  *                  denial_rate: 98.2
  *                  approval_rate: 1.8
  *                  appointed_by: 'FDR'
- *                  positive_keywords: ['female', 'christian']
- *                  negative_keywords: ['male', 'farmer']
  *                  countries: ['TBA']
  *                  cases: ['TBA']
  */
