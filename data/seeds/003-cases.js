@@ -9,7 +9,7 @@ exports.seed = function (knex) {
       return knex('cases').insert([
         {
           primary_key: 1,
-          user_id: '00ulthapbErVUwVJy4x6',
+          user_id: '00ulzdrizE2yzxToH5d6',
           case_id: 'A094-216-526',
           case_url: '2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           hearing_date: '1-24-2013',
@@ -30,7 +30,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 2,
-          user_id: '00ultwew80Onb2vOT4x6',
+          user_id: '00ulzdrizE2yzxToH5d6',
           case_id: 'A079-531-484',
           case_url: '2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           hearing_date: '8-30-2012',
@@ -51,7 +51,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 3,
-          user_id: '00ulthapbErVUwVJy4x6',
+          user_id: '00ulzcegtVucXsfdp5d6',
           case_id: 'A043-400-049',
           case_url: '2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           hearing_date: '12-18-2012',
@@ -72,7 +72,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 4,
-          user_id: '00ultwqjtqt4VCcS24x6',
+          user_id: '00ulzcegtVucXsfdp5d6',
           case_id: 'A088-268-610',
           case_url: '2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           judge: 4,
@@ -93,7 +93,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 5,
-          user_id: '00ultx74kMUmEW8054x6',
+          user_id: '00ulzg60x94UujHsV5d6',
           case_id: 'A057-056-1193',
           case_url: '2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           judge: 5,
@@ -114,7 +114,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 6,
-          user_id: '00ultx74kMUmEW8054x6',
+          user_id: '00ulzg60x94UujHsV5d6',
           case_id: 'A071-996-819',
           case_url: '2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           judge: 3,
@@ -135,7 +135,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 7,
-          user_id: '00ultwew80Onb2vOT4x6',
+          user_id: '00ulzenirO3Evj2U95d6',
           case_id: 'A093-138-113',
           case_url: '2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           judge: 5,
@@ -156,7 +156,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 8,
-          user_id: '00ultwqjtqt4VCcS24x6',
+          user_id: '00ulzenirO3Evj2U95d6',
           case_id: 'A027-392-198',
           case_url: '2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           judge: 4,
@@ -177,7 +177,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 9,
-          user_id: '00ultx74kMUmEW8054x6',
+          user_id: '00ulzdb18iCY1wMep5d6',
           case_id: 'A028-803-028',
           case_url: '2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           judge: 4,
@@ -198,7 +198,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 10,
-          user_id: '00ultwew80Onb2vOT4x6',
+          user_id: '00ulzdb18iCY1wMep5d6',
           case_id: 'A089-207-04',
           case_url: '2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           judge: 2,
@@ -219,7 +219,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 11,
-          user_id: '00ultx74kMUmEW8054x6',
+          user_id: '00ulzfj6nX79gu0Nh5d6',
           case_id: 'A044-857-956',
           case_url: '2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           judge: 2,
@@ -240,7 +240,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 12,
-          user_id: '00ultwew80Onb2vOT4x6',
+          user_id: '00ulzfj6nX79gu0Nh5d6',
           case_id: 'A095-094-694 ',
           case_url: '2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           judge: 6,
@@ -261,7 +261,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 13,
-          user_id: '00ultwqjtqt4VCcS24x6',
+          user_id: '00ulzdrizE2yzxToH5d6',
           case_id: 'A076-593-027',
           case_url: '2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           judge: 7,
@@ -282,7 +282,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 14,
-          user_id: '00ultx74kMUmEW8054x6',
+          user_id: '00ulzdrizE2yzxToH5d6',
           case_id: 'A027-824-163',
           case_url: '2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           judge: 8,
@@ -303,7 +303,7 @@ exports.seed = function (knex) {
         },
         {
           primary_key: 15,
-          user_id: '00ulthapbErVUwVJy4x6',
+          user_id: '00ulzcegtVucXsfdp5d6',
           case_id: 'A074-787-749',
           case_url: '70a5a7f0-a6eb-419b-8cfe-dec773762f3a.pdf',
           judge: 3,
