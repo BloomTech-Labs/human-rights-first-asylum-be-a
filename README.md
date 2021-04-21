@@ -54,8 +54,6 @@
 - Better mock seed data. Currently, only user profiles, cases, and judges are seeded. Future seeding:
   - Protected Grounds: Race, Religion, Nationality, Political Opinion, Protected Social Group
   - Protected Social Groups
-  - Positive Tags
-  - Negative Tags
   - All Join tables
 - DS - Code has not been tested whether it will properly post to datascience Postgres database. Datascience PG database was unavailable during the project.
 - The update function written in middleware only works in theory. Once the DS server is up, it will need to be tested and tweaked.
