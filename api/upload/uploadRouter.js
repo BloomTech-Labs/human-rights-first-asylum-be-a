@@ -77,7 +77,12 @@ router.post('/', async (req, res) => {
       console.log(res);
       axios
         .post(`${process.env.DS_API_URL}${leUUID}`, { name: leUUID })
-        .then((res) => console.log(res));
+        .then((res) => {
+          //eslint-disable-next-line
+          const newCase = {};
+          // newCase needs to be sent to user for approval and added to scrapped cases DB
+          console.log(res);
+        });
     });
     return res.status(200).json({ message: 'We did it!', filename: leUUID });
   });
