@@ -28,7 +28,6 @@ const caseRouter = require('./cases/caseRouter');
 const manageRouter = require('./manageCases/manageRouter');
 const newCaseRouter = require('./newCases/newCaseRouter');
 const tagRouter = require('./tags/tagRouter');
-const keywordRouter = require('./keywords/keywordsRouter');
 const uploadRouter = require('./upload/uploadRouter');
 
 const app = express();
@@ -69,7 +68,6 @@ app.use(['/case', '/cases'], caseRouter);
 app.use('/manage', manageRouter);
 app.use('/newcase', newCaseRouter);
 app.use('/tags', tagRouter);
-app.use('/keywords', keywordRouter);
 app.use('/data', dsRouter);
 
 // catch 404 and forward to error handler
