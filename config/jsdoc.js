@@ -33,10 +33,6 @@ module.exports = {
         description: 'Operations for judges',
       },
       {
-        name: 'keywords',
-        description: 'Operations for judge keywords',
-      },
-      {
         name: 'tags',
         description: 'Operations for case tags',
       },

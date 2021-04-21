@@ -5,7 +5,6 @@
 // const Case = require('../api/cases/caseModel');
 // const Protected = require('../api/protected/protectedModel');
 // const Social = require('../api/social/socialModel');
-// const Keyword = require('../api/keywords/keywordsModel');
 
 //  TODO uncomment code when DS gets a server running
 
@@ -40,22 +39,13 @@
 //                 Judge.update(found_judge.name)
 //                   // * on success continue
 //                   .then((result_judge) => {
-//                     // !
-//                     // TODO
-//                     // * Judge exists => delete ALL pos/neg keywords where judge_name = judge[name]
-//                     // * then, for word in positive_keywords, add them to the database
-//                     // * then, for word in negative_keywords, add them to the database
 //                   })
 //                   .catch((err) => console.log(err.message));
 //               } else {
 //                 // * add judge
 //                 Judge.add(judge)
 //                   // * on success continue
-//                   .then( result_judge                   // !
-//                     // TODO
-//                     // * Judge exists => delete ALL pos/neg keywords where judge_name = result_judge[name]
-//                     // * then, for word in positive_keywords, add them to the database
-//                     // * then, for word in negative_keywords, add them to the database)
+//                   .then( result_judge )
 //                   .catch((err) => console.log(err.message));
 //               }
 //             })

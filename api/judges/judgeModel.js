@@ -33,31 +33,7 @@ const findFullDataByName = async (name) => {
   const countries = await countryData(name);
   const cases = await caseData(name);
   const secondary = await secondaryData(name);
-  // const positives = await db('positive_join')
-  //   .where({ judge: name })
-  //   .select('positive_word');
-  // const negatives = await db('negative_join')
-  //   .where({ judge: name })
-  //   .select('negative_word');
 
-  // let positive_keywords = [];
-  // let negative_keywords = [];
-
-  // if (positives.length > 0) {
-  //   for (let i = 0; i < positives.length; i++) {
-  //     let word = Object.values(positives[i]);
-  //     positive_keywords.push(word);
-  //   }
-  // }
-
-  // if (negatives.length > 0) {
-  //   for (let i = 0; i < negatives.length; i++) {
-  //     let word = Object.values(negatives[i]);
-  //     negative_keywords.push(word);
-  //   }
-  // }
-  // judge[0]['positive_keywords'] = positive_keywords;
-  // judge[0]['negative_keywords'] = negative_keywords;
   judge[0]['social_data'] = secondary[0];
   judge[0]['grounds_data'] = secondary[1];
   judge[0]['country_data'] = countries;

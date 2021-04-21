@@ -22,7 +22,6 @@ const s3 = new AWS.S3({
 //     outcome: 'grant',
 //     protected_grounds: 'nationality',
 //     based_violence: '',
-//     keywords: '',
 //     references: '',
 //     sex_of_applicant: 'male'
 //   }
