@@ -5,7 +5,7 @@ exports.up = (knex) => {
       table.string('id').notNullable().unique().primary();
       table.string('email').notNullable().unique();
       table.string('name');
-      table.string('role').notNullable().default('admin');
+      table.string('role').notNullable().default('user');
       table.timestamps(true, true);
     });
 };

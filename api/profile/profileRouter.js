@@ -225,11 +225,9 @@ router.post('/', async (req, res) => {
     const id = profile.id || 0;
     try {
       Profiles.findPendingById(id).then((pf) => {
-        if (pf == undefined) {
-          console.log('Admin invited user');
-        } else {
-          Profiles.removePending(pf.id).then(() => {
-            res.status(200).json({ message: 'pending user deleted' });
+        if (pf) {
+          Profiles.removePending(pf.id).catch((err) => {
+            throw err;
           });
         }
         client.createUser(newUser).then((user) => {
@@ -256,7 +254,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.post('/pending', async (req, res) => {
+router.post('/pending', (req, res) => {
   const profile = req.body;
   if (profile) {
     Profiles.createPending(profile)
@@ -369,6 +367,24 @@ router.delete('/:id', (req, res) => {
   try {
     Profiles.findById(id).then((profile) => {
       Profiles.remove(profile.id).then(() => {
+        res
+          .status(200)
+          .json({ message: `Profile '${id}' was deleted.`, profile: profile });
+      });
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: `Could not delete profile with ID: ${id}`,
+      error: err.message,
+    });
+  }
+});
+
+router.delete('/pending/:id', (req, res) => {
+  const id = req.params.id;
+  try {
+    Profiles.findPendingById(id).then((profile) => {
+      Profiles.removePending(profile.id).then(() => {
         res
           .status(200)
           .json({ message: `Profile '${id}' was deleted.`, profile: profile });
