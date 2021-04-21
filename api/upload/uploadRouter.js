@@ -72,18 +72,34 @@ router.post('/', async (req, res) => {
   //mv(path, CB function(err))
   targetFile.mv(path.join(__dirname, 'uploads', `${leUUID}.pdf`), (err) => {
     if (err) return res.status(500).send(err);
-    uploadFile(leUUID).then((res) => {
-      console.log(res);
+    uploadFile(leUUID).then(() => {
+      console.log('Upload Successful');
+
       axios
         .post(`${process.env.DS_API_URL}${leUUID}`, { name: leUUID })
-        .then((res) => {
-          //eslint-disable-next-line
-          const newCase = {};
-          // newCase needs to be sent to user for approval and added to scrapped cases DB
-          console.log(res);
+        .then((scrape) => {
+          console.log(scrape.data);
+          const result = scrape.data.body;
+          const newCase = {
+            date: result.date,
+            judge: '',
+            case_outcome: result.outcome,
+            country_of_origin: result['country of origin'],
+            protegted_grounds: result['protected grounds'],
+            application_type: '',
+            case_outcome_city: '',
+            case_outcome_state: '',
+            gender: result.gender,
+            applicant_language: result['applicant language'],
+            indigenous_group: result.indigenous,
+            type_of_violence: '',
+            initial_or_appelate: '',
+            filed_in_one_year: result['check for one year'],
+            credible: '',
+          };
+          return res.status(200).json({ stuff: newCase });
         });
     });
-    return res.status(200).json({ message: 'We did it!', filename: leUUID });
   });
 });
 module.exports = router;
