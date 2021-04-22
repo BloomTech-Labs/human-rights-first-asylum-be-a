@@ -45,7 +45,7 @@ router.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-router.post('/', async (req, res) => {
+router.post('/', (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     console.log(req);
     return res.status(400).send('No files were uploaded.');
