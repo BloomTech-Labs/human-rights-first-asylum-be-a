@@ -78,10 +78,17 @@ const writeCSV = async (primary_key) => {
   }
 };
 
+const update = async (primary_key, changes) => {
+  const RESULTS = await db('cases')
+    .where({ primary_key }).update(changes);
+  return RESULTS;
+};
+
 module.exports = {
   add,
   findAll,
   findById,
   findBy,
   writeCSV,
+  update,
 };
