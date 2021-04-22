@@ -5,15 +5,10 @@ const Verify = require('../middleware/verifyDataID');
 const Cache = require('../middleware/cache');
 const CSV = require('csv-string');
 const router = express.Router();
+const authRequired = require('../middleware/authRequired');
 
-// TODO add auth to route also - final phase
-
-//middleware
-
-router.use('/:id', Verify.verifyCase);
-
+router.use('/:id', authRequired, Verify.verifyCase);
 //routes
-
 /**
  * @swagger
  * components:
@@ -247,5 +242,19 @@ router.get('/:id/download-csv', Cache.csvCache, (req, res) => {
       res.status(500).json({ message: err.message });
     });
 });
+
+
+//This still needs debugging! Do not delete
+// router.put('/:id/update', (req, res) => {
+//   const id = String(req.params.id)
+//   Cases.update(id, req.body)
+//     .then((updatedCase) => {
+//       console.log(updatedCase, "UPDATED CASE")
+//       res.status(200).json(updatedCase)
+//     })
+//     .catch((err) => {
+//       res.status(500).json(err.message)
+//     });
+// });
 
 module.exports = router;

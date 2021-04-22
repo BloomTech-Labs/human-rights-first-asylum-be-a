@@ -10,9 +10,6 @@ const client = new okta.Client({
   clientId: process.env.OKTA_CLIENT_ID,
 });
 
-//middleware
-router.use('/', authRequired);
-
 //TODO /:id verify && judge verify && case verify
 
 /**
@@ -88,7 +85,7 @@ router.use('/', authRequired);
  *      403:
  *        $ref: '#/components/responses/UnauthorizedError'
  */
-router.get('/', function (req, res) {
+router.get('/', authRequired, function (req, res) {
   Profiles.findAll()
     .then((profiles) => {
       res.status(200).json(profiles);
@@ -99,7 +96,7 @@ router.get('/', function (req, res) {
     });
 });
 
-router.get('/pending', function (req, res) {
+router.get('/pending', authRequired, function (req, res) {
   Profiles.findAllPending()
     .then((profiles) => {
       res.status(200).json(profiles);
@@ -145,7 +142,7 @@ router.get('/pending', function (req, res) {
  *      404:
  *        description: 'Profile not found'
  */
-router.get('/:id', function (req, res) {
+router.get('/:id', authRequired, function (req, res) {
   const id = String(req.params.id);
   Profiles.findById(id)
     .then((profile) => {
@@ -160,7 +157,7 @@ router.get('/:id', function (req, res) {
     });
 });
 
-router.get('/pending/:id', function (req, res) {
+router.get('/pending/:id', authRequired, function (req, res) {
   const id = String(req.params.id);
   Profiles.findPendingById(id)
     .then((profile) => {
@@ -211,7 +208,7 @@ router.get('/pending/:id', function (req, res) {
  *                profile:
  *                  $ref: '#/components/schemas/Profile'
  */
-router.post('/', async (req, res) => {
+router.post('/', authRequired, async (req, res) => {
   const profile = req.body;
   const newUser = {
     profile: {
@@ -305,7 +302,7 @@ router.post('/pending', (req, res) => {
  *                profile:
  *                  $ref: '#/components/schemas/Profile'
  */
-router.put('/', (req, res) => {
+router.put('/', authRequired, (req, res) => {
   const profile = req.body;
   if (profile) {
     const id = profile.id || 0;
@@ -362,7 +359,7 @@ router.put('/', (req, res) => {
  *                profile:
  *                  $ref: '#/components/schemas/Profile'
  */
-router.delete('/:id', (req, res) => {
+router.delete('/:id', authRequired, (req, res) => {
   const id = req.params.id;
   try {
     Profiles.findById(id).then((profile) => {
@@ -380,7 +377,7 @@ router.delete('/:id', (req, res) => {
   }
 });
 
-router.delete('/pending/:id', (req, res) => {
+router.delete('/pending/:id', authRequired, (req, res) => {
   const id = req.params.id;
   try {
     Profiles.findPendingById(id).then((profile) => {
@@ -441,7 +438,7 @@ router.delete('/pending/:id', (req, res) => {
  *                judge:
  *                  $ref: '#/components/schemas/Judge'
  */
-router.post('/:id/judge/:name', (req, res) => {
+router.post('/:id/judge/:name', authRequired, (req, res) => {
   const id = req.params.id;
   const name = req.params.name;
   Profiles.add_judge_bookmark(id, name)
@@ -496,7 +493,7 @@ router.post('/:id/judge/:name', (req, res) => {
  *                case:
  *                  $ref: '#/components/schemas/Case'
  */
-router.post('/:id/case/:case_id', (req, res) => {
+router.post('/:id/case/:case_id', authRequired, (req, res) => {
   const id = req.params.id;
   const case_id = req.params.case_id;
   Profiles.add_case_bookmark(id, case_id)
@@ -539,7 +536,7 @@ router.post('/:id/case/:case_id', (req, res) => {
  *                profile:
  *                  $ref: '#/components/schemas/Profile'
  */
-router.delete('/:id/judge/:name', (req, res) => {
+router.delete('/:id/judge/:name', authRequired, (req, res) => {
   const id = req.params.id;
   const name = req.params.name;
   Profiles.remove_judge_bookmark(id, name)
@@ -582,7 +579,7 @@ router.delete('/:id/judge/:name', (req, res) => {
  *                profile:
  *                  $ref: '#/components/schemas/Profile'
  */
-router.delete('/:id/case/:case_id', (req, res) => {
+router.delete('/:id/case/:case_id', authRequired, (req, res) => {
   const id = req.params.id;
   const case_id = req.params.case_id;
   Profiles.remove_case_bookmark(id, case_id)
