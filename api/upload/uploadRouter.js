@@ -80,7 +80,7 @@ router.post('/', async (req, res) => {
               filed_in_one_year: false,
               credible: false,
             };
-            return res.status(200).json({ stuff: newCase });
+            return res.status(200).json(newCase);
           });
       })
       .catch((err) => {
