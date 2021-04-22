@@ -76,9 +76,9 @@ router.post('/', async (req, res) => {
               applicant_language: '',
               indigenous_group: '',
               type_of_violence: '',
-              initial_or_appelate: '',
-              filed_in_one_year: '',
-              credible: '',
+              initial_or_appelate: false,
+              filed_in_one_year: false,
+              credible: false,
             };
             return res.status(200).json({ stuff: newCase });
           });
