@@ -68,7 +68,7 @@ router.post('/', (req, res) => {
               judge: '',
               case_outcome: result.outcome,
               country_of_origin: result['country of origin'],
-              protegted_grounds: result['protected grounds'],
+              protected_grounds: result['protected grounds'],
               application_type: '',
               case_origin_city: '',
               case_origin_state: '',
@@ -76,7 +76,7 @@ router.post('/', (req, res) => {
               applicant_language: '',
               indigenous_group: '',
               type_of_violence: '',
-              initial_or_appelate: false,
+              initial_or_appellate: false,
               filed_in_one_year: false,
               credible: false,
             };
