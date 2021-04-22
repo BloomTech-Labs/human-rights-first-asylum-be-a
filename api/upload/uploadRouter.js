@@ -62,7 +62,7 @@ router.post('/', (req, res) => {
           .post(`${process.env.DS_API_URL}${leUUID}`, { name: leUUID })
           .then((scrape) => {
             const result = scrape.data.body;
-            // Any newCase value that is an empty string should be considered a work in progress of the scraper and will need to be updated as the scraper grows
+            // Any newCase value that doesnt reference the result should be considered a work in progress of the scraper and will need to be updated as the scraper grows
             const newCase = {
               date: result.date,
               judge: '',
