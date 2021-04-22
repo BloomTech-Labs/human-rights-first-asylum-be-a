@@ -43,7 +43,7 @@ const findById = async (primary_key) => {
     social_groups = tags;
   }
 
-  cases['protected_ground'] = protected_ground;
+  cases['protected_ground_join'] = protected_ground;
   cases['social_group_type'] = social_groups;
 
   return cases;
@@ -79,9 +79,7 @@ const writeCSV = async (primary_key) => {
 };
 
 const update = async (primary_key, changes) => {
-  const RESULTS = await db('cases')
-    .where({ primary_key }).update(changes);
-  return RESULTS;
+  return await db('cases').where({ primary_key }).update(changes);
 };
 
 module.exports = {
