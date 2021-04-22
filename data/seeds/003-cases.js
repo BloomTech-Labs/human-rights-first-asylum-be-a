@@ -18,7 +18,7 @@ exports.seed = function (knex) {
           case_origin: 'Baltimore, MD',
           case_filed_within_one_year: false,
           application_type: 'initial',
-          protected_ground: 'true',
+          protected_ground: 'Social Group',
           case_outcome: 'Denied',
           nation_of_origin: 'Mexico',
           applicant_gender: 'Male',
@@ -39,7 +39,7 @@ exports.seed = function (knex) {
           case_origin: 'Los Angeles, CA',
           case_filed_within_one_year: true,
           application_type: 'initial',
-          protected_ground: 'true',
+          protected_ground: 'Political Opinion',
           case_outcome: 'Granted',
           nation_of_origin: 'El Salvador',
           applicant_gender: 'Female',
@@ -60,7 +60,7 @@ exports.seed = function (knex) {
           case_origin: 'New York, NY',
           case_filed_within_one_year: false,
           application_type: 'initial',
-          protected_ground: 'true',
+          protected_ground: 'Social Group',
           case_outcome: 'Denied',
           nation_of_origin: 'Jamaica',
           applicant_gender: 'Female',
@@ -89,7 +89,7 @@ exports.seed = function (knex) {
           applicant_gender: 'Female',
           type_of_violence_experienced: 'Not Applicable',
           application_type: 'initial',
-          protected_ground: 'true',
+          protected_ground: 'Social Group',
         },
         {
           primary_key: 5,
@@ -110,7 +110,7 @@ exports.seed = function (knex) {
           applicant_gender: 'Female',
           type_of_violence_experienced: 'Not Applicable',
           application_type: 'initial',
-          protected_ground: 'true',
+          protected_ground: 'Nationality',
         },
         {
           primary_key: 6,
@@ -131,7 +131,7 @@ exports.seed = function (knex) {
           applicant_gender: 'Female',
           type_of_violence_experienced: 'Not Applicable',
           application_type: 'initial',
-          protected_ground: 'true',
+          protected_ground: 'Race',
         },
         {
           primary_key: 7,
@@ -152,7 +152,7 @@ exports.seed = function (knex) {
           applicant_gender: 'Female',
           type_of_violence_experienced: 'Not Applicable',
           application_type: 'initial',
-          protected_ground: 'true',
+          protected_ground: 'Social Group',
         },
         {
           primary_key: 8,
@@ -173,7 +173,7 @@ exports.seed = function (knex) {
           applicant_gender: 'Female',
           type_of_violence_experienced: 'Not Applicable',
           application_type: 'initial',
-          protected_ground: 'true',
+          protected_ground: 'Religion',
         },
         {
           primary_key: 9,
@@ -194,7 +194,7 @@ exports.seed = function (knex) {
           applicant_gender: 'Female',
           type_of_violence_experienced: 'Not Applicable',
           application_type: 'initial',
-          protected_ground: 'true',
+          protected_ground: 'Political Opinion',
         },
         {
           primary_key: 10,
@@ -215,7 +215,7 @@ exports.seed = function (knex) {
           applicant_gender: 'Female',
           type_of_violence_experienced: 'Not Applicable',
           application_type: 'initial',
-          protected_ground: 'true',
+          protected_ground: 'Nationality',
         },
         {
           primary_key: 11,
@@ -236,7 +236,7 @@ exports.seed = function (knex) {
           applicant_gender: 'Female',
           type_of_violence_experienced: 'Not Applicable',
           application_type: 'initial',
-          protected_ground: 'true',
+          protected_ground: 'Political Opinion',
         },
         {
           primary_key: 12,
@@ -257,7 +257,7 @@ exports.seed = function (knex) {
           applicant_gender: 'Female',
           type_of_violence_experienced: 'Not Applicable',
           application_type: 'initial',
-          protected_ground: 'true',
+          protected_ground: 'Social Group',
         },
         {
           primary_key: 13,
@@ -278,7 +278,7 @@ exports.seed = function (knex) {
           applicant_gender: 'Female',
           type_of_violence_experienced: 'Not Applicable',
           application_type: 'initial',
-          protected_ground: 'true',
+          protected_ground: 'Race',
         },
         {
           primary_key: 14,
@@ -299,7 +299,7 @@ exports.seed = function (knex) {
           applicant_gender: 'Female',
           type_of_violence_experienced: 'Not Applicable',
           application_type: 'initial',
-          protected_ground: 'true',
+          protected_ground: 'Social Group',
         },
         {
           primary_key: 15,
@@ -320,7 +320,7 @@ exports.seed = function (knex) {
           applicant_gender: 'Female',
           type_of_violence_experienced: 'Not Applicable',
           application_type: 'initial',
-          protected_ground: 'true',
+          protected_ground: 'Religion',
         },
       ]);
     });
