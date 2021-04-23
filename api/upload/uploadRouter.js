@@ -18,12 +18,13 @@ const uploadFile = (fileName) => {
     path.join(__dirname, `/uploads/${fileName}.pdf`)
   );
 
-  const params = {
-    Bucket: process.env.AWS_BUCKET,
-    Key: `${fileName}.pdf`,
-    Body: fileContent,
-  };
-  const s3Upload = s3.upload(params).promise();
+  const s3Upload = s3
+    .upload({
+      Bucket: process.env.AWS_BUCKET,
+      Key: `${fileName}.pdf`,
+      Body: fileContent,
+    })
+    .promise();
 
   return s3Upload
     .then((res) => {
@@ -52,18 +53,22 @@ router.post('/', (req, res) => {
   }
 
   let targetFile = req.files.target_file;
-  let leUUID = uuidv4();
+  let UUID = uuidv4();
 
-  targetFile.mv(path.join(__dirname, 'uploads', `${leUUID}.pdf`), (err) => {
+  targetFile.mv(path.join(__dirname, 'uploads', `${UUID}.pdf`), (err) => {
     if (err) return res.status(500).send(err);
-    uploadFile(leUUID)
-      .then(() => {
+    uploadFile(UUID)
+      .then((s3return) => {
         axios
-          .post(`${process.env.DS_API_URL}${leUUID}`, { name: leUUID })
+          .post(`${process.env.DS_API_URL}${UUID}`, { name: UUID })
           .then((scrape) => {
             const result = scrape.data.body;
-            // Any newCase value that doesnt reference the result should be considered a work in progress of the scraper and will need to be updated as the scraper grows
+            // Any newCase value that doesn't reference the result should be considered a work in progress of the scraper and will need to be updated as the scraper grows
+            console.log(result);
             const newCase = {
+              case_id: UUID,
+              case_url: s3return.Location,
+              case_number: '',
               date: result.date,
               judge: '',
               case_outcome: result.outcome,
