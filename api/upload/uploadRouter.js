@@ -81,7 +81,7 @@ router.post('/', (req, res) => {
               applicant_language: '',
               indigenous_group: '',
               type_of_violence: '',
-              initial_or_appellate: false,
+              appellate: false,
               filed_in_one_year: false,
               credible: false,
             };
