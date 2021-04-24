@@ -12,17 +12,18 @@ const findAll = async () => {
 };
 
 // * This function takes a moment because of the data attached
-const findById = async (primary_key) => {
+// Update this with case_id instead of case_number once it's all working
+const findById = async (case_number) => {
   const cases = await db('cases as c')
-    .where({ primary_key })
+    .where({ case_number })
     .first()
     .join('judges as j', 'j.judge_id', 'c.judge')
     .select('c.*', 'j.name as judge_name');
   let protected_ground = await db('protected_join')
-    .where({ case_id: primary_key })
+    .where({ case_id: case_number })
     .select('protected_ground');
   let social_groups = await db('social_join')
-    .where({ case_id: primary_key })
+    .where({ case_id: case_number })
     .select('social_group');
 
   if (protected_ground.length > 0) {
@@ -56,9 +57,9 @@ const findBy = async (filter) => {
     .select('c.*', 'j.name as judge_name');
 };
 
-const writeCSV = async (primary_key) => {
+const writeCSV = async (case_number) => {
   // *  get only case data
-  const case_data = await findById(primary_key);
+  const case_data = await findById(case_number);
 
   // * create fields
   const case_fields = [];
@@ -78,8 +79,8 @@ const writeCSV = async (primary_key) => {
   }
 };
 
-const update = async (primary_key, changes) => {
-  return await db('cases').where({ primary_key }).update(changes);
+const update = async (case_number, changes) => {
+  return await db('cases').where({ case_number }).update(changes);
 };
 
 module.exports = {
