@@ -232,7 +232,8 @@ router.post('/', authRequired, async (req, res) => {
           const appUser = {
             id: user.id,
             email: profile.email,
-            name: profile.firstName + ' ' + profile.lastName,
+            firstName: profile.firstName,
+            lastName: profile.lastName,
             role: profile.role,
           };
           Profiles.create(appUser).then((profile) =>
@@ -302,24 +303,35 @@ router.post('/pending', (req, res) => {
  *                profile:
  *                  $ref: '#/components/schemas/Profile'
  */
-router.put('/', authRequired, (req, res) => {
+router.put('/:id', authRequired, (req, res) => {
   const profile = req.body;
+  const id = req.params.id;
   if (profile) {
-    const id = profile.id || 0;
     Profiles.findById(id)
       .then(
-        Profiles.update(id, profile)
-          .then((updated) => {
-            res
-              .status(200)
-              .json({ message: 'profile created', profile: updated[0] });
+        client
+          .getUser(id)
+          .then((user) => {
+            user.profile.firstName = profile.firstName;
+            user.profile.lastName = profile.lastName;
+            user.profile.email = profile.email;
+            user.update();
+            Profiles.update(id, profile)
+              .then((updated) => {
+                res
+                  .status(200)
+                  .json({ message: 'profile created', profile: updated[0] });
+              })
+              .catch((err) => {
+                res.status(500).json({
+                  message: `Could not update profile '${id}'`,
+                  error: err.message,
+                });
+              });
           })
-          .catch((err) => {
-            res.status(500).json({
-              message: `Could not update profile '${id}'`,
-              error: err.message,
-            });
-          })
+          .catch(() =>
+            res.json({ message: 'Okta failed to update this profile' })
+          )
       )
       .catch((err) => {
         res.status(404).json({
@@ -363,6 +375,13 @@ router.delete('/:id', authRequired, (req, res) => {
   const id = req.params.id;
   try {
     Profiles.findById(id).then((profile) => {
+      client
+        .getUser(id)
+        .then((user) => {
+          console.log(user);
+          user.deactivate().then(() => user.delete());
+        })
+        .catch(() => res.json({ message: 'Okta failed to delete this user' }));
       Profiles.remove(profile.id).then(() => {
         res
           .status(200)
