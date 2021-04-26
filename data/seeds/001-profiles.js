@@ -3,7 +3,8 @@
 const profiles = [...new Array(6)].map((i, idx) => ({
   id: idx + 1,
   email: `llama00${idx + 1}@maildrop.cc`,
-  name: idx < 2 ? `Admin${idx + 1}` : `User${idx + 1}`,
+  firstName: idx < 2 ? `Admin` : `User`,
+  lastName: idx < 2 ? `${idx + 1}` : `${idx + 1}`,
   role: idx < 2 ? 'admin' : 'user',
 }));
 
