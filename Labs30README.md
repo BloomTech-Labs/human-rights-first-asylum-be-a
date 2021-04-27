@@ -8,7 +8,10 @@
 
 ### Dependencies
 
-[All Dependencies](package.json)
+[cacache](https://www.npmjs.com/package/cacache)
+[cron](https://www.npmjs.com/package/cron)
+[json2csv](https://www.npmjs.com/package/json2csv)
+[aws-sdk](https://www.npmjs.com/package/aws-sdk)
 
 ### To get started:
 
@@ -16,20 +19,11 @@
 - Clone the repo locally to your machine
 - Create an .env file on the top level of the repo, with the provided credentials.
 - run: `npm install` to download all dependencies.
-- run: `npm run knex migrate:latest` to migrate database.
-- run: `npm run knex seed:run` to seed the database
 - run: `npm run watch:dev` to start your local development server.
 
 ### Current Back-End Database Schema
 
 ![Asylum Case Analyzer - Database Schema](./reference/current_db_schema.png?raw=true)
-
-## Labs 33
-
-- Currently, some endpoints require authentication. In the future, auth will need to be added to all endpoints however it has not been done yet to make it easier for the entire team to work with the data.
-- Authentication middleware `./middleware/authRequired.js` is fully functional need to be added to each endpoints which needs authentication.
-- The `.env.sample` file contains all of the environment variables needed and where to find the values in order to run the project locally.
-- There`s a API endpoint implemented by previous teams called [Swagger docs](https://asylum-a-api.herokuapp.com/api-docs/) API information in these documantation is not accurate. Swagger docs needs to be cleaned from code. For accurate API documantation please refer to [this file](api/APIDOC.md)
 
 ## Labs30 Notes
 
