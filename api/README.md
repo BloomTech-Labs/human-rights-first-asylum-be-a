@@ -30,7 +30,7 @@
 - Currently, some endpoints require authentication. In the future, auth will need to be added to all endpoints however it has not been done yet to make it easier for the entire team to work with the data.
 - Authentication middleware `./middleware/authRequired.js` is fully functional need to be added to each endpoints which needs authentication.
 - The `.env.sample` file contains all of the environment variables needed and where to find the values in order to run the project locally.
-- There`s a API endpoint implemented by previous teams called [Swagger docs](https://asylum-a-api.herokuapp.com/api-docs/) API information in these documantation is not accurate. Swagger docs needs to be cleaned from code. Accurate and up-to-date API documantation please refer to [this readme file](api/APIDOC.md)
+- There`s a API endpoint implemented by previous teams called [Swagger docs](https://asylum-a-api.herokuapp.com/api-docs/) API information in these documantation is not accurate. Swagger docs needs to be cleaned from code. Accurate and up-to-date API documantation please refer to [this readme file](APIDOC.md)
 
 ## Contributors
 
