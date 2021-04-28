@@ -46,10 +46,11 @@ app.use(
 
 app.use(helmet());
 app.use(express.json());
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  next();
-});
+app.use(
+  cors({
+    origin: process.env.LOCAL_ORIGIN || 'https://a.humanrightsfirstasylum.dev',
+  })
+);
 app.use(logger('dev'));
 // app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
