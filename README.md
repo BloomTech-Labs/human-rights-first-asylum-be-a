@@ -8,6 +8,8 @@ Human Rights First (HRF) is a non-profit, nonpartisan, 501(c)(3), international 
 
 [Detailed Back-End Documentation](api/readme.md)
 
+[API documentation](api/apidoc.md)
+
 ## Codebases
 
 [Front-End](https://github.com/Lambda-School-Labs/human-rights-first-asylum-fe-a)
