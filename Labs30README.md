@@ -1,31 +1,66 @@
-## Product Mission and Goals
+# Human Rights First - Asylum - Back End
 
-Human Rights First (HRF) is a non-profit, nonpartisan, 501(c)(3), international human rights organization based in New York, Washington D.C., Houston, and Los Angeles. [HRF](https://www.humanrightsfirst.org/asylum) works to link immigration attorneys and advocates with asylum seekers and provide those attorneys with resources to best represent their clients. Our application leverages historical data to better inform advocates of a judge’s past decisions. The hope is that advocates for asylum seekers can use our tools to tailor their arguments before a particular judge and maximize their client's chances of receiving asylum.
+- This project is built with the Basic Node API Scaffold. To get started with the project, go [here](https://docs.labs.lambdaschool.com/labs-api-strarter/) and follow the instructions. Be sure to read the instructions carefully. We found it easiest to use ElephantSQL for setting up your local database.
+- [Project deployed here](https://asylum-a-api.herokuapp.com/), using Heroku Postgres.
+- [View the Swagger docs](https://asylum-a-api.herokuapp.com/api-docs/) (backend endpoint visualization)
+- [Corresponding Front-end Repository](https://github.com/Lambda-School-Labs/human-rights-first-asylum-fe-a)
+- [Front-end deployment](https://a.humanrightsfirstasylum.dev/), using AWS Amplify.
 
-## Architecture and Team Roles
+### Dependencies
 
-[Architecture](reference/architecture.png)
+[cacache](https://www.npmjs.com/package/cacache)
+[cron](https://www.npmjs.com/package/cron)
+[json2csv](https://www.npmjs.com/package/json2csv)
+[aws-sdk](https://www.npmjs.com/package/aws-sdk)
 
-## Codebases
+### To get started:
 
-[Front-End](https://github.com/Lambda-School-Labs/human-rights-first-asylum-fe-a)
+- Create a local Postgres database/instance.
+- Clone the repo locally to your machine
+- Create an .env file on the top level of the repo, with the provided credentials.
+- run: `npm install` to download all dependencies.
+- run: `npm run watch:dev` to start your local development server.
 
-[Back-End](api/README.md)
+### Current Back-End Database Schema
 
-[Data Science](https://github.com/Lambda-School-Labs/Lambda-School-Labs-human-rights-first-asylum-ds-a)
+![Asylum Case Analyzer - Database Schema](./reference/current_db_schema.png?raw=true)
 
-This part of the application uses optical character recognition (OCR) to convert pdf images into text data that can be searched via natural language processing (NLP) techniques. Key data, which we refer to as structured fields, are extracted from the text data and sent to the back-end for storage.
+## Labs30 Notes
+
+- There are several comments throughout the code that are in place for the Swagger docs, these comments should remain untouched unless the endpoints change.
+- Once there is an actionable API from DS, this backend will use AWS to connect to the API and update our database. This `update` function can be found in `./utils/update.js`
+- Currently, there is a function to clear this cache every 30 days (located in `./utils/update.js`), but it is currently commented out. We are still waiting for a working DS model before we uncomment that file.
+- As we near the end of labs, we are learning of some potential changes from the stakeholder regarding judge types, the stakeholder now wants to keep track of Board of Immigration Appeals (BIA) judges that are assigned to cases as well as the Immigration Judge (IJ) assigned. This could mean that the database as it stands will need to be redone and new queries will need to be written in the `judgeModel`. If this new information is confirmed, there will be a lot of work to be done. We have drawn up a proposed database schema in the event that a rework of the database is necessary. Both the current database schema and the proposed database schema can be found in `./reference`.
+- Currently, only the `/profile` endpoints require authentication. In the future, auth will need to be added to all endpoints however it has not been done yet to make it easier for the entire team to work with the data.
+- Adding profiles was not in scope for this iteration, but there is an endpoint created for it. Because of the Okta integration, we were told that adding profiles was not something we would be doing.
+- The `.env.sample` file contains all of the environment variables needed and where to find the values in order to run the project locally.
+- It is encouraged that you install the "Better Comments" extension for VSCode, there are several comments that were written with this extension in mind.
+
+### Proposed Back-End Database Schema with BIA Judges
+
+![Asylum Case Analyzer - Database Schema](./reference/proposed_db_schema.jpg?raw=true)
+
+### Bugs
+
+- No known bugs!
+
+### Uncompleted Tasks
+
+- Add auth to various endpoints
+- Add an edit case endpoint
+
+### Improvements
+
+- Better mock seed data. Currently, only user profiles, cases, and judges are seeded. Future seeding:
+  - Protected Grounds: Race, Religion, Nationality, Political Opinion, Protected Social Group
+  - Protected Social Groups
+  - All Join tables
+- DS - Code has not been tested whether it will properly post to datascience Postgres database. Datascience PG database was unavailable during the project.
+- The update function written in middleware only works in theory. Once the DS server is up, it will need to be tested and tweaked.
+- Testing needs to be written more fully. The only tests that reliably pass are the profile tests.
+- Some Case PDFs have the case ID's redacted. If it is not provided by the DS db, we need to generate an (autoincremented) ID
 
 ## Contributors
-
-### Labs33
-
-|                                                                                                                                 |                                                                                                                                     |                                                                                                                            |
-| :-----------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------: |
-|                                          [Senih Aydin](https://github.com/aydinsenih)                                           |                                          [Christina Melchor](https://github.com/c-melchor)                                          |                                         [Cameron Mirza](https://github.com/cmirza)                                         |
-| [<img src="https://avatars.githubusercontent.com/u/35286437?v=4" width = "200" align="center"/>](https://github.com/aydinsenih) |   [<img src="https://avatars.githubusercontent.com/u/71955286?v=4" width = "200" align="center"/>](https://github.com/c-melchor)    | [<img src="https://avatars.githubusercontent.com/u/7876859?v=4" width = "200" align="center"/>](https://github.com/cmirza) |
-|                                          [Rees Harper](https://github.com/reesharper)                                           |                                        [Matthew Justice](https://github.com/JusticeMatthew)                                         |
-| [<img src="https://avatars.githubusercontent.com/u/70249966?v=4" width = "200" align="center"/>](https://github.com/reesharper) | [<img src="https://avatars.githubusercontent.com/u/72817096?v=4" width = "200" align="center"/>](https://github.com/JusticeMatthew) |
 
 ### Labs29 - Team A
 
