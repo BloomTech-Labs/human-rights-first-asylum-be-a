@@ -11,22 +11,23 @@
 ###### Referance case schema:
 
     {
-        "primary_key": "2",
+        "case_id": "2",
         "user_id": "00ulzdrizE2yzxToH5d6",
-        "case_id": "A079-531-484",
+        "case_number": "A079-531-484",
         "case_url": "2ff54195-ce30-456c-be63-2a6c765bdce2.pdf",
-        "initial_or_appellate": true,
-        "hearing_date": "8-30-2012",
+        "appellate": true,
+        "date": "8-30-2012",
         "judge": "7",
-        "case_origin": "Los Angeles, CA",
-        "case_filed_within_one_year": true,
+        "case_origin_city": "Los Angeles",
+        "case_origin_state": "CA",
+        "filed_in_one_year": true,
         "application_type": "initial",
-        "protected_ground": "race, social group",
+        "protected_grounds": "race, social group",
         "case_outcome": "Granted",
         "nation_of_origin": "El Salvador",
-        "applicant_gender": "Female",
-        "type_of_violence_experienced": "Not Applicable",
-        "applicant_indigenous_group": "Not Applicable",
+        "gender": "Female",
+        "type_of_violence": "Not Applicable",
+        "indigenous_group": "Not Applicable",
         "applicant_language": "English",
         "applicant_access_to_interpreter": true,
         "applicant_perceived_credibility": false,
@@ -111,7 +112,7 @@
 | GET    | `/tags/grounds` | -            | `[]`    |
 | GET    | `/tags/social`  | -            | `[]`    |
 
-## NewCase
+<!-- ## NewCase
 
 ###### Referance newcase schema:
 
@@ -141,4 +142,4 @@
 | GET    | `/newcase`         | -                   | `[referance newcase]` |
 | POST   | `/newcase`         | `Referance newcase` | `{created_case}`      |
 | POST   | `/newcase/approve` | `{id}`              | `{approved_case}`     |
-| DELETE | `/newcase/:id`     | -                   | `{message}`           |
+| DELETE | `/newcase/:id`     | -                   | `{message}`           | -->
