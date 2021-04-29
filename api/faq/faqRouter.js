@@ -2,6 +2,16 @@ const express = require('express');
 const authRequired = require('../middleware/authRequired');
 const FAQ = require('./faqModel');
 const router = express.Router();
+const nodemailer = require('nodemailer');
+
+const contactEmail = nodemailer.createTransport({
+  host: process.env.CONTACT_EMAIL_HOST,
+  port: 587,
+  auth: {
+    user: process.env.CONTACT_EMAIL,
+    pass: process.env.CONTACT_EMAIL_PASSWORD,
+  },
+});
 
 router.get('/', authRequired, function (req, res) {
   FAQ.findAll()
@@ -71,6 +81,25 @@ router.delete('/:id', authRequired, (req, res) => {
       error: err.message,
     });
   }
+});
+
+router.post('/contact', authRequired, (req, res) => {
+  const name = req.body.name;
+  const email = req.body.email;
+  const message = req.body.message;
+  const mail = {
+    from: name,
+    to: process.env.CONTACT_EMAIL,
+    subject: 'Contact Form Message',
+    html: `<p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p><strong>Message:</strong> ${message}</p>`,
+  };
+  contactEmail.sendMail(mail, (error) => {
+    if (error) {
+      res.json({ status: 'failed' });
+    } else {
+      res.json({ status: 'sent' });
+    }
+  });
 });
 
 module.exports = router;
