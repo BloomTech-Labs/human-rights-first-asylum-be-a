@@ -16,6 +16,8 @@ Human Rights First (HRF) is a non-profit, nonpartisan, 501(c)(3), international 
 
 [Back-End](https://github.com/Lambda-School-Labs/human-rights-first-asylum-be-a)
 
+Uses Javascript, Express, and Postgres to manage databases containing tables for users, judges, and cases.
+
 [Data Science](https://github.com/Lambda-School-Labs/Lambda-School-Labs-human-rights-first-asylum-ds-a)
 
 This part of the application uses optical character recognition (OCR) to convert pdf images into text data that can be searched via natural language processing (NLP) techniques. Key data, which we refer to as structured fields, are extracted from the text data and sent to the back-end for storage.
