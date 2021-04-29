@@ -19,34 +19,6 @@ const findById = async (case_number) => {
     .first()
     .join('judges as j', 'j.judge_id', 'c.judge')
     .select('c.*', 'j.name as judge_name');
-  let protected_ground = await db('protected_join')
-    .where({ case_id: case_number })
-    .select('protected_ground');
-  let social_groups = await db('social_join')
-    .where({ case_id: case_number })
-    .select('social_group');
-
-  if (protected_ground.length > 0) {
-    let tags = [];
-    for (let i = 0; i < protected_ground.length; i++) {
-      const tag = Object.values(protected_ground[i]);
-      tags.push(tag);
-    }
-    protected_ground = tags;
-  }
-
-  if (social_groups.length > 0) {
-    let tags = [];
-    for (let i = 0; i < social_groups.length; i++) {
-      const tag = Object.values(social_groups[i]);
-      tags.push(tag);
-    }
-    social_groups = tags;
-  }
-
-  cases['protected_ground_join'] = protected_ground;
-  cases['social_group_type'] = social_groups;
-
   return cases;
 };
 
