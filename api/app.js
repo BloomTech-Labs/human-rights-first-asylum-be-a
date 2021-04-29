@@ -49,7 +49,6 @@ app.use(express.json());
 app.use(
   cors({
     origin: process.env.LOCAL_ORIGIN || 'https://a.humanrightsfirstasylum.dev',
-    methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
   })
 );
 app.use(logger('dev'));
@@ -62,7 +61,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // application routes
 app.use('/', indexRouter);
-app.use('/upload', uploadRouter);
+app.use('/upload-case', uploadRouter);
 app.use(['/profile', '/profiles'], profileRouter);
 app.use(['/judge', '/judges'], judgeRouter);
 app.use(['/case', '/cases'], caseRouter);
