@@ -7,6 +7,7 @@ const fs = require('fs');
 const AWS = require('aws-sdk');
 const router = express.Router();
 require('dotenv').config();
+const authRequired = require('../middleware/authRequired');
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY,
@@ -46,7 +47,7 @@ router.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-router.post('/', (req, res) => {
+router.post('/', authRequired, (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     console.log(req);
     return res.status(400).send('No files were uploaded.');
