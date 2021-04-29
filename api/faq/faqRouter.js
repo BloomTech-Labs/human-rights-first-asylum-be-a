@@ -84,14 +84,11 @@ router.delete('/:id', authRequired, (req, res) => {
 });
 
 router.post('/contact', authRequired, (req, res) => {
-  const name = req.body.name;
-  const email = req.body.email;
-  const message = req.body.message;
   const mail = {
-    from: name,
+    from: req.body.name,
     to: process.env.CONTACT_EMAIL,
     subject: 'Contact Form Message',
-    html: `<p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p><strong>Message:</strong> ${message}</p>`,
+    html: `<p><strong>Name:</strong> ${req.body.name}</p><p><strong>Email:</strong> ${req.body.email}</p><p><strong>Message:</strong> ${req.body.message}</p>`,
   };
   contactEmail.sendMail(mail, (error) => {
     if (error) {
