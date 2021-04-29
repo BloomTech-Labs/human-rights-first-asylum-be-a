@@ -44,14 +44,14 @@ app.use(
   swaggerUi.setup(swaggerSpec, swaggerUIOptions)
 );
 
-app.use(helmet());
-app.use(express.json());
 app.use(
   cors({
     origin: process.env.LOCAL_ORIGIN || '*',
     methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
   })
 );
+app.use(helmet());
+app.use(express.json());
 app.use(logger('dev'));
 // app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
