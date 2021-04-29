@@ -29,6 +29,7 @@ const manageRouter = require('./manageCases/manageRouter');
 const newCaseRouter = require('./newCases/newCaseRouter');
 const tagRouter = require('./tags/tagRouter');
 const uploadRouter = require('./upload/uploadRouter');
+const faqRouter = require('./faq/faqRouter');
 
 const app = express();
 
@@ -48,7 +49,6 @@ app.use(express.json());
 app.use(
   cors({
     origin: process.env.LOCAL_ORIGIN || 'https://a.humanrightsfirstasylum.dev',
-    credentials: true,
   })
 );
 app.use(logger('dev'));
@@ -69,6 +69,7 @@ app.use('/manage', manageRouter);
 app.use('/newcase', newCaseRouter);
 app.use('/tags', tagRouter);
 app.use('/data', dsRouter);
+app.use('/faq', faqRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
