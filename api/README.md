@@ -1,20 +1,36 @@
-## Product Mission and Goals
+# Human Rights First - Asylum - Back End
 
-Human Rights First (HRF) is a non-profit, nonpartisan, 501(c)(3), international human rights organization based in New York, Washington D.C., Houston, and Los Angeles. [HRF](https://www.humanrightsfirst.org/asylum) works to link immigration attorneys and advocates with asylum seekers and provide those attorneys with resources to best represent their clients. Our application leverages historical data to better inform advocates of a judge’s past decisions. The hope is that advocates for asylum seekers can use our tools to tailor their arguments before a particular judge and maximize their client's chances of receiving asylum.
+- This project is built with the Basic Node API Scaffold. To get started with the project, go [here](https://docs.labs.lambdaschool.com/labs-api-strarter/) and follow the instructions. Be sure to read the instructions carefully. We found it easiest to use ElephantSQL for setting up your local database.
+- [Project deployed here](https://asylum-a-api.herokuapp.com/), using Heroku Postgres.
+- [Corresponding Front-end Repository](https://github.com/Lambda-School-Labs/human-rights-first-asylum-fe-a)
+- [Front-end deployment](https://a.humanrightsfirstasylum.dev/), using AWS Amplify.
 
-## Architecture and Team Roles
+### Dependencies
 
-[Architecture](reference/architecture.png)
+[All Dependencies](package.json)
 
-## Codebases
+### To get started:
 
-[Front-End](https://github.com/Lambda-School-Labs/human-rights-first-asylum-fe-a)
+- Create a local Postgres database/instance.
+- Clone the repo locally to your machine
+- Create an .env file on the top level of the repo, with the provided credentials.
+- run: `npm install` to download all dependencies.
+- run: `npm run knex migrate:latest` to migrate database.
+- run: `npm run knex seed:run` to seed the database
+- run: `npm run watch:dev` to start your local development server.
 
-[Back-End](api/README.md)
+### Current Back-End Database Schema
 
-[Data Science](https://github.com/Lambda-School-Labs/Lambda-School-Labs-human-rights-first-asylum-ds-a)
+![Asylum Case Analyzer - Database Schema](./reference/current_db_schema.png?raw=true)
 
-This part of the application uses optical character recognition (OCR) to convert pdf images into text data that can be searched via natural language processing (NLP) techniques. Key data, which we refer to as structured fields, are extracted from the text data and sent to the back-end for storage.
+- positive and negative tags tables removed.
+
+## Labs 33
+
+- Currently, some endpoints require authentication. In the future, auth will need to be added to all endpoints however it has not been done yet to make it easier for the entire team to work with the data.
+- Authentication middleware `./middleware/authRequired.js` is fully functional need to be added to each endpoints which needs authentication.
+- The `.env.sample` file contains all of the environment variables needed and where to find the values in order to run the project locally.
+- There`s a API endpoint implemented by previous teams called [Swagger docs](https://asylum-a-api.herokuapp.com/api-docs/) API information in these documantation is not accurate. Swagger docs needs to be cleaned from code. Accurate and up-to-date API documantation please refer to [this readme file](api/APIDOC.md)
 
 ## Contributors
 
