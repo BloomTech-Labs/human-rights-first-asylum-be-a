@@ -44,14 +44,13 @@ app.use(
   swaggerUi.setup(swaggerSpec, swaggerUIOptions)
 );
 
-app.use(
-  cors({
-    origin: process.env.LOCAL_ORIGIN || '*',
-    methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
-  })
-);
 app.use(helmet());
 app.use(express.json());
+app.use(
+  cors({
+    origin: process.env.LOCAL_ORIGIN || 'https://a.humanrightsfirstasylum.dev',
+  })
+);
 app.use(logger('dev'));
 // app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -62,7 +61,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // application routes
 app.use('/', indexRouter);
-app.use('/upload', uploadRouter);
+app.use('/upload-case', uploadRouter);
 app.use(['/profile', '/profiles'], profileRouter);
 app.use(['/judge', '/judges'], judgeRouter);
 app.use(['/case', '/cases'], caseRouter);
