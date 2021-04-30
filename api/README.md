@@ -24,6 +24,7 @@
 ![Asylum Case Analyzer - Database Schema](./reference/current_db_schema.png?raw=true)
 
 - positive and negative tags tables removed.
+- case table updated see migration file for updated case table
 
 ## Labs 33
 

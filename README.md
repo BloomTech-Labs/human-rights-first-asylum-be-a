@@ -36,6 +36,10 @@ Uses Javascript, Express, and Postgres to manage databases containing tables for
 
 This part of the application uses optical character recognition (OCR) to convert pdf images into text data that can be searched via natural language processing (NLP) techniques. Key data, which we refer to as structured fields, are extracted from the text data and sent to the back-end for storage.
 
+## Known Bugs
+
+Please see [KnownDefects](KnownDefects.md) file
+
 ## Contributors
 
 ### Labs33
