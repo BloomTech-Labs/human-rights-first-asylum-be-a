@@ -11,27 +11,28 @@
 ###### Referance case schema:
 
     {
-        "case_id": "2",
+        "case_id": "2ff54195-ce30-456c-be63-2a6c765bdce2",
         "user_id": "00ulzdrizE2yzxToH5d6",
-        "case_number": "A079-531-484",
-        "case_url": "2ff54195-ce30-456c-be63-2a6c765bdce2.pdf",
-        "appellate": true,
-        "date": "8-30-2012",
-        "judge": "7",
-        "case_origin_city": "Los Angeles",
-        "case_origin_state": "CA",
-        "filed_in_one_year": true,
+        "case_url": "https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf",
+        "case_number": "A094-216-526",
+        "date": "1-24-2013",
+        "judge": "1",
+        "case_outcome": "Denied",
+        "country_of_origin": "Mexico",
+        "protected_grounds": "Social Group",
         "application_type": "initial",
-        "protected_grounds": "race, social group",
-        "case_outcome": "Granted",
-        "nation_of_origin": "El Salvador",
-        "gender": "Female",
-        "type_of_violence": "Not Applicable",
+        "case_origin_city": "Baltimore",
+        "case_origin_state": "MD",
+        "gender": "Male",
+        "applicant_language": "Spanish",
         "indigenous_group": "Not Applicable",
-        "applicant_language": "English",
-        "applicant_access_to_interpreter": true,
-        "applicant_perceived_credibility": false,
-        "judge_name": "Gary D. Malphrus",
+        "type_of_violence": "Not Applicable",
+        "appellate": false,
+        "filed_in_one_year": false,
+        "credible": true,
+        "status": "approved",
+        "uploaded": "1",
+        "judge_name": "David W. Crosland"
     }
 
 | Method | Endpoint                  | Request Body     | Returns                          |
@@ -112,7 +113,9 @@
 | GET    | `/tags/grounds` | -            | `[]`    |
 | GET    | `/tags/social`  | -            | `[]`    |
 
-<!-- ## NewCase
+## NewCase
+
+#### Deprecated!!!
 
 ###### Referance newcase schema:
 
@@ -142,4 +145,4 @@
 | GET    | `/newcase`         | -                   | `[referance newcase]` |
 | POST   | `/newcase`         | `Referance newcase` | `{created_case}`      |
 | POST   | `/newcase/approve` | `{id}`              | `{approved_case}`     |
-| DELETE | `/newcase/:id`     | -                   | `{message}`           | -->
+| DELETE | `/newcase/:id`     | -                   | `{message}`           |
