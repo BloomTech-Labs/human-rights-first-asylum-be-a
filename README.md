@@ -10,9 +10,23 @@ Human Rights First (HRF) is a non-profit, nonpartisan, 501(c)(3), international 
 
 [API documentation](api/APIDOC.md)
 
+## Our Role
+
+- Database changes: Removed newCase table with that change all cases approved and pending stored in the same table with a status tag(approved or pending). Database seeds match with the schema.
+- Superuser role added. Superuser can add, remove, and edit users.
+- Users be able to edit their information including email address, name, etc.
+- Superuser and admins have more item in navigation bar that new items leads to admin only features such as manage users and approve cases.
+- Back-End be able to programatically upload files to s3 bucket
+- Currently, some endpoints require authentication. In the future, auth will need to be added to all endpoints however it has not been done yet to make it easier for the entire team to work with the data.
+- Authentication middleware `./middleware/authRequired.js` is fully functional needs to be added to each endpoints which needs authentication.
+- The `.env.sample` file contains all of the environment variables needed and where to find the values in order to run the project locally.
+- There`s a API endpoint implemented by previous teams called [Swagger docs](https://asylum-a-api.herokuapp.com/api-docs/) API information in these documantation is not accurate. Swagger docs needs to be cleaned from code. For accurate and up-to-date API documantation please refer to [this file](APIDOC.md)
+
 ## Codebases
 
 [Front-End](https://github.com/Lambda-School-Labs/human-rights-first-asylum-fe-a)
+
+Uses NodeJS to create the web-based user interface for uploading case documents, managing users, and viewing data in the form of tables and visualizations.
 
 [Back-End](https://github.com/Lambda-School-Labs/human-rights-first-asylum-be-a)
 
