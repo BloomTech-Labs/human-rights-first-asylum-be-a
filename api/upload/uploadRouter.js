@@ -52,20 +52,28 @@ router.post('/', authRequired, (req, res) => {
     console.log(req);
     return res.status(400).send('No files were uploaded.');
   }
-
   let targetFile = req.files.target_file;
   let UUID = uuidv4();
-
   targetFile.mv(path.join(__dirname, 'uploads', `${UUID}.pdf`), (err) => {
-    if (err) return res.status(500).send(err);
+    if (err) {
+      return res.status(500).send(err);
+    }
     uploadFile(UUID)
       .then((s3return) => {
+        fs.unlink(path.join(__dirname, 'uploads', `${UUID}.pdf`), (err) => {
+          if (err) {
+            return res.status(500).send(err);
+          }
+        });
         axios
           .post(`${process.env.DS_API_URL}${UUID}`, { name: UUID })
           .then((scrape) => {
             const result = scrape.data.body;
             // Any newCase value that doesn't reference the result should be considered a work in progress of the scraper and will need to be updated as the scraper grows
-            console.log(result);
+
+            // this should be for FE to deal with, just send result and/or s3return for location?
+            // This does not take into account that result might send back null values which breaks the FE
+            // these values should be defaulted to '' if result values are null
             const newCase = {
               case_id: UUID,
               case_url: s3return.Location,
