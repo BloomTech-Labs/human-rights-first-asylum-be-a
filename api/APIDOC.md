@@ -11,26 +11,28 @@
 ###### Referance case schema:
 
     {
-        "primary_key": "2",
+        "case_id": "2ff54195-ce30-456c-be63-2a6c765bdce2",
         "user_id": "00ulzdrizE2yzxToH5d6",
-        "case_id": "A079-531-484",
-        "case_url": "2ff54195-ce30-456c-be63-2a6c765bdce2.pdf",
-        "initial_or_appellate": true,
-        "hearing_date": "8-30-2012",
-        "judge": "7",
-        "case_origin": "Los Angeles, CA",
-        "case_filed_within_one_year": true,
+        "case_url": "https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf",
+        "case_number": "A094-216-526",
+        "date": "1-24-2013",
+        "judge": "1",
+        "case_outcome": "Denied",
+        "country_of_origin": "Mexico",
+        "protected_grounds": "Social Group",
         "application_type": "initial",
-        "protected_ground": "race, social group",
-        "case_outcome": "Granted",
-        "nation_of_origin": "El Salvador",
-        "applicant_gender": "Female",
-        "type_of_violence_experienced": "Not Applicable",
-        "applicant_indigenous_group": "Not Applicable",
-        "applicant_language": "English",
-        "applicant_access_to_interpreter": true,
-        "applicant_perceived_credibility": false,
-        "judge_name": "Gary D. Malphrus",
+        "case_origin_city": "Baltimore",
+        "case_origin_state": "MD",
+        "gender": "Male",
+        "applicant_language": "Spanish",
+        "indigenous_group": "Not Applicable",
+        "type_of_violence": "Not Applicable",
+        "appellate": false,
+        "filed_in_one_year": false,
+        "credible": true,
+        "status": "approved",
+        "uploaded": "1",
+        "judge_name": "David W. Crosland"
     }
 
 | Method | Endpoint                  | Request Body     | Returns                          |
@@ -112,6 +114,8 @@
 | GET    | `/tags/social`  | -            | `[]`    |
 
 ## NewCase
+
+#### Deprecated!!!
 
 ###### Referance newcase schema:
 
