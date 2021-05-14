@@ -1,5 +1,5 @@
 const db = require('../../data/db-config');
-const { v4: uuidv4 } = require('uuid');
+// const { v4: uuidv4 } = require('uuid');
 
 const getAll = () => {
   return db('pending_cases');
