@@ -68,6 +68,8 @@ router.post('/', authRequired, (req, res) => {
             // Any newCase value that doesn't reference the result should be considered a work in progress of the scraper and will need to be updated as the scraper grows
             console.log(result);
             console.log(req.profile.id);
+            // there is also a uploaded value that I assume should hold timestamp date that could be added to this object,
+            // could be used for admin to sort unapproved cases by time to approve
             const newCase = {
               pending_case_id: UUID,
               user_id: req.profile.id,
