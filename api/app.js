@@ -64,7 +64,7 @@ app.use('/upload', uploadRouter);
 app.use(['/profile', '/profiles'], profileRouter);
 app.use(['/judge', '/judges'], judgeRouter);
 app.use(['/case', '/cases'], caseRouter);
-app.use('/pendingCase', pendingCaseRouter);
+app.use('/pendingCases', pendingCaseRouter);
 app.use('/tags', tagRouter);
 app.use('/data', dsRouter);
 app.use('/faq', faqRouter);
