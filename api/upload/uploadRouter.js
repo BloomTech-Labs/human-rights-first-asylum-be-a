@@ -7,8 +7,8 @@ const fs = require('fs');
 const AWS = require('aws-sdk');
 const router = express.Router();
 require('dotenv').config();
-const uploadModel = require('./uploadModel');
 const authRequired = require('../middleware/authRequired');
+const Upload = require('./uploadModel');
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -43,6 +43,11 @@ router.use(
     tempFileDir: path.join(__dirname, 'tmp'),
   })
 );
+
+router.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 router.post('/', authRequired, (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     console.log(req);
@@ -62,8 +67,8 @@ router.post('/', authRequired, (req, res) => {
           }
         });
         axios
-          .post(`${process.env.DS_API_URL}${UUID}`, { name: UUID })
-          .then((scrape) => {
+          .post(`${process.env.DS_API_URL}${UUID}`, { name: UUID }) 
+          .then((scrape) => { 
             const result = scrape.data.body;
             // Any newCase value that doesn't reference the result should be considered a work in progress of the scraper and will need to be updated as the scraper grows
             // there is also a uploaded value that I assume should hold timestamp date that could be added to this object,
@@ -90,7 +95,8 @@ router.post('/', authRequired, (req, res) => {
               credible: false,
               status: 'pending',
             };
-            uploadModel.add(newCase);
+            Upload.add(newCase); // this newCase will be used to populate the caseForm component
+            Upload.changeStatus(newCase.pending_case_id, 'review')
             return res.status(200).json({});
           });
       })
