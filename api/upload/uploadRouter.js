@@ -71,7 +71,7 @@ router.post('/', authRequired, (req, res) => {
               pending_case_id: UUID,
               user_id: req.profile.id,
               case_url: s3return.Location,
-              case_number: '',
+              case_number: 'A001-TEST-TEST',
               date: result.date || '',
               judge: '',
               case_outcome: result.outcome || '',
@@ -88,7 +88,9 @@ router.post('/', authRequired, (req, res) => {
               filed_in_one_year: false,
               credible: false,
               status: 'pending',
-              uploaded: `${uploadedDate.getMonth()}-${uploadedDate.getDate()}-${uploadedDate.getFullYear()}`,
+              uploaded: `${
+                uploadedDate.getMonth() + 1
+              }-${uploadedDate.getDate()}-${uploadedDate.getFullYear()}`,
             };
             uploadModel.add(newCase);
             return res.status(200).json({});
