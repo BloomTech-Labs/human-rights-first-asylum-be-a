@@ -5,13 +5,13 @@ const add = async (data) => {
 };
 
 const changeStatus = (id, newStatus) => {
-    return db('pending_cases')
-    .where({pending_case_id: id})
+  return db('pending_cases')
+    .where({ pending_case_id: id })
     .first()
-    .update({status: newStatus})
-}
+    .update({ status: newStatus })
+};
 
 module.exports = {
   add,
-  changeStatus
+  changeStatus,
 };
