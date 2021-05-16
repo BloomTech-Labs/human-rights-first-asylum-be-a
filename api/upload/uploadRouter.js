@@ -44,10 +44,6 @@ router.use(
   })
 );
 
-router.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
-
 router.post('/', authRequired, (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     console.log(req);
