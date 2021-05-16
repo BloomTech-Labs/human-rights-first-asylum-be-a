@@ -7,11 +7,12 @@ const fs = require('fs');
 const AWS = require('aws-sdk');
 const router = express.Router();
 require('dotenv').config();
+const uploadModel = require('./uploadModel');
 const authRequired = require('../middleware/authRequired');
 
 const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY,
-  secretAccessKey: process.env.AWS_SECRET_KEY,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
 const uploadFile = (fileName) => {
@@ -42,39 +43,41 @@ router.use(
     tempFileDir: path.join(__dirname, 'tmp'),
   })
 );
-
-router.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
-
 router.post('/', authRequired, (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     console.log(req);
     return res.status(400).send('No files were uploaded.');
   }
-
   let targetFile = req.files.target_file;
   let UUID = uuidv4();
-
   targetFile.mv(path.join(__dirname, 'uploads', `${UUID}.pdf`), (err) => {
-    if (err) return res.status(500).send(err);
+    if (err) {
+      return res.status(500).send(err);
+    }
     uploadFile(UUID)
       .then((s3return) => {
+        fs.unlink(path.join(__dirname, 'uploads', `${UUID}.pdf`), (err) => {
+          if (err) {
+            return res.status(500).send(err);
+          }
+        });
         axios
           .post(`${process.env.DS_API_URL}${UUID}`, { name: UUID })
           .then((scrape) => {
             const result = scrape.data.body;
             // Any newCase value that doesn't reference the result should be considered a work in progress of the scraper and will need to be updated as the scraper grows
-            console.log(result);
+            // there is also a uploaded value that I assume should hold timestamp date that could be added to this object,
+            // could be used for admin to sort unapproved cases by time to approve
             const newCase = {
-              case_id: UUID,
+              pending_case_id: UUID,
+              user_id: req.profile.id,
               case_url: s3return.Location,
               case_number: '',
-              date: result.date,
+              date: result.date || '',
               judge: '',
-              case_outcome: result.outcome,
-              country_of_origin: result['country of origin'],
-              protected_grounds: result['protected grounds'],
+              case_outcome: result.outcome || '',
+              country_of_origin: result['country of origin'] || '',
+              protected_grounds: result['protected grounds'] || '',
               application_type: '',
               case_origin_city: '',
               case_origin_state: '',
@@ -85,8 +88,10 @@ router.post('/', authRequired, (req, res) => {
               appellate: false,
               filed_in_one_year: false,
               credible: false,
+              status: 'pending',
             };
-            return res.status(200).json(newCase);
+            uploadModel.add(newCase);
+            return res.status(200).json({});
           });
       })
       .catch((err) => {
