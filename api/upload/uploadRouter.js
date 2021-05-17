@@ -63,8 +63,8 @@ router.post('/', authRequired, (req, res) => {
           }
         });
         axios
-          .post(`${process.env.DS_API_URL}${UUID}`, { name: UUID }) 
-          .then((scrape) => { 
+          .post(`${process.env.DS_API_URL}${UUID}`,{ name: UUID })
+          .then((scrape) => {
             const result = scrape.data.body;
             // Any newCase value that doesn't reference the result should be considered a work in progress of the scraper and will need to be updated as the scraper grows
             // there is also a uploaded value that I assume should hold timestamp date that could be added to this object,
@@ -92,7 +92,7 @@ router.post('/', authRequired, (req, res) => {
               status: 'pending',
             };
             Upload.add(newCase); // this newCase will be used to populate the caseForm component
-            Upload.changeStatus(newCase.pending_case_id, 'review')
+            Upload.changeStatus(newCase.pending_case_id, 'review');
             return res.status(200).json({});
           });
       })
