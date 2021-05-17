@@ -24,7 +24,6 @@ const add = async (data) => {
 // };
 
 const remove = async (pending_case_id) => {
-  console.log(pending_case_id);
   return await db('pending_cases').where({ pending_case_id }).del();
 };
 
