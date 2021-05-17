@@ -8,7 +8,7 @@ const changeStatus = (id, newStatus) => {
   return db('pending_cases')
     .where({ pending_case_id: id })
     .first()
-    .update({ status: newStatus })
+    .update({ status: newStatus });
 };
 
 module.exports = {
