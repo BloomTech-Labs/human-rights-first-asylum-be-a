@@ -4,7 +4,6 @@ exports.seed = function (knex) {
     .then(function () {
       return knex('cases').insert([
         {
-          // Done
           case_id: '2ff54195-ce30-456c-be63-2a6c765bdce2',
           user_id: '00ulzdrizE2yzxToH5d6',
           case_url:
@@ -25,11 +24,8 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: false,
           credible: true,
-          status: 'approved',
-          uploaded: '1',
         },
         {
-          // Done
           case_id: '099f113a-3514-45be-a2c7-9257eded3fe7',
           user_id: '00ulzdrizE2yzxToH5d6',
           case_url:
@@ -50,11 +46,8 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: true,
           credible: false,
-          status: 'approved',
-          uploaded: '2',
         },
         {
-          // Done
           case_id: 'cbd7658f-4c8b-4160-91b6-3bf5d1be6628',
           user_id: '00ulzcegtVucXsfdp5d6',
           case_url:
@@ -75,11 +68,8 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: false,
           credible: true,
-          status: 'approved',
-          uploaded: '3',
         },
         {
-          // Done
           case_id: '90e156ca-8f0d-4ca6-b114-b168e4d1d79e',
           user_id: '00ulzcegtVucXsfdp5d6',
           case_url:
@@ -100,11 +90,8 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: false,
           credible: false,
-          status: 'approved',
-          uploaded: '4',
         },
         {
-          // Done
           case_id: 'e0343942-2053-4499-96e7-85b300eef4eb',
           user_id: '00ulzg60x94UujHsV5d6',
           case_url:
@@ -125,11 +112,8 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: false,
           credible: false,
-          status: 'approved',
-          uploaded: '5',
         },
         {
-          // Done
           case_id: 'f4574526-bb1f-4f20-ae24-75474ee15ee0',
           user_id: '00ulzg60x94UujHsV5d6',
           case_url:
@@ -150,11 +134,8 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: true,
           credible: false,
-          status: 'approved',
-          uploaded: '6',
         },
         {
-          // Done
           case_id: '2a27418f-3444-4f5b-9730-b01609f7b428',
           user_id: '00ulzenirO3Evj2U95d6',
           case_url:
@@ -175,11 +156,8 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: false,
           credible: true,
-          status: 'approved',
-          uploaded: '7',
         },
         {
-          // Done
           case_id: '0da16c93-6fdd-4f0a-8ed6-4c686e675693',
           user_id: '00ulzenirO3Evj2U95d6',
           case_url:
@@ -200,11 +178,8 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: false,
           credible: false,
-          status: 'approved',
-          uploaded: '8',
         },
         {
-          // Done
           case_id: '22726ebf-f968-4610-a3c8-0c5f921fcbf9',
           user_id: '00ulzdb18iCY1wMep5d6',
           case_url:
@@ -225,11 +200,8 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: true,
           credible: false,
-          status: 'approved',
-          uploaded: '9',
         },
         {
-          // Done
           case_id: '75a1fb1b-1ffe-45d6-b347-9ef67d4b9180',
           user_id: '00ulzdb18iCY1wMep5d6',
           case_url:
@@ -250,11 +222,8 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: false,
           credible: false,
-          status: 'approved',
-          uploaded: '10',
         },
         {
-          // Done
           case_id: '04fbe436-da2c-4e20-9cfb-2221ad8e1f29',
           user_id: '00ulzfj6nX79gu0Nh5d6',
           case_url:
@@ -275,11 +244,8 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: false,
           credible: false,
-          status: 'approved',
-          uploaded: '11',
         },
         {
-          // Done
           case_id: '78efa342-4f5a-4e04-bd96-13dadc17bff5',
           user_id: '00ulzfj6nX79gu0Nh5d6',
           case_url:
@@ -300,11 +266,8 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: false,
           credible: false,
-          status: 'approved',
-          uploaded: '12',
         },
         {
-          // Done
           case_id: '10e9b2b1-4eb3-4d7d-b4d7-4b60fa5d42b5',
           user_id: '00ulzdrizE2yzxToH5d6',
           case_url:
@@ -325,11 +288,8 @@ exports.seed = function (knex) {
           appellate: true,
           filed_in_one_year: false,
           credible: false,
-          status: 'approved',
-          uploaded: '13',
         },
         {
-          // Done
           case_id: '90226140-67e6-482c-b21a-b8ee6351879d',
           user_id: '00ulzdrizE2yzxToH5d6',
           case_url:
@@ -350,32 +310,6 @@ exports.seed = function (knex) {
           appellate: true,
           filed_in_one_year: false,
           credible: true,
-          status: 'approved',
-          uploaded: '14',
-        },
-        {
-          case_id: 'be060eeb-f1f3-48c0-b6db-3f8fed6135b9',
-          user_id: '00ulzcegtVucXsfdp5d6',
-          case_url:
-            'https://hrf-asylum-cases.s3.amazonaws.com/70a5a7f0-a6eb-419b-8cfe-dec773762f3a.pdf',
-          case_number: 'A074-787-749',
-          date: '2-28-2013',
-          judge: 3,
-          case_outcome: 'Remanded',
-          country_of_origin: 'Mexico',
-          protected_grounds: 'Religion',
-          application_type: 'initial',
-          case_origin_city: 'Phoenix',
-          case_origin_state: 'AZ',
-          gender: 'Female',
-          applicant_language: 'English',
-          indigenous_group: 'Not Applicable',
-          type_of_violence: 'Not Applicable',
-          appellate: true,
-          filed_in_one_year: true,
-          credible: false,
-          status: 'pending', // For testing of the case approval page
-          uploaded: '15',
         },
       ]);
     });

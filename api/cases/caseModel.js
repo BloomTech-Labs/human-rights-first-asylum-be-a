@@ -28,7 +28,9 @@ const findBy = async (filter) => {
     .join('judges as j', 'j.judge_id', 'c.judge')
     .select('c.*', 'j.name as judge_name');
 };
-
+const findByUserId = (user_id) => {
+  return db('cases').where({ user_id });
+};
 const writeCSV = async (case_number) => {
   // *  get only case data
   const case_data = await findById(case_number);
@@ -62,4 +64,5 @@ module.exports = {
   findBy,
   writeCSV,
   update,
+  findByUserId,
 };

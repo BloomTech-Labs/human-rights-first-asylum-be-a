@@ -23,8 +23,8 @@ const add = async (data) => {
 //   return await db('cases').where({ primary_key: id });
 // };
 
-const remove = async (id) => {
-  return await db('pending_cases').where({ primary_key: id }).del();
+const remove = async (pending_case_id) => {
+  return await db('pending_cases').where({ pending_case_id }).del();
 };
 
 module.exports = {
