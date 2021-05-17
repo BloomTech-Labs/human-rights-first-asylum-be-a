@@ -7,8 +7,8 @@ const fs = require('fs');
 const AWS = require('aws-sdk');
 const router = express.Router();
 require('dotenv').config();
-const uploadModel = require('./uploadModel');
 const authRequired = require('../middleware/authRequired');
+const Upload = require('./uploadModel');
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -43,6 +43,7 @@ router.use(
     tempFileDir: path.join(__dirname, 'tmp'),
   })
 );
+
 router.post('/', authRequired, (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     console.log(req);
@@ -90,7 +91,8 @@ router.post('/', authRequired, (req, res) => {
               credible: false,
               status: 'pending',
             };
-            uploadModel.add(newCase);
+            Upload.add(newCase); // this newCase will be used to populate the caseForm component
+            Upload.changeStatus(newCase.pending_case_id, 'review');
             return res.status(200).json({});
           });
       })
