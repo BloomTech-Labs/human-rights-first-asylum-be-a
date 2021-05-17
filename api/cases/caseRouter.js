@@ -93,7 +93,6 @@ router.put('/:id', (req, res) => {
     });
 });
 router.get('/user/:id', (req, res) => {
-  console.log(req.profile.id);
   Cases.findByUserId(req.profile.id)
     .then((userCases) => {
       res.status(200).json(userCases);
