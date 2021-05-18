@@ -46,7 +46,6 @@ router.use(
 
 router.post('/', authRequired, (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
-    console.log(req);
     return res.status(400).send('No files were uploaded.');
   }
   let targetFile = req.files.target_file;
@@ -62,17 +61,25 @@ router.post('/', authRequired, (req, res) => {
             return res.status(500).send(err);
           }
         });
+        const uploadedDate = new Date();
+        const uploadedCase = {
+          pending_case_id: UUID,
+          user_id: req.profile.id,
+          case_url: s3return.Location,
+          case_number: 'A003-TEST-TEST',
+          status: 'Processing',
+          uploaded: `${
+            uploadedDate.getMonth() + 1
+          }-${uploadedDate.getDate()}-${uploadedDate.getFullYear()}`,
+        };
+        Upload.add(uploadedCase);
+        res.status(200).json({});
         axios
           .post(`${process.env.DS_API_URL}${UUID}`, { name: UUID })
           .then((scrape) => {
             const result = scrape.data.body;
-            const uploadedDate = new Date();
             // Any newCase value that doesn't reference the result should be considered a work in progress of the scraper and will need to be updated as the scraper grows
-            const newCase = {
-              pending_case_id: UUID,
-              user_id: req.profile.id,
-              case_url: s3return.Location,
-              case_number: 'A001-TEST-TEST',
+            const scrapedData = {
               date: result.date || '',
               judge: '',
               case_outcome: result.outcome || '',
@@ -88,18 +95,15 @@ router.post('/', authRequired, (req, res) => {
               appellate: false,
               filed_in_one_year: false,
               credible: false,
-              status: 'pending',
-              uploaded: `${
-                uploadedDate.getMonth() + 1
-              }-${uploadedDate.getDate()}-${uploadedDate.getFullYear()}`,
             };
-            Upload.add(newCase); // this newCase will be used to populate the caseForm component
-            Upload.changeStatus(newCase.pending_case_id, 'review');
-            return res.status(200).json({});
+            Upload.changeStatus(UUID, 'Review');
+            Upload.update(UUID, scrapedData);
+            return;
           });
       })
-      .catch((err) => {
-        return res.status(500).json({ error: err });
+      .catch(() => {
+        Upload.changeStatus(UUID, 'Error');
+        return;
       });
   });
 });
