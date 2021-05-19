@@ -35,16 +35,16 @@ const findById = async (id) => {
   //   book_marked_cases = cases;
   // }
 
-    if (book_marked_judges.length > 0) {
-      let judges = [];
-      for (let i = 0; i < book_marked_judges.length; i++) {
-        const one_judge = await db('judges')
-          .where({
-            judge_id: book_marked_judges[i].judge_id,
+    if(book_marked_judges.length > 0){
+      let judges=[];
+      for(let i = 0; i < book_marked_judges.length; i++){
+      const one_judge = await db('judges')
+        .where({
+         judge_id: book_marked_judges[i].judge_id,
           })
-          .select('*');
-        judges.push(Object.values(one_judge)[0]);
-      }
+        .select('*');
+      judges.push(Object.values(one_judge)[0]);
+    }
       book_marked_judges = judges;
     }
 
