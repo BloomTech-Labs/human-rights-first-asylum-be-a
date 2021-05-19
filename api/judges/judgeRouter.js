@@ -14,7 +14,7 @@ const router = express.Router();
 
 //middleware
 
-router.use('/:name', authRequired, verify.verifyJudge);
+router.use('/:judge_id', authRequired, verify.verifyJudgeId);
 
 //routes
 router.get('/', Cache.checkCache, (req, res) => {
@@ -25,6 +25,12 @@ router.get('/', Cache.checkCache, (req, res) => {
     })
     .catch((err) => res.status(500).json({ message: err.message }));
 });
+
+router.get('/:judge_id/cases', async (req, res) => {
+  const data = await Judges.findJudgeCases(req.params.judge_id);
+  res.status(200).json({ message: 'Success', data });
+});
+
 /**
  * @swagger
  * components:
