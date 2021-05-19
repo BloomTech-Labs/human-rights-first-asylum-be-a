@@ -5,13 +5,17 @@ exports.up = function (knex) {
       table.string('case_id').notNullable().primary();
       table
         .string('user_id')
-        .references('id')
+        .references('user_id')
         .inTable('profiles')
         .onDelete('RESTRICT');
       table.string('case_url');
       table.string('case_number');
-      table.string('date');
-      table.string('judge');
+      table.date('case_date');
+      table
+        .integer('judge_id')
+        .references('judge_id')
+        .inTable('judges')
+        .onDelete('RESTRICT');
       table.string('case_outcome');
       table.string('country_of_origin');
       table.string('protected_grounds');
@@ -25,6 +29,7 @@ exports.up = function (knex) {
       table.boolean('appellate');
       table.boolean('filed_in_one_year');
       table.boolean('credible');
+      table.timestamps(false, true);
     });
 };
 

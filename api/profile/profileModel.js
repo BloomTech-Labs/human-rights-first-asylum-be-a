@@ -16,10 +16,12 @@ const findPendingBy = (filter) => {
   return db('pending_profiles').where(filter);
 };
 
-const findById = async (id) => {
-  const user = await db('profiles').where({ id }).first().select('*');
+const findById = async (user_id) => {
+  const user = await db('profiles').where({ user_id }).first().select('*');
   // let book_marked_cases = await db('book_mark_cases').where({ user_id: id });
-  let book_marked_judges = await db('book_mark_judges').where({ user_id: id });
+  let book_marked_judges = await db('book_mark_judges').where({
+    user_id,
+  });
 
   // if (book_marked_cases.length > 0) {
   //   let cases = [];
@@ -54,8 +56,11 @@ const findById = async (id) => {
   return user;
 };
 
-const findPendingById = async (id) => {
-  const user = await db('pending_profiles').where({ id }).first().select('*');
+const findPendingById = async (user_id) => {
+  const user = await db('pending_profiles')
+    .where({ user_id })
+    .first()
+    .select('*');
   return user;
 };
 
@@ -67,16 +72,16 @@ const createPending = async (profile) => {
   return db('pending_profiles').insert(profile).returning('*');
 };
 
-const update = (id, profile) => {
+const update = (user_id, profile) => {
   return db('profiles')
-    .where({ id: id })
+    .where({ user_id })
     .first()
     .update(profile)
     .returning('*');
 };
 
-const remove = async (id) => {
-  return await db('profiles').where({ id }).del();
+const remove = async (user_id) => {
+  return await db('profiles').where({ user_id }).del();
 };
 
 const removePending = async (id) => {
