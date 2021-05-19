@@ -14,6 +14,20 @@ const verifyJudge = (req, res, next) => {
     });
 };
 
+const verifyJudgeId = (req, res, next) => {
+  Judge.findById(req.params.judge_id)
+    .then((judge) => {
+      judge
+        ? next()
+        : res
+            .status(404)
+            .json({ message: 'No judge found with that judge_id' });
+    })
+    .catch((err) => {
+      res.status(404).json({ message: err.message });
+    });
+};
+
 const verifyCase = (req, res, next) => {
   const id = String(req.params.id);
   Case.findById(id)
@@ -28,4 +42,5 @@ const verifyCase = (req, res, next) => {
 module.exports = {
   verifyCase,
   verifyJudge,
+  verifyJudgeId,
 };
