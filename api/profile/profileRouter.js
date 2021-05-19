@@ -207,7 +207,6 @@ router.delete('/pending/:id', authRequired, (req, res) => {
   }
 });
 
-// TODO attach middleware for judge/:name route && case/:id route
 router.post('/:id/judge/:name', authRequired, (req, res) => {
   const id = req.params.id;
   const name = req.params.name;
@@ -239,6 +238,11 @@ router.delete('/:id/judge/:judge_id', authRequired, (req, res) => {
   const judge_id = req.params.judge_id;
   Profiles.remove_judge_bookmark(id, judge_id)
     .then((data) => {
+        .status(200)
+        .json({
+          message: `Bookmark '${judge_id}' was deleted.`,
+          judge_bookmarks: data,
+          `});
       res.status(200).json({ message: `Bookmark '${judge_id}' was deleted.`, judge_bookmarks: data });
     })
     .catch((err) => {
