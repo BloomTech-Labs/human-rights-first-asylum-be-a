@@ -28,7 +28,7 @@ router.get('/', Cache.checkCache, (req, res) => {
 
 router.get('/:judge_id/cases', async (req, res) => {
   const data = await Judges.findJudgeCases(req.params.judge_id);
-  res.status(200).json({ message: 'Success', data });
+  res.status(200).json({ data });
 });
 
 /**
