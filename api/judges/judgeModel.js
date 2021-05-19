@@ -27,7 +27,7 @@ const findByName = async (first_name) => {
 };
 
 const findById = async (judge_id) => {
-  return await db('judges').where({ judge_id });
+  return await db('judges').where({ judge_id }).first();
 };
 
 const findJudgeCases = (judge_id) => {
