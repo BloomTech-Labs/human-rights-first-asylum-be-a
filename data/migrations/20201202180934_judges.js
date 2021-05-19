@@ -2,15 +2,15 @@ exports.up = function (knex) {
   return knex.schema
     .raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
     .createTable('judges', function (table) {
-      table.string('judge_id').notNullable().unique().primary();
-      table.string('name');
+      table.increments('judge_id');
+      table.string('first_name');
+      table.string('middle_initial');
+      table.string('last_name');
       table.string('judge_county');
-      table.string('judge_image');
-      table.string('date_appointed');
-      table.string('birth_date');
+      table.string('judge_image_url');
+      table.date('date_appointed');
+      table.date('birthdate');
       table.string('biography');
-      table.float('denial_rate');
-      table.float('approval_rate');
       table.string('appointed_by');
     });
 };
