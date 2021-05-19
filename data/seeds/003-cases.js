@@ -4,13 +4,14 @@ exports.seed = function (knex) {
     .then(function () {
       return knex('cases').insert([
         {
+          // Done
           case_id: '2ff54195-ce30-456c-be63-2a6c765bdce2',
           user_id: '00ulzdrizE2yzxToH5d6',
           case_url:
             'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           case_number: 'A094-216-526',
-          date: '1-24-2013',
-          judge: 1,
+          case_date: '1-24-2013',
+          judge_id: 1,
           case_outcome: 'Denied',
           country_of_origin: 'Mexico',
           protected_grounds: 'Social Group',
@@ -26,13 +27,14 @@ exports.seed = function (knex) {
           credible: true,
         },
         {
+          // Done
           case_id: '099f113a-3514-45be-a2c7-9257eded3fe7',
           user_id: '00ulzdrizE2yzxToH5d6',
           case_url:
             'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           case_number: 'A079-531-484',
-          date: '8-30-2012',
-          judge: 2,
+          case_date: '8-30-2012',
+          judge_id: 2,
           case_outcome: 'Granted',
           country_of_origin: 'El Salvador',
           protected_grounds: 'Political Opinion',
@@ -48,13 +50,14 @@ exports.seed = function (knex) {
           credible: false,
         },
         {
+          // Done
           case_id: 'cbd7658f-4c8b-4160-91b6-3bf5d1be6628',
           user_id: '00ulzcegtVucXsfdp5d6',
           case_url:
             'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           case_number: 'A043-400-049',
-          date: '12-18-2012',
-          judge: 3,
+          case_date: '12-18-2012',
+          judge_id: 3,
           case_outcome: 'Denied',
           country_of_origin: 'Jamaica',
           protected_grounds: 'Social Group',
@@ -70,13 +73,14 @@ exports.seed = function (knex) {
           credible: true,
         },
         {
+          // Done
           case_id: '90e156ca-8f0d-4ca6-b114-b168e4d1d79e',
           user_id: '00ulzcegtVucXsfdp5d6',
           case_url:
             'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           case_number: 'A088-268-610',
-          date: '12-14-2012',
-          judge: 4,
+          case_date: '12-14-2012',
+          judge_id: 4,
           case_outcome: 'Denied',
           country_of_origin: 'Jamaica',
           protected_grounds: 'Social Group',
@@ -92,13 +96,14 @@ exports.seed = function (knex) {
           credible: false,
         },
         {
+          // Done
           case_id: 'e0343942-2053-4499-96e7-85b300eef4eb',
           user_id: '00ulzg60x94UujHsV5d6',
           case_url:
             'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           case_number: 'A057-056-1193',
-          date: '2-8-2013',
-          judge: 5,
+          case_date: '2-8-2013',
+          judge_id: 5,
           case_outcome: 'Denied',
           country_of_origin: 'Mexico',
           protected_grounds: 'Nationality',
@@ -114,13 +119,14 @@ exports.seed = function (knex) {
           credible: false,
         },
         {
+          // Done
           case_id: 'f4574526-bb1f-4f20-ae24-75474ee15ee0',
           user_id: '00ulzg60x94UujHsV5d6',
           case_url:
             'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           case_number: 'A071-996-819',
-          date: '9-14-2012',
-          judge: 3,
+          case_date: '9-14-2012',
+          judge_id: 3,
           case_outcome: 'Remanded',
           country_of_origin: 'Mexico',
           protected_grounds: 'Race',
@@ -136,13 +142,14 @@ exports.seed = function (knex) {
           credible: false,
         },
         {
+          // Done
           case_id: '2a27418f-3444-4f5b-9730-b01609f7b428',
           user_id: '00ulzenirO3Evj2U95d6',
           case_url:
             'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           case_number: 'A093-138-113',
-          date: '3-07-2013',
-          judge: 5,
+          case_date: '3-07-2013',
+          judge_id: 5,
           case_outcome: 'Remanded',
           country_of_origin: 'Guatemala',
           protected_grounds: 'Social Group',
@@ -158,13 +165,14 @@ exports.seed = function (knex) {
           credible: true,
         },
         {
+          // Done
           case_id: '0da16c93-6fdd-4f0a-8ed6-4c686e675693',
           user_id: '00ulzenirO3Evj2U95d6',
           case_url:
             'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           case_number: 'A027-392-198',
-          date: '6-12-2012',
-          judge: 4,
+          case_date: '6-12-2012',
+          judge_id: 4,
           case_outcome: 'Remanded',
           country_of_origin: 'Mexico',
           protected_grounds: 'Religion',
@@ -180,13 +188,14 @@ exports.seed = function (knex) {
           credible: false,
         },
         {
+          // Done
           case_id: '22726ebf-f968-4610-a3c8-0c5f921fcbf9',
           user_id: '00ulzdb18iCY1wMep5d6',
           case_url:
             'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           case_number: 'A028-803-028',
-          date: '4-3-2012',
-          judge: 4,
+          case_date: '4-3-2012',
+          judge_id: 4,
           case_outcome: 'Denied',
           country_of_origin: 'El Salvador',
           protected_grounds: 'Political Opinion',
@@ -202,13 +211,14 @@ exports.seed = function (knex) {
           credible: false,
         },
         {
+          // Done
           case_id: '75a1fb1b-1ffe-45d6-b347-9ef67d4b9180',
           user_id: '00ulzdb18iCY1wMep5d6',
           case_url:
             'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           case_number: 'A089-207-04',
-          date: '1-31-2012',
-          judge: 2,
+          case_date: '1-31-2012',
+          judge_id: 2,
           case_outcome: 'Sustained',
           country_of_origin: 'Honduras',
           protected_grounds: 'Nationality',
@@ -224,13 +234,14 @@ exports.seed = function (knex) {
           credible: false,
         },
         {
+          // Done
           case_id: '04fbe436-da2c-4e20-9cfb-2221ad8e1f29',
           user_id: '00ulzfj6nX79gu0Nh5d6',
           case_url:
             'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           case_number: 'A044-857-956',
-          date: '12-15-2011',
-          judge: 2,
+          case_date: '12-15-2011',
+          judge_id: 2,
           case_outcome: 'Terminated',
           country_of_origin: 'Mexico',
           protected_grounds: 'Political Opinion',
@@ -246,13 +257,14 @@ exports.seed = function (knex) {
           credible: false,
         },
         {
+          // Done
           case_id: '78efa342-4f5a-4e04-bd96-13dadc17bff5',
           user_id: '00ulzfj6nX79gu0Nh5d6',
           case_url:
             'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           case_number: 'A095-094-694 ',
-          date: '11-16-2012',
-          judge: 6,
+          case_date: '11-16-2012',
+          judge_id: 6,
           case_outcome: 'Denied',
           country_of_origin: 'Jamaica',
           protected_grounds: 'Social Group',
@@ -268,13 +280,14 @@ exports.seed = function (knex) {
           credible: false,
         },
         {
+          // Done
           case_id: '10e9b2b1-4eb3-4d7d-b4d7-4b60fa5d42b5',
           user_id: '00ulzdrizE2yzxToH5d6',
           case_url:
             'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           case_number: 'A076-593-027',
-          date: '12-14-2012',
-          judge: 7,
+          case_date: '12-14-2012',
+          judge_id: 7,
           case_outcome: 'Remanded',
           country_of_origin: 'Mexico',
           protected_grounds: 'Race',
@@ -290,13 +303,14 @@ exports.seed = function (knex) {
           credible: false,
         },
         {
+          // Done
           case_id: '90226140-67e6-482c-b21a-b8ee6351879d',
           user_id: '00ulzdrizE2yzxToH5d6',
           case_url:
             'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           case_number: 'A027-824-163',
-          date: '5-30-2013',
-          judge: 8,
+          case_date: '5-30-2013',
+          judge_id: 8,
           case_outcome: 'Remanded',
           country_of_origin: 'Jamaica',
           protected_grounds: 'Social Group',

@@ -11,7 +11,7 @@ const findAllSimple = async () => {
 };
 
 const findAll = async () => {
-  const db_judges = await db('judges').select('name');
+  const db_judges = await db('judges').select('first_name');
 
   let judges = [];
   for (let i = 0; i < db_judges.length; i++) {
@@ -22,14 +22,14 @@ const findAll = async () => {
   return judges;
 };
 
-const findByName = async (name) => {
-  return await db('judges').where({ name });
+const findByName = async (first_name) => {
+  return await db('judges').where({ first_name });
 };
 
 // * This call takes awhile because of the sheer amount of datajoins
 // * Would be great to streamline this in the future
 const findFullDataByName = async (name) => {
-  const judge = await findByName(name);
+  const judge = await findByName({ first_name: name });
   const countries = await countryData(name);
   const cases = await caseData(name);
   const secondary = await secondaryData(name);
@@ -197,12 +197,12 @@ const secondaryData = async (judge) => {
 };
 
 const update = async (name, data) => {
-  return db('judges').where({ name }).first().update(data);
+  return db('judges').where({ first_name: name }).first().update(data);
 };
 
 const writeCSV = async (name) => {
   // * get judge data
-  const judge_data = await findByName(name);
+  const judge_data = await findByName({ first_name: name });
 
   // * create fields
   const judge_fields = [];
