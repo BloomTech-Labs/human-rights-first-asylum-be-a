@@ -35,7 +35,7 @@ const findById = async (id) => {
   //   book_marked_cases = cases;
   // }
 
-    if (book_marked_judges.length > 0) {
+  if (book_marked_judges.length > 0) {
     let judges = [];
     for (let i = 0; i < book_marked_judges.length; i++) {
       const one_judge = await db('judges')
