@@ -26,6 +26,10 @@ const findByName = async (first_name) => {
   return await db('judges').where({ first_name });
 };
 
+const findById = async (judge_id) => {
+  return await db('judges').where({ judge_id });
+};
+
 const findJudgeCases = (judge_id) => {
   return db('judges as j')
     .join('cases as c', 'j.judge_id', 'c.judge_id')
@@ -313,4 +317,5 @@ module.exports = {
   update,
   writeCSV,
   findJudgeCases,
+  findById,
 };
