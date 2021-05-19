@@ -12,79 +12,6 @@ const client = new okta.Client({
 
 //TODO /:id verify && judge verify && case verify
 
-/**
- * @swagger
- * components:
- *  schemas:
- *    Profile:
- *      type: object
- *      required:
- *        - id
- *        - email
- *        - name
- *        - avatarUrl
- *        - case_bookmarks
- *        - judge_bookmarks
- *      properties:
- *        id:
- *          type: string
- *          description: This is a foreign key (the okta user ID)
- *        email:
- *          type: string
- *        name:
- *          type: string
- *        avatarUrl:
- *          type: string
- *          description: public url of profile avatar
- *        case_bookmarks:
- *          type: array
- *          description: An array of Case Objects that the user has favorited
- *        judge_bookmarks:
- *          type: array
- *          description: An array of Judge Objects that the user has favorited
- *      example:
- *        id: '00uhjfrwdWAQvD8JV4x6'
- *        email: 'frank@example.com'
- *        name: 'Frank Martinez'
- *        avatarUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/hermanobrother/128.jpg'
- *        case_bookmarks: ['etc']
- *        judge_bookmarks: ['etc']
- *
- * /profiles:
- *  get:
- *    description: Returns a list of profiles
- *    summary: Get a list of all profiles
- *    security:
- *      - okta: []
- *    tags:
- *      - profile
- *    responses:
- *      200:
- *        description: array of profiles
- *        content:
- *          application/json:
- *            schema:
- *              type: array
- *              items:
- *                $ref: '#/components/schemas/Profile'
- *              example:
- *                - id: '00uhjfrwdWAQvD8JV4x6'
- *                  email: 'frank@example.com'
- *                  name: 'Frank Martinez'
- *                  avatarUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/hermanobrother/128.jpg'
- *                  case_bookmarks: ['etc']
- *                  judge_bookmarks: ['etc']
- *                - id: '013e4ab94d96542e791f'
- *                  email: 'cathy@example.com'
- *                  name: 'Cathy Warmund'
- *                  avatarUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/geneseleznev/128.jpg'
- *                  case_bookmarks: ['etc']
- *                  judge_bookmarks: ['etc']
- *      401:
- *        $ref: '#/components/responses/UnauthorizedError'
- *      403:
- *        $ref: '#/components/responses/UnauthorizedError'
- */
 router.get('/', authRequired, function (req, res) {
   Profiles.findAll()
     .then((profiles) => {
@@ -107,41 +34,6 @@ router.get('/pending', authRequired, function (req, res) {
     });
 });
 
-/**
- * @swagger
- * components:
- *  parameters:
- *    profileId:
- *      name: id
- *      in: path
- *      description: ID of the profile to return
- *      required: true
- *      example: 00uhjfrwdWAQvD8JV4x6
- *      schema:
- *        type: string
- *
- * /profile/{id}:
- *  get:
- *    description: Find profiles by ID
- *    summary: Returns a single profile
- *    security:
- *      - okta: []
- *    tags:
- *      - profile
- *    parameters:
- *      - $ref: '#/components/parameters/profileId'
- *    responses:
- *      200:
- *        description: A profile object
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/Profile'
- *      401:
- *        $ref: '#/components/responses/UnauthorizedError'
- *      404:
- *        description: 'Profile not found'
- */
 router.get('/:id', authRequired, function (req, res) {
   const id = String(req.params.id);
   Profiles.findById(id)
@@ -172,42 +64,6 @@ router.get('/pending/:id', authRequired, function (req, res) {
     });
 });
 
-/**
- * @swagger
- * /profile:
- *  post:
- *    summary: Add a profile
- *    security:
- *      - okta: []
- *    tags:
- *      - profile
- *    requestBody:
- *      description: Profile object to to be added
- *      content:
- *        application/json:
- *          schema:
- *            $ref: '#/components/schemas/Profile'
- *    responses:
- *      400:
- *        $ref: '#/components/responses/BadRequest'
- *      401:
- *        $ref: '#/components/responses/UnauthorizedError'
- *      404:
- *        description: 'Profile not found'
- *      200:
- *        description: A profile object
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                message:
- *                  type: string
- *                  description: A message about the result
- *                  example: profile created
- *                profile:
- *                  $ref: '#/components/schemas/Profile'
- */
 router.post('/', authRequired, async (req, res) => {
   const profile = req.body;
   const newUser = {
@@ -269,40 +125,6 @@ router.post('/pending', (req, res) => {
   }
 });
 
-/**
- * @swagger
- * /profile:
- *  put:
- *    summary: Update a profile
- *    security:
- *      - okta: []
- *    tags:
- *      - profile
- *    requestBody:
- *      description: Profile object to to be updated
- *      content:
- *        application/json:
- *          schema:
- *            $ref: '#/components/schemas/Profile'
- *    responses:
- *      401:
- *        $ref: '#/components/responses/UnauthorizedError'
- *      404:
- *        $ref: '#/components/responses/NotFound'
- *      200:
- *        description: A profile object
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                message:
- *                  type: string
- *                  description: A message about the result
- *                  example: profile created
- *                profile:
- *                  $ref: '#/components/schemas/Profile'
- */
 router.put('/:id', authRequired, (req, res) => {
   const profile = req.body;
   const id = req.params.id;
@@ -341,36 +163,7 @@ router.put('/:id', authRequired, (req, res) => {
       });
   }
 });
-/**
- * @swagger
- * /profile/{id}:
- *  delete:
- *    summary: Remove a profile
- *    security:
- *      - okta: []
- *    tags:
- *      - profile
- *    parameters:
- *      - $ref: '#/components/parameters/profileId'
- *    responses:
- *      401:
- *        $ref: '#/components/responses/UnauthorizedError'
- *      404:
- *        $ref: '#/components/responses/NotFound'
- *      200:
- *        description: A profile object
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                message:
- *                  type: string
- *                  description: A message about the result
- *                  example: Profile '00uhjfrwdWAQvD8JV4x6' was deleted.
- *                profile:
- *                  $ref: '#/components/schemas/Profile'
- */
+
 router.delete('/:id', authRequired, (req, res) => {
   const id = req.params.id;
   try {
@@ -414,49 +207,6 @@ router.delete('/pending/:id', authRequired, (req, res) => {
   }
 });
 
-// TODO attach middleware for judge/:name route && case/:id route
-/**
- * @swagger
- * components:
- *  parameters:
- *    judgeName:
- *      name: name
- *      in: path
- *      description: Name of Judge to Add/Remove
- *      required: true
- *      example: Mark%20Smith
- *      schema:
- *        type: string
- *
- * /profile/{id}/judge/{name}:
- *  post:
- *    summary: Add a judge to the followed list
- *    security:
- *      - okta: []
- *    tags:
- *      - profile
- *    parameters:
- *      - $ref: '#/components/parameters/profileId'
- *      - $ref: '#/components/parameters/judgeName'
- *    responses:
- *      401:
- *        $ref: '#/components/responses/UnauthorizedError'
- *      404:
- *        $ref: '#/components/responses/NotFound'
- *      200:
- *        description: A judge object
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                message:
- *                  type: string
- *                  description: A message about the result
- *                  example: Sucessfully deleted.
- *                judge:
- *                  $ref: '#/components/schemas/Judge'
- */
 router.post('/:id/judge/:name', authRequired, (req, res) => {
   const id = req.params.id;
   const name = req.params.name;
@@ -471,47 +221,6 @@ router.post('/:id/judge/:name', authRequired, (req, res) => {
     });
 });
 
-/**
- * @swagger
- * components:
- *  parameters:
- *    caseId:
- *      name: case_id
- *      in: path
- *      description: case number to reference
- *      required: true
- *      example: LDB334BIA
- *      schema:
- *        type: string
- * /profile/{id}/case/{case_id}:
- *  post:
- *    summary: Add a judge to the followed list
- *    security:
- *      - okta: []
- *    tags:
- *      - profile
- *    parameters:
- *      - $ref: '#/components/parameters/profileId'
- *      - $ref: '#/components/parameters/caseId'
- *    responses:
- *      401:
- *        $ref: '#/components/responses/UnauthorizedError'
- *      404:
- *        $ref: '#/components/responses/NotFound'
- *      200:
- *        description: A case object
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                message:
- *                  type: string
- *                  description: A message about the result
- *                  example: Sucessfully deleted.
- *                case:
- *                  $ref: '#/components/schemas/Case'
- */
 router.post('/:id/case/:case_id', authRequired, (req, res) => {
   const id = req.params.id;
   const case_id = req.params.case_id;
@@ -524,80 +233,23 @@ router.post('/:id/case/:case_id', authRequired, (req, res) => {
     });
 });
 
-/**
- * @swagger
- * /profile/{id}/judge/{name}:
- *  delete:
- *    summary: Remove a judge from the followed list
- *    security:
- *      - okta: []
- *    tags:
- *      - profile
- *    parameters:
- *      - $ref: '#/components/parameters/profileId'
- *      - $ref: '#/components/parameters/judgeName'
- *    responses:
- *      401:
- *        $ref: '#/components/responses/UnauthorizedError'
- *      404:
- *        $ref: '#/components/responses/NotFound'
- *      200:
- *        description: A profile object
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                message:
- *                  type: string
- *                  description: A message about the result
- *                  example: Sucessfully deleted.
- *                profile:
- *                  $ref: '#/components/schemas/Profile'
- */
-router.delete('/:id/judge/:name', authRequired, (req, res) => {
+router.delete('/:id/judge/:judge_id', authRequired, (req, res) => {
   const id = req.params.id;
-  const name = req.params.name;
-  Profiles.remove_judge_bookmark(id, name)
-    .then(() => {
-      res.status(200).json({ message: `Bookmark '${name}' was deleted.` });
+  const judge_id = req.params.judge_id;
+  Profiles.remove_judge_bookmark(id, judge_id)
+    .then((data) => {
+        .status(200)
+        .json({
+          message: `Bookmark '${judge_id}' was deleted.`,
+          judge_bookmarks: data,
+          `});
+      res.status(200).json({ message: `Bookmark '${judge_id}' was deleted.`, judge_bookmarks: data });
     })
     .catch((err) => {
       res.status(500).json(err.message);
     });
 });
 
-/**
- * @swagger
- * /profile/{id}/case/{case_id}:
- *  delete:
- *    summary: Remove a case from the followed list
- *    security:
- *      - okta: []
- *    tags:
- *      - profile
- *    parameters:
- *      - $ref: '#/components/parameters/profileId'
- *      - $ref: '#/components/parameters/caseId'
- *    responses:
- *      401:
- *        $ref: '#/components/responses/UnauthorizedError'
- *      404:
- *        $ref: '#/components/responses/NotFound'
- *      200:
- *        description: A profile object
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                message:
- *                  type: string
- *                  description: A message about the result
- *                  example: Sucessfully deleted.
- *                profile:
- *                  $ref: '#/components/schemas/Profile'
- */
 router.delete('/:id/case/:case_id', authRequired, (req, res) => {
   const id = req.params.id;
   const case_id = req.params.case_id;
