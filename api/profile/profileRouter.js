@@ -41,7 +41,7 @@ router.get('/:id', authRequired, function (req, res) {
       if (profile) {
         res.status(200).json(profile);
       } else {
-        res.status(404).json({ error: 'ProfileNotFound' });
+        res.status(404).json({ error: 'Profile Not Found' });
       }
     })
     .catch((err) => {
