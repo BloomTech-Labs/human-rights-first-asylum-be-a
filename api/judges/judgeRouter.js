@@ -37,20 +37,20 @@ router.get('/:judge_id/cases', async (req, res, next) => {
   // Grab the judge cases data
   try {
     const raw_data = await Judges.findJudgeCases(req.params.judge_id);
-    res.status(200).json({ data: raw_data });
+    // Issue POST req to DS API
+    axios
+      .post(`${process.env.DS_API_URL}${/*from DS team*/}`, { data: raw_data }) // What endpoint to hit?
+      .then((data_viz_res) => {
+        res.status(200).json({ data: data_viz_res.data }); // What is the data structure that comes back from DS?
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err });
+      });
+
   } catch (err) {
     res.status(404).json({ err });
   }
 
-  // Issue POST req to DS API
-  // axios
-  //   .post(`${process.env.DS_API_URL}${/*from DS team*/}`, { data: raw_data }) // What endpoint to hit?
-  //   .then((data_viz_res) => {
-  //     res.status(200).json({ data: data_viz_res.data }); // What is the data structure that comes back from DS?
-  //   })
-  //   .catch((err) => {
-  //     res.status(500).json({ error: err });
-  //   });
 });
 
 /**
