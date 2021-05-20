@@ -6,6 +6,8 @@ const fs = require('fs');
 const JSZip = require('jszip');
 const cacache = require('cacache');
 const authRequired = require('../middleware/authRequired');
+const { default: axios } = require('axios');
+const { nextTick } = require('process');
 
 // TODO add auth to router - final phase
 
@@ -26,9 +28,30 @@ router.get('/', Cache.checkCache, (req, res) => {
     .catch((err) => res.status(500).json({ message: err.message }));
 });
 
-router.get('/:judge_id/cases', async (req, res) => {
-  const data = await Judges.findJudgeCases(req.params.judge_id);
-  res.status(200).json({ data });
+// router.get('/:judge_id/cases', async (req, res) => {
+//   const data = await Judges.findJudgeCases(req.params.judge_id);
+//   res.status(200).json({ data });
+// });
+
+router.get('/:judge_id/cases', async (req, res, next) => {
+  try {
+    // GET the judge cases data
+    const raw_data = await Judges.findJudgeCases(req.params.judge_id);
+    // Issue POST request to DS API
+    axios
+      .post(`${process.env.DS_API_URL}/vis/judges/${req.params.judge_id}`, {
+        data: raw_data,
+      })
+      .then((data_viz_res) => {
+        // Respond to frontend with the data for the visualization
+        res.status(200).json({ judge_cases: JSON.parse(data_viz_res.data) });
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err });
+      });
+  } catch (err) {
+    res.status(404).json({ err });
+  }
 });
 
 /**
