@@ -18,24 +18,24 @@ const findPendingBy = (filter) => {
 
 const findById = async (user_id) => {
   const user = await db('profiles').where({ user_id }).first().select('*');
-  // let book_marked_cases = await db('book_mark_cases').where({ user_id: id });
+  let book_marked_cases = await db('book_mark_cases').where({ user_id });
   let book_marked_judges = await db('book_mark_judges').where({
-    user_id,
+    user_id
   });
 
-  // if (book_marked_cases.length > 0) {
-  //   let cases = [];
-  //   for (let i = 0; i < book_marked_cases.length; i++) {
-  //     const one_case = await db('cases')
-  //       .where({
-  //         id: book_marked_cases[i].case_id,
-  //       })
-  //       .select('*');
+  if (book_marked_cases.length > 0) {
+    let cases = [];
+    for (let i = 0; i < book_marked_cases.length; i++) {
+      const one_case = await db('cases')
+        .where({
+          case_id: book_marked_cases[i].case_id,
+        })
+        .select('*');
 
-  //     cases.push(Object.values(one_case)[0]);
-  //   }
-  //   book_marked_cases = cases;
-  // }
+      cases.push(Object.values(one_case)[0]);
+    }
+    book_marked_cases = cases;
+  }
 
   if (book_marked_judges.length > 0) {
     let judges = [];
@@ -50,7 +50,7 @@ const findById = async (user_id) => {
     book_marked_judges = judges;
   }
 
-  // user['case_bookmarks'] = book_marked_cases;
+  user['case_bookmarks'] = book_marked_cases;
   user['judge_bookmarks'] = book_marked_judges;
 
   return user;
@@ -115,7 +115,8 @@ const add_case_bookmark = async (user_id, case_id) => {
 };
 
 const remove_case_bookmark = async (user_id, case_id) => {
-  return await db('book_mark_cases').where({ user_id, case_id }).del();
+  await db('book_mark_cases').where({ user_id, case_id }).del();
+  return await db('book_mark_cases').where({user_id});
 };
 
 module.exports = {
