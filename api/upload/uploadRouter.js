@@ -81,7 +81,7 @@ router.post('/', authRequired, (req, res) => {
             // Any newCase value that doesn't reference the result should be considered a work in progress of the scraper and will need to be updated as the scraper grows
             const scrapedData = {
               date: result.date || '',
-              judge_id: '',
+              judge_id: 1,
               case_outcome: result.outcome || '',
               country_of_origin: result['country of origin'] || '',
               protected_grounds: result['protected grounds'] || '',

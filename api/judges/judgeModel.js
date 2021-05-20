@@ -50,7 +50,7 @@ const findJudgeCases = (judge_id) => {
       'c.case_origin_city',
       'c.case_origin_state',
       'c.gender',
-      'c.appellate',
+      'c.appellate'
     )
     .where('j.judge_id', judge_id);
 };
