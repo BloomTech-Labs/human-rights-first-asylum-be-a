@@ -75,7 +75,7 @@ router.post('/', authRequired, (req, res) => {
         Upload.add(uploadedCase);
         res.status(200).json({});
         axios
-          .post(`${process.env.DS_API_URL}${UUID}`, { name: UUID })
+          .post(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`, { name: UUID })
           .then((scrape) => {
             const result = scrape.data.body;
             // Any newCase value that doesn't reference the result should be considered a work in progress of the scraper and will need to be updated as the scraper grows
