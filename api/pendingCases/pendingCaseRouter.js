@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
     });
 });
 router.get('/:user_id', (req, res) => {
-  PendingCase.getById(req.profile.id)
+  PendingCase.getById(req.profile.user_id)
     .then((cases) => {
       res.status(200).json(cases);
     })

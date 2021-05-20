@@ -64,7 +64,7 @@ router.post('/', authRequired, (req, res) => {
         const uploadedDate = new Date();
         const uploadedCase = {
           pending_case_id: UUID,
-          user_id: req.profile.id,
+          user_id: req.profile.user_id,
           case_url: s3return.Location,
           case_number: 'A003-TEST-TEST',
           status: 'Processing',
@@ -81,7 +81,7 @@ router.post('/', authRequired, (req, res) => {
             // Any newCase value that doesn't reference the result should be considered a work in progress of the scraper and will need to be updated as the scraper grows
             const scrapedData = {
               date: result.date || '',
-              judge: '',
+              judge_id: '',
               case_outcome: result.outcome || '',
               country_of_origin: result['country of origin'] || '',
               protected_grounds: result['protected grounds'] || '',

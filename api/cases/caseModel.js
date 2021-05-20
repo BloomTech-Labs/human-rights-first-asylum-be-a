@@ -17,7 +17,7 @@ const findById = async (case_number) => {
   const cases = await db('cases as c')
     .where({ case_number })
     .first()
-    .join('judges as j', 'j.judge_id', 'c.judge')
+    .join('judges as j', 'j.judge_id', 'c.judge_id')
     .select('c.*', 'j.first_name as judge_name');
   return cases;
 };
@@ -25,7 +25,7 @@ const findById = async (case_number) => {
 const findBy = async (filter) => {
   return db('cases')
     .where(filter)
-    .join('judges as j', 'j.judge_id', 'c.judge')
+    .join('judges as j', 'j.judge_id', 'c.judge_id')
     .select('c.*', 'j.first_name as judge_name');
 };
 const findByUserId = (user_id) => {
