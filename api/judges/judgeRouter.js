@@ -43,6 +43,7 @@ router.get('/:judge_id/cases', async (req, res, next) => {
         data: raw_data,
       })
       .then((data_viz_res) => {
+        // Respond to frontend with the data for the visualization
         res.status(200).json({ judge_cases: JSON.parse(data_viz_res.data) });
       })
       .catch((err) => {
