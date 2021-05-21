@@ -72,7 +72,7 @@ const findFullDataByName = async (name) => {
 };
 
 const caseData = async (judge) => {
-  return db('cases').where({ judge }).select('*');
+  return db('cases').where('judge_id', judge).select('*');
 };
 
 const countryData = async (judge) => {
