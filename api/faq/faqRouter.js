@@ -24,14 +24,14 @@ router.get('/', authRequired, function (req, res) {
     });
 });
 
-router.get('/:id', authRequired, function (req, res) {
-  const id = String(req.params.id);
+router.get('/:faq_id', authRequired, function (req, res) {
+  const id = req.params.faq_id;
   FAQ.findById(id)
     .then((faq) => {
       if (faq) {
         res.status(200).json(faq);
       } else {
-        res.status(404).json({ error: 'faqNotFound' });
+        res.status(404).json({ error: 'faq NotFound' });
       }
     })
     .catch((err) => {
@@ -57,8 +57,8 @@ router.post('/', authRequired, async (req, res) => {
   }
 });
 
-router.put('/:id', authRequired, (req, res) => {
-  FAQ.update(req.params.id, req.body)
+router.put('/:faq_id', authRequired, (req, res) => {
+  FAQ.update(req.params.faq_id, req.body)
     .then((updatedQuestion) => {
       res.status(200).json(updatedQuestion);
     })
@@ -69,18 +69,13 @@ router.put('/:id', authRequired, (req, res) => {
 
 router.delete('/:id', authRequired, (req, res) => {
   const id = req.params.id;
-  try {
-    FAQ.findById(id).then((faq) => {
-      FAQ.remove(faq.id).then(() => {
-        res.status(200).json({ message: `faq '${id}' was deleted.`, faq: faq });
-      });
+  FAQ.remove(id)
+    .then(()=> {
+      res.status(200).json({message: `FAQ was deleted`})
+    })
+    .catch((err) => {
+      res.status(500).json(err.message);
     });
-  } catch (err) {
-    res.status(500).json({
-      message: `Could not delete faq with ID: ${id}`,
-      error: err.message,
-    });
-  }
 });
 
 router.post('/contact', authRequired, (req, res) => {
