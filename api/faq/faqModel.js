@@ -4,8 +4,8 @@ const findAll = async () => {
   return await db('faq');
 };
 
-const findById = async (id) => {
-  const question = await db('faq').where({ id }).first().select('*');
+const findById = async (faq_id) => {
+  const question = await db('faq').where({ faq_id }).first().select('*');
   return question;
 };
 
@@ -14,11 +14,11 @@ const create = async (faq) => {
 };
 
 const update = (id, faq) => {
-  return db('faq').where({ id: id }).first().update(faq).returning('*');
+  return db('faq').where({ faq_id: id }).first().update(faq).returning('*');
 };
 
-const remove = async (id) => {
-  return await db('faq').where({ id }).del();
+const remove = async (faq_id) => {
+  return await db('faq').where({ faq_id }).del();
 };
 
 module.exports = {
