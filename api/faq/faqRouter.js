@@ -70,8 +70,8 @@ router.put('/:faq_id', authRequired, (req, res) => {
 router.delete('/:id', authRequired, (req, res) => {
   const id = req.params.id;
   FAQ.remove(id)
-    .then( ()=> {
-      res.status(200).json({ message: `FAQ was deleted`});
+    .then(() => {
+      res.status(200).json({ message: `FAQ was deleted` });
     })
     .catch((err) => {
       res.status(500).json(err.message);
