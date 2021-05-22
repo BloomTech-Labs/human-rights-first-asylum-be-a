@@ -7,7 +7,8 @@ const JSZip = require('jszip');
 const cacache = require('cacache');
 const authRequired = require('../middleware/authRequired');
 const { default: axios } = require('axios');
-const { nextTick } = require('process');
+// const { nextTick } = require('process');
+// const { resolveSoa } = require('dns');
 
 // TODO add auth to router - final phase
 
@@ -205,13 +206,25 @@ router.get('/all', Cache.checkCache, (req, res) => {
  *        description: 'judge not found'
  */
 
-router.get('/:name', Cache.checkCache, (req, res) => {
-  const name = String(req.params.name);
-  const key = `/judge/${name}`;
-  Judges.findFullDataByName(name)
-    .then((judges) => {
-      Cache.makeCache(key, JSON.stringify(judges));
-      res.status(200).json(judges);
+// router.get('/:name', Cache.checkCache, (req, res) => {
+//   const name = String(req.params.name);
+//   const key = `/judge/${name}`;
+//   Judges.findFullDataByName(name)
+//     .then((judges) => {
+//       Cache.makeCache(key, JSON.stringify(judges));
+//       res.status(200).json(judges);
+//     })
+//     .catch((err) => {
+//       res.status(500).json({ message: err.message });
+//     });
+// });
+
+// * ^ Commented out for now in case we need it in the future
+
+router.get('/:judge_id', (req, res) => {
+  Judges.findById(req.params.judge_id)
+    .then((judge_info) => {
+      res.status(200).json(judge_info);
     })
     .catch((err) => {
       res.status(500).json({ message: err.message });
