@@ -10,7 +10,7 @@ exports.up = function (knex) {
         .onDelete('RESTRICT');
       table.string('case_url');
       table.string('file_name');
-      table.date('date');
+      table.date('case_date');
       table
         .integer('judge_id')
         .references('judge_id')

@@ -64,7 +64,7 @@ router.post('/approve/:pending_case_id', (req, res) => {
           }
           Cases.add(approvedCase)
             .then(() => {
-              PendingCase.delete(UUID)
+              PendingCase.remove(UUID)
                 .then(() => {
                   res.status(200).json({});
                 })
