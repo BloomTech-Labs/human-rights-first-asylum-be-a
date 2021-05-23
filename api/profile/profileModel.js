@@ -20,7 +20,7 @@ const findById = async (user_id) => {
   const user = await db('profiles').where({ user_id }).first().select('*');
   let book_marked_cases = await db('book_mark_cases').where({ user_id });
   let book_marked_judges = await db('book_mark_judges').where({
-    user_id
+    user_id,
   });
 
   if (book_marked_cases.length > 0) {
@@ -116,7 +116,7 @@ const add_case_bookmark = async (user_id, case_id) => {
 
 const remove_case_bookmark = async (user_id, case_id) => {
   await db('book_mark_cases').where({ user_id, case_id }).del();
-  return await db('book_mark_cases').where({user_id});
+  return await db('book_mark_cases').where({ user_id });
 };
 
 module.exports = {

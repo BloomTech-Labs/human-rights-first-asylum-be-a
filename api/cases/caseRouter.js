@@ -14,7 +14,6 @@ router.get('/', Cache.checkCache, (req, res) => {
 
   Cases.findAll()
     .then((cases) => {
-      console.log('Find All func: ', cases);
       Cache.makeCache(key, JSON.stringify(cases));
       res.status(200).json(cases);
     })
