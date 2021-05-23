@@ -8,11 +8,13 @@ const router = express.Router();
 const authRequired = require('../middleware/authRequired');
 
 router.use('/:id', authRequired, Verify.verifyCase);
+
 router.get('/', Cache.checkCache, (req, res) => {
   const key = String(req.originalUrl);
 
   Cases.findAll()
     .then((cases) => {
+      console.log('Find All func: ', cases);
       Cache.makeCache(key, JSON.stringify(cases));
       res.status(200).json(cases);
     })
@@ -20,6 +22,7 @@ router.get('/', Cache.checkCache, (req, res) => {
       res.status(500).json({ message: err.message });
     });
 });
+
 router.get('/:id', (req, res) => {
   const id = String(req.params.id);
   const key = String(req.originalUrl);
