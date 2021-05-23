@@ -1,5 +1,6 @@
 const express = require('express');
 const PendingCase = require('./pendingCaseModel');
+const Cases = require('../cases/caseModel');
 const router = express.Router();
 const authRequired = require('../middleware/authRequired');
 
@@ -15,7 +16,7 @@ router.get('/', (req, res) => {
     });
 });
 router.get('/:user_id', (req, res) => {
-  PendingCase.getById(req.profile.user_id)
+  PendingCase.getByUserId(req.profile.user_id)
     .then((cases) => {
       res.status(200).json(cases);
     })
@@ -24,17 +25,67 @@ router.get('/:user_id', (req, res) => {
     });
 });
 
-//  reference for future
-// router.post('/approve', async (req, res) => {
-//   const id = req.body.id;
-//   PendingCase.approve(id)
-//     .then((data) => {
-//       res.status(200).json(data);
-//     })
-//     .catch((e) => {
-//       res.status(500).json({ message: e.message });
-//     });
-// });
+router.post('/approve/:pending_case_id', (req, res) => {
+  const UUID = req.params.pending_case_id;
+  console.log(req.body);
+  const uploadedCase = {
+    date: req.body.date,
+    case_outcome: req.body.case_outcome,
+    country_of_origin: req.body.country_of_origin,
+    protected_grounds: req.body.protected_grounds,
+    application_type: req.body.application_type,
+    case_origin_city: req.body.case_origin_city,
+    case_origin_state: req.body.case_origin_state,
+    gender: req.body.gender,
+    applicant_language: req.body.applicant_language,
+    indigenous_group: req.body.indigenous_group,
+    type_of_violence: req.body.type_of_violence,
+    appellate: req.body.appellate,
+    filed_in_one_year: req.body.filed_in_one_year,
+    credible: req.body.credible,
+  };
+  PendingCase.update(UUID, uploadedCase)
+    .then(() => {
+      PendingCase.getByCaseId(UUID)
+        .then((caseData) => {
+          const approvedCase = {};
+          for (const field in caseData) {
+            if (field === 'pending_case_id') {
+              approvedCase['case_id'] = caseData[field];
+            } else if (field === 'status') {
+              continue;
+            } else if (field === 'uploaded') {
+              continue;
+            } else if (field === 'file_name') {
+              continue;
+            } else {
+              approvedCase[field] = caseData[field];
+            }
+          }
+          Cases.add(approvedCase)
+            .then(() => {
+              PendingCase.delete(UUID)
+                .then(() => {
+                  res.status(200).json({});
+                })
+                .catch((err) => {
+                  res.status(500).json(err.message);
+                });
+            })
+            .catch((err) => {
+              console.log(err);
+              res.status(500).json(err.message);
+            });
+        })
+        .catch((err) => {
+          res.status(500).json(err.message);
+        });
+    })
+    .catch((err) => {
+      PendingCase.changeStatus(UUID, 'Error');
+      res.status(500).json(err.message);
+    });
+});
 
 router.delete('/:id', (req, res) => {
   const id = req.params.id;
