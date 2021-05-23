@@ -9,7 +9,7 @@ exports.up = function (knex) {
         .inTable('profiles')
         .onDelete('RESTRICT');
       table.string('case_url');
-      table.string('case_number');
+      table.string('file_name');
       table.string('date');
       table
         .integer('judge_id')
