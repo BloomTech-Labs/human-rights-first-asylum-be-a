@@ -36,7 +36,6 @@ const uploadFile = (fileName) => {
       return err;
     });
 };
-
 router.use(
   fileUpload({
     useTempFiles: true,
@@ -54,58 +53,78 @@ router.post('/', authRequired, (req, res) => {
     if (err) {
       return res.status(500).send(err);
     }
-    uploadFile(UUID)
-      .then((s3return) => {
-        fs.unlink(path.join(__dirname, 'uploads', `${UUID}.pdf`), (err) => {
-          if (err) {
-            return res.status(500).send(err);
-          }
-        });
-        const uploadedDate = new Date();
-        const uploadedCase = {
-          pending_case_id: UUID,
-          user_id: req.profile.user_id,
-          case_url: s3return.Location,
-          file_name: targetFile.name || '',
-          status: 'Processing',
-          uploaded: `${
-            uploadedDate.getMonth() + 1
-          }-${uploadedDate.getDate()}-${uploadedDate.getFullYear()}`,
-        };
-        PendingCase.add(uploadedCase);
-        res.status(200).json({});
-        axios
-          .post(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`, { name: UUID })
-          .then((scrape) => {
-            const result = scrape.data.body;
-            // Any newCase value that doesn't reference the result should be considered a work in progress of the scraper and will need to be updated as the scraper grows
-            const scrapedData = {
-              case_date: new Date(result.date) || '',
-              judge_id: 1,
-              case_outcome: result.outcome || '',
-              country_of_origin: result['country of origin'] || '',
-              protected_grounds: result['protected grounds'] || '',
-              application_type: '',
-              case_origin_city: '',
-              case_origin_state: '',
-              gender: result.gender || '',
-              applicant_language: '',
-              indigenous_group: '',
-              type_of_violence: result['based violence'] || '',
-              appellate: false,
-              filed_in_one_year: result['check for one year'] || false,
-              credible: false,
-            };
-            PendingCase.changeStatus(UUID, 'Review');
-            PendingCase.update(UUID, scrapedData);
-          });
-      })
-      .catch(() => {
-        PendingCase.changeStatus(UUID, 'Error');
-        res.status(500).json(err.message);
+    uploadFile(UUID).then((s3return) => {
+      fs.unlink(path.join(__dirname, 'uploads', `${UUID}.pdf`), (err) => {
+        if (err) {
+          return res.status(500).send(err);
+        }
       });
+      const uploadedDate = new Date();
+      const uploadedCase = {
+        pending_case_id: UUID,
+        user_id: req.profile.user_id,
+        case_url: s3return.Location,
+        file_name: targetFile.name || '',
+        status: 'Processing',
+        uploaded: `${
+          uploadedDate.getMonth() + 1
+        }-${uploadedDate.getDate()}-${uploadedDate.getFullYear()}`,
+      };
+      PendingCase.add(uploadedCase)
+        .then(() => {
+          res.status(200).json({ id: UUID });
+        })
+        .catch((err) => {
+          res.status(500).send(err);
+        });
+    });
   });
 });
+
+router.post('/scrap/:pending_case_id', authRequired, (req, res) => {
+  const UUID = req.params.pending_case_id;
+  axios
+    .post(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`, { name: UUID })
+    .then((scrape) => {
+      const result = scrape.data.body;
+      // Any newCase value that doesn't reference the result should be considered a work in progress of the scraper and will need to be updated as the scraper grows
+      const scrapedData = {
+        case_date: new Date(result.date) || '',
+        judge_id: 1,
+        case_outcome: result.outcome || '',
+        country_of_origin: result['country of origin'] || '',
+        protected_grounds: result['protected grounds'] || '',
+        application_type: '',
+        case_origin_city: '',
+        case_origin_state: '',
+        gender: result.gender || '',
+        applicant_language: '',
+        indigenous_group: '',
+        type_of_violence: result['based violence'] || '',
+        appellate: false,
+        filed_in_one_year: result['check for one year'] || false,
+        credible: false,
+      };
+      PendingCase.changeStatus(UUID, 'Review')
+        .then(() => {
+          PendingCase.update(UUID, scrapedData)
+            .then(() => {
+              res.status(200).json({});
+            })
+            .catch((err) => {
+              res.status(500).json(err);
+            });
+        })
+        .catch((err) => {
+          res.status(500).json(err);
+        });
+    })
+    .catch((err) => {
+      PendingCase.changeStatus(UUID, 'Error');
+      res.status(500).json(err.message);
+    });
+});
+
 router.post('/:pending_case_id', authRequired, (req, res) => {
   const UUID = req.params.pending_case_id;
   const uploadedCase = {
