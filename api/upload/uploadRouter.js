@@ -66,7 +66,7 @@ router.post('/', authRequired, (req, res) => {
           pending_case_id: UUID,
           user_id: req.profile.user_id,
           case_url: s3return.Location,
-          case_number: 'A003-TEST-TEST',
+          file_name: targetFile.name || '',
           status: 'Processing',
           uploaded: `${
             uploadedDate.getMonth() + 1
@@ -98,13 +98,40 @@ router.post('/', authRequired, (req, res) => {
             };
             Upload.changeStatus(UUID, 'Review');
             Upload.update(UUID, scrapedData);
-            return;
           });
       })
       .catch(() => {
         Upload.changeStatus(UUID, 'Error');
-        return;
+        res.status(500).json(err.message);
       });
   });
+});
+router.post('/:pending_case_id', authRequired, (req, res) => {
+  const UUID = req.params.pending_case_id;
+  const uploadedCase = {
+    date: req.body.date,
+    case_outcome: req.body.case_outcome,
+    country_of_origin: req.body.country_of_origin,
+    protected_grounds: req.body.protected_grounds,
+    application_type: req.body.application_type,
+    case_origin_city: req.body.case_origin_city,
+    case_origin_state: req.body.case_origin_state,
+    gender: req.body.gender,
+    applicant_language: req.body.applicant_language,
+    indigenous_group: req.body.indigenous_group,
+    type_of_violence: req.body.type_of_violence,
+    appellate: req.body.appellate,
+    filed_in_one_year: req.body.filed_in_one_year,
+    credible: req.body.credible,
+    status: 'Pending',
+  };
+  Upload.update(UUID, uploadedCase)
+    .then(() => {
+      res.status(200).json();
+    })
+    .catch((err) => {
+      Upload.changeStatus(UUID, 'Error');
+      res.status(500).json(err.message);
+    });
 });
 module.exports = router;
