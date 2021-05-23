@@ -27,7 +27,6 @@ router.get('/:user_id', (req, res) => {
 
 router.post('/approve/:pending_case_id', (req, res) => {
   const UUID = req.params.pending_case_id;
-  console.log(req.body);
   const uploadedCase = {
     date: req.body.date,
     case_outcome: req.body.case_outcome,
@@ -73,7 +72,6 @@ router.post('/approve/:pending_case_id', (req, res) => {
                 });
             })
             .catch((err) => {
-              console.log(err);
               res.status(500).json(err.message);
             });
         })
