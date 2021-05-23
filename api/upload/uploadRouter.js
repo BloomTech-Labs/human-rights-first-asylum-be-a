@@ -8,7 +8,7 @@ const AWS = require('aws-sdk');
 const router = express.Router();
 require('dotenv').config();
 const authRequired = require('../middleware/authRequired');
-const Upload = require('./uploadModel');
+const PendingCase = require('../pendingCases/pendingCaseModel');
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -72,7 +72,7 @@ router.post('/', authRequired, (req, res) => {
             uploadedDate.getMonth() + 1
           }-${uploadedDate.getDate()}-${uploadedDate.getFullYear()}`,
         };
-        Upload.add(uploadedCase);
+        PendingCase.add(uploadedCase);
         res.status(200).json({});
         axios
           .post(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`, { name: UUID })
@@ -80,7 +80,7 @@ router.post('/', authRequired, (req, res) => {
             const result = scrape.data.body;
             // Any newCase value that doesn't reference the result should be considered a work in progress of the scraper and will need to be updated as the scraper grows
             const scrapedData = {
-              date: result.date || '',
+              case_date: result.date || '',
               judge_id: 1,
               case_outcome: result.outcome || '',
               country_of_origin: result['country of origin'] || '',
@@ -88,20 +88,20 @@ router.post('/', authRequired, (req, res) => {
               application_type: '',
               case_origin_city: '',
               case_origin_state: '',
-              gender: '',
+              gender: result.gender || '',
               applicant_language: '',
               indigenous_group: '',
-              type_of_violence: '',
+              type_of_violence: result['based violence'] || '',
               appellate: false,
-              filed_in_one_year: false,
+              filed_in_one_year: result['check for one year'] || false,
               credible: false,
             };
-            Upload.changeStatus(UUID, 'Review');
-            Upload.update(UUID, scrapedData);
+            PendingCase.changeStatus(UUID, 'Review');
+            PendingCase.update(UUID, scrapedData);
           });
       })
       .catch(() => {
-        Upload.changeStatus(UUID, 'Error');
+        PendingCase.changeStatus(UUID, 'Error');
         res.status(500).json(err.message);
       });
   });
@@ -125,12 +125,12 @@ router.post('/:pending_case_id', authRequired, (req, res) => {
     credible: req.body.credible,
     status: 'Pending',
   };
-  Upload.update(UUID, uploadedCase)
+  PendingCase.update(UUID, uploadedCase)
     .then(() => {
       res.status(200).json();
     })
     .catch((err) => {
-      Upload.changeStatus(UUID, 'Error');
+      PendingCase.changeStatus(UUID, 'Error');
       res.status(500).json(err.message);
     });
 });
