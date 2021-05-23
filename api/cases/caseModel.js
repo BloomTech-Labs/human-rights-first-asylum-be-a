@@ -8,7 +8,7 @@ const add = async (data) => {
 const findAll = async () => {
   return await db('cases as c')
     .join('judges as j', 'j.judge_id', 'c.judge_id')
-    .select('c.*', 'j.first_name as judge_name');
+    .select('c.*', 'j.first_name', 'j.middle_initial', 'j.last_name');
 };
 
 // * This function takes a moment because of the data attached
@@ -18,7 +18,7 @@ const findById = async (case_number) => {
     .where({ case_number })
     .first()
     .join('judges as j', 'j.judge_id', 'c.judge_id')
-    .select('c.*', 'j.first_name as judge_name');
+    .select('c.*', 'j.first_name', 'j.middle_initial', 'j.last_name');
   return cases;
 };
 
@@ -26,7 +26,7 @@ const findBy = async (filter) => {
   return db('cases')
     .where(filter)
     .join('judges as j', 'j.judge_id', 'c.judge_id')
-    .select('c.*', 'j.first_name as judge_name');
+    .select('c.*', 'j.first_name', 'j.middle_initial', 'j.last_name');
 };
 const findByUserId = (user_id) => {
   return db('cases').where({ user_id });
