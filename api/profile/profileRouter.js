@@ -175,8 +175,8 @@ router.delete('/:id', authRequired, (req, res) => {
           user.deactivate().then(() => user.delete());
         })
         .catch(() => res.json({ message: 'Okta failed to delete this user' }));
-      Profiles.remove(id).then(() => {
-        res.status(200).json({ message: `Profile '${id}' was deleted.`});
+      Profiles.remove(id).then((profiles) => {
+        res.status(200).json({ message: `Profile '${id}' was deleted.`, profiles: profiles });
       });
     });
   } catch (err) {
