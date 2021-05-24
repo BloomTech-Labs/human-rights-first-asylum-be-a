@@ -57,9 +57,7 @@ const findById = async (user_id) => {
 };
 
 const findPendingById = async (id) => {
-  const user = await db('pending_profiles')
-    .where({ id })
-    .first()
+  const user = await db('pending_profiles').where({ id }).first()
     .select('*');
   return user;
 };
@@ -83,7 +81,7 @@ const update = (user_id, profile) => {
 
 const remove = async (user_id) => {
   await db('profiles').where({ user_id: user_id }).del();
-  return await('profiles');
+  return await( 'profiles' );
 };
 
 const removePending = async (id) => {
