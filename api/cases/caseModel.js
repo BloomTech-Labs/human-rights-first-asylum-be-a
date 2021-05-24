@@ -57,6 +57,12 @@ const update = async (case_number, changes) => {
   return await db('cases').where({ case_number }).update(changes);
 };
 
+const casesByState = () => {
+  return db('cases')
+    .select(db.raw('count(*) as count, case_origin_state as state'))
+    .groupBy('case_origin_state');
+};
+
 module.exports = {
   add,
   findAll,
@@ -65,4 +71,5 @@ module.exports = {
   writeCSV,
   update,
   findByUserId,
+  casesByState,
 };
