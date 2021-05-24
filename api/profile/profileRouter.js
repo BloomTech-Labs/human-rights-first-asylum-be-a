@@ -77,7 +77,7 @@ router.post('/', authRequired, async (req, res) => {
   if (profile) {
     const id = profile.id || 0;
     try {
-      Profiles.findPendingById(id).then((pf) => { // check if user exists in pending profile, and remove if exists
+      Profiles.findPendingById(id).then((pf) => {
         if (pf) {
           Profiles.removePending(pf.id).catch((err) => {
             throw err;
@@ -95,7 +95,7 @@ router.post('/', authRequired, async (req, res) => {
           Profiles.create(appUser).then((profile) => {
             res
               .status(200)
-              .json({ message: 'profile created by admin,', profile })
+              .json({ message: 'profile created by admin,', profile });
           });
         });
       });
@@ -152,7 +152,7 @@ router.put('/:id', authRequired, (req, res) => {
               });
           })
           .catch(() =>
-          res.json({ message: 'Okta failed to update this profile' })
+            res.json({ message: 'Okta failed to update this profile' })
           )
       )
       .catch((err) => {
@@ -176,9 +176,7 @@ router.delete('/:id', authRequired, (req, res) => {
         })
         .catch(() => res.json({ message: 'Okta failed to delete this user' }));
       Profiles.remove(id).then(() => {
-        res
-          .status(200)
-          .json({ message: `Profile '${id}' was deleted.`});
+        res.status(200).json({ message: `Profile '${id}' was deleted.`});
       });
     });
   } catch (err) {
