@@ -68,11 +68,11 @@ router.post('/', authRequired, async (req, res) => {
   const profile = req.body;
   const newUser = {
     profile: {
-      firstName: profile.firstName,
-      lastName: profile.lastName,
+      firstName: profile.first_name,
+      lastName: profile.last_name,
       email: profile.email,
       login: profile.email,
-    },
+    }, //might be missing credentials object (reference docs: https://developer.okta.com/okta-sdk-nodejs/jsdocs/#create-a-user)
   };
   if (profile) {
     const id = profile.id || 0;
@@ -84,19 +84,19 @@ router.post('/', authRequired, async (req, res) => {
           });
         }
         client.createUser(newUser).then((user) => {
-          console.log('Created user', user);
+          console.log('OKTA response', user);
           const appUser = {
-            id: user.id,
-            email: profile.email,
-            firstName: profile.firstName,
-            lastName: profile.lastName,
-            role: profile.role,
+            user_id: user.id,
+            email: user.profile.email,
+            first_name: user.profile.firstName,
+            last_name: user.profile.lastName,
+            // role: profile.role, //how to get Okta role? doesn't appear in response
           };
-          Profiles.create(appUser).then((profile) =>
+          Profiles.create(appUser).then((profile) => {
             res
               .status(200)
-              .json({ message: 'profile created', profile: profile[0] })
-          );
+              .json({ message: 'profile created by admin,', profile });
+          });
         });
       });
     } catch (e) {
@@ -142,7 +142,7 @@ router.put('/:id', authRequired, (req, res) => {
               .then((updated) => {
                 res
                   .status(200)
-                  .json({ message: 'profile created', profile: updated[0] });
+                  .json({ message: 'profile updated', profile: updated[0] });
               })
               .catch((err) => {
                 res.status(500).json({
@@ -167,7 +167,7 @@ router.put('/:id', authRequired, (req, res) => {
 router.delete('/:id', authRequired, (req, res) => {
   const id = req.params.id;
   try {
-    Profiles.findById(id).then((profile) => {
+    Profiles.findById(id).then(() => {
       client
         .getUser(id)
         .then((user) => {
@@ -175,10 +175,11 @@ router.delete('/:id', authRequired, (req, res) => {
           user.deactivate().then(() => user.delete());
         })
         .catch(() => res.json({ message: 'Okta failed to delete this user' }));
-      Profiles.remove(profile.id).then(() => {
-        res
-          .status(200)
-          .json({ message: `Profile '${id}' was deleted.`, profile: profile });
+      Profiles.remove(id).then((profiles) => {
+        res.status(200).json({
+          message: `Profile '${id}' was deleted.`,
+          profiles: profiles,
+        });
       });
     });
   } catch (err) {

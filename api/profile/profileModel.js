@@ -12,8 +12,8 @@ const findBy = (filter) => {
   return db('profiles').where(filter);
 };
 
-const findPendingBy = (filter) => {
-  return db('pending_profiles').where(filter);
+const findPendingBy = (user_id) => {
+  return db('pending_profiles').where({ user_id });
 };
 
 const findById = async (user_id) => {
@@ -56,16 +56,14 @@ const findById = async (user_id) => {
   return user;
 };
 
-const findPendingById = async (user_id) => {
-  const user = await db('pending_profiles')
-    .where({ user_id })
-    .first()
-    .select('*');
+const findPendingById = async (id) => {
+  const user = await db('pending_profiles').where({ id }).first().select('*');
   return user;
 };
 
 const create = async (profile) => {
-  return db('profiles').insert(profile).returning('*');
+  await db('profiles').insert(profile);
+  return await db('profiles');
 };
 
 const createPending = async (profile) => {
@@ -81,7 +79,8 @@ const update = (user_id, profile) => {
 };
 
 const remove = async (user_id) => {
-  return await db('profiles').where({ user_id }).del();
+  await db('profiles').where({ user_id: user_id }).del();
+  return await db('profiles');
 };
 
 const removePending = async (id) => {
