@@ -84,7 +84,6 @@ router.post('/', authRequired, async (req, res) => {
           });
         }
         client.createUser(newUser).then((user) => {
-          console.log('OKTA response', user);
           const appUser = {
             user_id: user.id,
             email: user.profile.email,
@@ -134,8 +133,8 @@ router.put('/:id', authRequired, (req, res) => {
         client
           .getUser(id)
           .then((user) => {
-            user.profile.firstName = profile.firstName;
-            user.profile.lastName = profile.lastName;
+            user.profile.firstName = profile.first_name;
+            user.profile.lastName = profile.last_name;
             user.profile.email = profile.email;
             user.update();
             Profiles.update(id, profile)
@@ -171,7 +170,6 @@ router.delete('/:id', authRequired, (req, res) => {
       client
         .getUser(id)
         .then((user) => {
-          console.log(user);
           user.deactivate().then(() => user.delete());
         })
         .catch(() => res.json({ message: 'Okta failed to delete this user' }));
