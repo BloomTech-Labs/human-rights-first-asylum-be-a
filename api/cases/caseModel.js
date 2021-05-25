@@ -61,7 +61,7 @@ const casesByState = () => {
   return db('cases')
     .select(
       db.raw(
-        "case_origin_state as state, SUM(CASE WHEN case_outcome='Granted' THEN 1 ELSE 0 END) AS granted, SUM(CASE WHEN case_outcome='Denied' THEN 1 ELSE 0 END) AS denied, SUM(CASE WHEN case_outcome='Remanded' THEN 1 ELSE 0 END) AS remanded, SUM(CASE WHEN case_outcome='Terminated' THEN 1 ELSE 0 END) AS terminated, SUM(CASE WHEN case_outcome='Sustained' THEN 1 ELSE 0 END) AS sustained"
+        "case_origin_state as state, count(*) as total, SUM(CASE WHEN case_outcome='Granted' THEN 1 ELSE 0 END) AS granted, SUM(CASE WHEN case_outcome='Denied' THEN 1 ELSE 0 END) AS denied, SUM(CASE WHEN case_outcome='Remanded' THEN 1 ELSE 0 END) AS remanded, SUM(CASE WHEN case_outcome='Terminated' THEN 1 ELSE 0 END) AS terminated, SUM(CASE WHEN case_outcome='Sustained' THEN 1 ELSE 0 END) AS sustained"
       )
     )
     .groupBy('case_origin_state');
