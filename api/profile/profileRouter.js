@@ -139,9 +139,11 @@ router.put('/:id', authRequired, (req, res) => {
             user.update();
             Profiles.update(id, profile)
               .then((updated) => {
-                res
-                  .status(200)
-                  .json({ message: 'profile updated', profile: updated[0] });
+                res.status(200).json({
+                  message: 'profile updated',
+                  updated_profile: updated[0],
+                  profiles: updated,
+                });
               })
               .catch((err) => {
                 res.status(500).json({
