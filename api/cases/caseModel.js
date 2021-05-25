@@ -11,11 +11,9 @@ const findAll = async () => {
     .select('c.*', 'j.first_name', 'j.middle_initial', 'j.last_name');
 };
 
-// * This function takes a moment because of the data attached
-// Update this with case_id instead of case_number once it's all working
-const findById = async (case_number) => {
+const findById = async (case_id) => {
   const cases = await db('cases as c')
-    .where({ case_number })
+    .where({ case_id })
     .first()
     .join('judges as j', 'j.judge_id', 'c.judge_id')
     .select('c.*', 'j.first_name', 'j.middle_initial', 'j.last_name');
@@ -31,9 +29,9 @@ const findBy = async (filter) => {
 const findByUserId = (user_id) => {
   return db('cases').where({ user_id });
 };
-const writeCSV = async (case_number) => {
+const writeCSV = async (case_id) => {
   // *  get only case data
-  const case_data = await findById(case_number);
+  const case_data = await findById(case_id);
 
   // * create fields
   const case_fields = [];
@@ -53,8 +51,8 @@ const writeCSV = async (case_number) => {
   }
 };
 
-const update = async (case_number, changes) => {
-  return await db('cases').where({ case_number }).update(changes);
+const update = async (case_id, changes) => {
+  return await db('cases').where({ case_id }).update(changes);
 };
 
 const casesByState = () => {
