@@ -134,8 +134,8 @@ router.put('/:id', authRequired, (req, res) => {
         client
           .getUser(id)
           .then((user) => {
-            user.profile.firstName = profile.firstName;
-            user.profile.lastName = profile.lastName;
+            user.profile.firstName = profile.first_name;
+            user.profile.lastName = profile.last_name;
             user.profile.email = profile.email;
             user.update();
             Profiles.update(id, profile)
