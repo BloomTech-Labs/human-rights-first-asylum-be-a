@@ -70,12 +70,13 @@ const createPending = async (profile) => {
   return db('pending_profiles').insert(profile).returning('*');
 };
 
-const update = (user_id, profile) => {
-  return db('profiles')
+const update = async (user_id, profile) => {
+  await db('profiles')
     .where({ user_id })
     .first()
     .update(profile)
     .returning('*');
+  return await db('profiles').orderBy('created_at');
 };
 
 const remove = async (user_id) => {
