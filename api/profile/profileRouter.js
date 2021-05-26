@@ -140,7 +140,7 @@ router.put('/:id', authRequired, (req, res) => {
               .then((updated) => {
                 res.status(200).json({
                   message: 'profile updated',
-                  updated_profile: updated[0],
+                  updated_profile: updated.pop(),
                   profiles: updated,
                 });
               })
