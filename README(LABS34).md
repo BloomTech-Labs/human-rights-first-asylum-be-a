@@ -1,32 +1,16 @@
-# Human Rights First - Asylum - Back End
+## Product Mission and Goals
 
-- This project is built with the Basic Node API Scaffold. To get started with the project, go [here](https://docs.labs.lambdaschool.com/labs-api-strarter/) and follow the instructions. Be sure to read the instructions carefully. We found it easiest to use ElephantSQL for setting up your local database.
-- [Project deployed here](https://asylum-a-api.herokuapp.com/), using Heroku Postgres.
-- [Corresponding Front-end Repository](https://github.com/Lambda-School-Labs/human-rights-first-asylum-fe-a)
-- [Front-end deployment](https://a.humanrightsfirstasylum.dev/), using AWS Amplify.
+Human Rights First (HRF) is a non-profit, nonpartisan, 501(c)(3), international human rights organization based in New York, Washington D.C., Houston, and Los Angeles. [HRF](https://www.humanrightsfirst.org/asylum) works to link immigration attorneys and advocates with asylum seekers and provide those attorneys with resources to best represent their clients. Our application leverages historical data to better inform advocates of a judge’s past decisions. The hope is that advocates for asylum seekers can use our tools to tailor their arguments before a particular judge and maximize their client's chances of receiving asylum.
 
-### Dependencies
+## Architecture and Team Roles
 
-[All Dependencies](package.json)
+[Architecture](reference/architecture.png)
 
-### To get started:
+[To get started](api/README.md)
 
-- Create a local Postgres database/instance.
-- Clone the repo locally to your machine
-- Create an .env file on the top level of the repo, with the provided credentials.
-- run: `npm install` to download all dependencies.
-- run: `npm run knex migrate:latest` to migrate database.
-- run: `npm run knex seed:run` to seed the database
-- run: `npm run watch:dev` to start your local development server.
+[API documentation](api/APIDOC.md)
 
-### Current Back-End Database Schema
-
-![Asylum Case Analyzer - Database Schema](./reference/current_db_schema.png?raw=true)
-
-- positive and negative tags tables removed.
-- case table updated see migration file for updated case table
-
-## Labs 33
+## Our Role
 
 - Database changes: Removed newCase table with that change all cases approved and pending stored in the same table with a status tag(approved or pending). Database seeds match with the schema.
 - Superuser role added. Superuser can add, remove, and edit users.
@@ -37,6 +21,24 @@
 - Authentication middleware `./middleware/authRequired.js` is fully functional needs to be added to each endpoints which needs authentication.
 - The `.env.sample` file contains all of the environment variables needed and where to find the values in order to run the project locally.
 - There`s a API endpoint implemented by previous teams called [Swagger docs](https://asylum-a-api.herokuapp.com/api-docs/) API information in these documantation is not accurate. Swagger docs needs to be cleaned from code. For accurate and up-to-date API documantation please refer to [this file](APIDOC.md)
+
+## Codebases
+
+[Front-End](https://github.com/Lambda-School-Labs/human-rights-first-asylum-fe-a)
+
+Uses NodeJS to create the web-based user interface for uploading case documents, managing users, and viewing data in the form of tables and visualizations.
+
+[Back-End](https://github.com/Lambda-School-Labs/human-rights-first-asylum-be-a)
+
+Uses Javascript, Express, and Postgres to manage databases containing tables for users, judges, and cases.
+
+[Data Science](https://github.com/Lambda-School-Labs/Lambda-School-Labs-human-rights-first-asylum-ds-a)
+
+This part of the application uses optical character recognition (OCR) to convert pdf images into text data that can be searched via natural language processing (NLP) techniques. Key data, which we refer to as structured fields, are extracted from the text data and sent to the back-end for storage.
+
+## Known Bugs
+
+Please see [KnownDefects](KnownDefects.md) file
 
 ## Contributors
 
