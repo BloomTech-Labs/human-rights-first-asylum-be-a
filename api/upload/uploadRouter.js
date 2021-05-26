@@ -87,7 +87,6 @@ router.post('/scrap/:pending_case_id', authRequired, (req, res) => {
     .post(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`, { name: UUID })
     .then((scrape) => {
       const result = scrape.data.body;
-      // Any newCase value that doesn't reference the result should be considered a work in progress of the scraper and will need to be updated as the scraper grows
       const scrapedData = {
         case_date: new Date(result.date) || '',
         judge_id: 1,
