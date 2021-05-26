@@ -34,7 +34,7 @@ router.get('/', Cache.checkCache, (req, res) => {
 //   res.status(200).json({ data });
 // });
 
-router.get('/:judge_id/cases', async (req, res, next) => {
+router.get('/:judge_id/cases', async (req, res) => {
   try {
     // GET the judge cases data
     const raw_data = await Judges.findJudgeCases(req.params.judge_id);
