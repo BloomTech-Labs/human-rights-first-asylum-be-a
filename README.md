@@ -1,74 +1,205 @@
+# Human Rights First - Asylum
+
 ## Product Mission and Goals
 
-Human Rights First (HRF) is a non-profit, nonpartisan, 501(c)(3), international human rights organization based in New York, Washington D.C., Houston, and Los Angeles. [HRF](https://www.humanrightsfirst.org/asylum) works to link immigration attorneys and advocates with asylum seekers and provide those attorneys with resources to best represent their clients. Our application leverages historical data to better inform advocates of a judge’s past decisions. The hope is that advocates for asylum seekers can use our tools to tailor their arguments before a particular judge and maximize their client's chances of receiving asylum.
+Human Rights First (HRF) is a non-profit, nonpartisan, 501(c)(3), international human rights organization based in New York, Washington D.C., Houston, and Los Angeles. HRF works to link immigration attorneys and advocates with asylum seekers and provide those attorneys with resources to best represent their clients. Our application leverages historical data to better inform advocates of a judge’s past decisions. The hope is that advocates for asylum seekers can use our tools to tailor their arguments before a particular judge and maximize their client's chances of receiving asylum.
 
-## Architecture and Team Roles
+## Getting Started
+The base technologies are JavaScript, HTML and CSS. The frontend leverages [React](https://reactjs.org/), the backend uses [Express](https://expressjs.com/) and [PostgreSQL](https://www.postgresql.org/), the server runs on [Heroku](heroku.com), and the authentication workflow runs on [Okta](https://developer.okta.com/okta-sdk-nodejs/jsdocs/). Frontend is hosted on [AWS](https://aws.amazon.com/).
+Style guide/wireframe located on [Figma](https://www.figma.com/file/V2XbE5rpvqrNLOXs3m82k8/HRF-Asylum-Labs34-A)
 
-[Architecture](reference/architecture.png)
+### Developer Instructions
+1. Clone both the [front-end](https://github.com/Lambda-School-Labs/human-rights-first-asylum-fe-a) and [back-end](https://github.com/Lambda-School-Labs/human-rights-first-asylum-be-a) repositories to your machine. DO NOT FORK.
+1. From the backend directory, in your terminal:
+    1. Create an environment file (.env) based on the [sample .env](https://github.com/Lambda-School-Labs/human-rights-first-asylum-fe-a/blob/main/.env.sample) and populate the environment variables (Migrate/Seed your local database)
+    1. Make sure the `.env` is in your `.gitignore`
+    1. Download the server dependencies by running `npm install`
+    1. Migrate your tables by running `npm run knex migrate:latest`
+    1. Seed your tables by running `npm run knex seed:run`
+    1. Start up the server by running `npm run watch:dev`
+1. From the frontend directory in your terminal:
+    1. Download the frontend dependencies by running `npm install`
+    1. Start up the app by running `npm start`
 
-[To get started](api/README.md)
+# Endpoints
 
-[API documentation](api/APIDOC.md)
+## Status
 
-## Our Role
+| Method | Endpoint | Request Body | Returns                    |
+| ------ | -------- | ------------ | -------------------------- |
+| GET    | `/`      | -            | `{ api: "up", timestamp }` |
 
-- Database changes: Removed newCase table with that change all cases approved and pending stored in the same table with a status tag(approved or pending). Database seeds match with the schema.
-- Superuser role added. Superuser can add, remove, and edit users.
-- Users be able to edit their information including email address, name, etc.
-- Superuser and admins have more item in navigation bar that new items leads to admin only features such as manage users and approve cases.
-- Back-End be able to programatically upload files to s3 bucket
-- Currently, some endpoints require authentication. In the future, auth will need to be added to all endpoints however it has not been done yet to make it easier for the entire team to work with the data.
-- Authentication middleware `./middleware/authRequired.js` is fully functional needs to be added to each endpoints which needs authentication.
-- The `.env.sample` file contains all of the environment variables needed and where to find the values in order to run the project locally.
-- There`s a API endpoint implemented by previous teams called [Swagger docs](https://asylum-a-api.herokuapp.com/api-docs/) API information in these documantation is not accurate. Swagger docs needs to be cleaned from code. For accurate and up-to-date API documantation please refer to [this file](APIDOC.md)
+## Cases
 
-## Codebases
+###### Referance case schema:
 
-[Front-End](https://github.com/Lambda-School-Labs/human-rights-first-asylum-fe-a)
+    {
+        "case_id": "2ff54195-ce30-456c-be63-2a6c765bdce2",
+        "user_id": "00ulzdrizE2yzxToH5d6",
+        "case_url": "https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf",
+        "case_number": "A094-216-526",
+        "date": "1-24-2013",
+        "judge": "1",
+        "case_outcome": "Denied",
+        "country_of_origin": "Mexico",
+        "protected_grounds": "Social Group",
+        "application_type": "initial",
+        "case_origin_city": "Baltimore",
+        "case_origin_state": "MD",
+        "gender": "Male",
+        "applicant_language": "Spanish",
+        "indigenous_group": "Not Applicable",
+        "type_of_violence": "Not Applicable",
+        "appellate": false,
+        "filed_in_one_year": false,
+        "credible": true,
+        "status": "approved",
+        "uploaded": "1",
+        "judge_name": "David W. Crosland"
+    }
 
-Uses NodeJS to create the web-based user interface for uploading case documents, managing users, and viewing data in the form of tables and visualizations.
+| Method | Endpoint                  | Request Body     | Returns                          |
+| ------ | ------------------------- | ---------------- | -------------------------------- |
+| GET    | `/cases`                  | -                | `Referance case`                 |
+| GET    | `/cases/:id`              | -                | `Referance case`                 |
+| GET    | `/cases/:id/view-pdf`     | -                | `PDF file of the case`           |
+| GET    | `/cases/:id/download-pdf` | -                | `PDF file of the case`           |
+| GET    | `/cases/:id/download-csv` | -                | `case information as CSV format` |
+| PUT    | `/cases/:id`              | `Referance case` | `updatedCase`                    |
 
-[Back-End](https://github.com/Lambda-School-Labs/human-rights-first-asylum-be-a)
+## Data
 
-Uses Javascript, Express, and Postgres to manage databases containing tables for users, judges, and cases.
+| Method | Endpoint                | Request Body | Returns                                               |
+| ------ | ----------------------- | ------------ | ----------------------------------------------------- |
+| GET    | `/data/viz/{stateCode}` | -            | `A plotly result object.`                             |
+| GET    | `/data/form`            | -            | `{judge_names, social_group_type, protected_grounds}` |
+| GET    | `/data/upload`          | -            | -                                                     |
 
-[Data Science](https://github.com/Lambda-School-Labs/Lambda-School-Labs-human-rights-first-asylum-ds-a)
+## Judges
 
-This part of the application uses optical character recognition (OCR) to convert pdf images into text data that can be searched via natural language processing (NLP) techniques. Key data, which we refer to as structured fields, are extracted from the text data and sent to the back-end for storage.
+###### Referance judge schema:
 
-## Known Bugs
+    {
+        "judge_id": "1",
+        "name": "David W. Crosland",
+        "judge_county": "Baltimore",
+        "judge_image": "https://s3.amazonaws.com/uifaces/faces/twitter/bfrohs/128.jpg",
+        "date_appointed": "May 1997",
+        "birth_date": "(unavailable)",
+        "biography": "https://www.justice.gov/eoir/BaltimoreNatzCer03072012",
+        "denial_rate": 51.8,
+        "approval_rate": 48.2,
+        "appointed_by": "Janet Reno"
+    }
 
-Please see [KnownDefects](KnownDefects.md) file
+| Method | Endpoint            | Request Body | Returns                                                                                 |
+| ------ | ------------------- | ------------ | --------------------------------------------------------------------------------------- |
+| GET    | `/judges`           | -            | `[Referance judge]`                                                                     |
+| GET    | `/judges/:name`     | -            | `{Referance judge, appointed_by, social_data, grounds_data, country_data, case_data}`   |
+| GET    | `/judges/all`       | -            | `[{Referance judge, appointed_by, social_data, grounds_data, country_data, case_data}]` |
+| GET    | `/judges/:name/csv` | -            | `judge information as CSV format`                                                       |
 
-## Contributors
+## Profile
 
-### Labs33
+###### Referance profile schema:
 
-|                                                                                                                                 |                                                                                                                                     |                                                                                                                            |
-| :-----------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------: |
-|                                          [Senih Aydin](https://github.com/aydinsenih)                                           |                                          [Christina Melchor](https://github.com/c-melchor)                                          |                                         [Cameron Mirza](https://github.com/cmirza)                                         |
-| [<img src="https://avatars.githubusercontent.com/u/35286437?v=4" width = "200" align="center"/>](https://github.com/aydinsenih) |   [<img src="https://avatars.githubusercontent.com/u/71955286?v=4" width = "200" align="center"/>](https://github.com/c-melchor)    | [<img src="https://avatars.githubusercontent.com/u/7876859?v=4" width = "200" align="center"/>](https://github.com/cmirza) |
-|                                          [Rees Harper](https://github.com/reesharper)                                           |                                        [Matthew Justice](https://github.com/JusticeMatthew)                                         |
-| [<img src="https://avatars.githubusercontent.com/u/70249966?v=4" width = "200" align="center"/>](https://github.com/reesharper) | [<img src="https://avatars.githubusercontent.com/u/72817096?v=4" width = "200" align="center"/>](https://github.com/JusticeMatthew) |
+    {
+        "id": "00ulzfj6nX72gu3Nh4d6",
+        "email": "email@email.mail",
+        "name": "username",
+        "avatarUrl": null,
+        "role": "user",
+        "created_at": "2021-04-21T18:47:18.712Z",
+        "updated_at": "2021-04-21T18:47:18.712Z"
+    }
 
-### Labs29 - Team A
+| Method | Endpoint                      | Request Body        | Returns                      |
+| ------ | ----------------------------- | ------------------- | ---------------------------- |
+| GET    | `/profiles`                   | -                   | `[Referance profile]`        |
+| GET    | `/profiles/:id`               | -                   | `Referance profile`          |
+| GET    | `/profiles/pending`           | -                   | `[Referance profile]`        |
+| GET    | `/profiles/pending/:id`       | -                   | `Referance profile`          |
+| POST   | `/profiles`                   | `Referance profile` | `{created profile}`          |
+| POST   | `/profiles/pending`           | `Referance profile` | `{created profile}`          |
+| PUT    | `/profiles/:id`               | `Referance profile` | `{updated profile}`          |
+| DELETE | `/profiles/:id`               | -                   | `{deleted profile}`          |
+| DELETE | `/profiles/pending/:id`       | -                   | `{deleted profile}`          |
+| POST   | `/profiles/:id/judge/:name`   | -                   | `{message, judge_bookmarks}` |
+| DELETE | `/profiles/:id/judge/:name`   | -                   | `{message}`                  |
+| POST   | `/profiles/:id/case/:case_id` | -                   | `{message, case_bookmarks}`  |
+| DELETE | `/profiles/:id/case/:case_id` | -                   | `{message}`                  |
 
-|                                                                                                                                          |                                                                                                                                         |                                                                                                                                              |
-| :--------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------: |
-|                                               [Ava Wingfield](https://github.com/avawing)                                                |                                                 [Tom Bauer](https://github.com/TBau23)                                                  |                                                  [Ryan Lee](https://github.com/SassyFatCat)                                                  |
-| [<img src="https://ca.slack-edge.com/ESZCHB482-W014G4L7R1P-5e90ae004407-512" width = "200" align="center"/>](https://github.com/avawing) | [<img src="https://ca.slack-edge.com/ESZCHB482-W015P694SUV-84c590ba765c-512" width = "200" align="center"/>](https://github.com/TBau23) | [<img src="https://ca.slack-edge.com/ESZCHB482-W014G4N2FEV-9b9fece7a4af-512" width = "200" align="center"/>](https://github.com/SassyFatCat) |
-|                                          [Linkedin](https://www.linkedin.com/in/avawingfield/)                                           |                                           [Linkedin](https://www.linkedin.com/in/tombauer11/)                                           |                                             [Linkedin](https://www.linkedin.com/in/sassyfatcat/)                                             |
+## Tags
 
-<br />
+| Method | Endpoint        | Request Body | Returns |
+| ------ | --------------- | ------------ | ------- |
+| GET    | `/tags/grounds` | -            | `[]`    |
+| GET    | `/tags/social`  | -            | `[]`    |
 
-### Labs30 - Team A
+## NewCase
 
-|                                                                                                                                                                               |                                                                                                                                                                              |                                                                                                                                                                                   |
-| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-|                                                                [Tzong-Lian Tsay](https://github.com/tzonglian)                                                                |                                                               [Trevor Beadle](https://github.com/TrevorBeadle)                                                               |                                                                [Reuben Palumbo](https://github.com/reubenPalumbo)                                                                 |
-| [<img src="https://avatars.githubusercontent.com/u/68922354?s=460&u=93ce3bbc5de94dd89246239b70828545b5dcac5e&v=4" width = "200" align="center"/>](https://github.com/avawing) | [<img src="https://avatars.githubusercontent.com/u/66217015?s=460&u=bc4a490d18d80167985a032f5ca86b9193124a6c&v=4" width = "200" align="center"/>](https://github.com/TBau23) | [<img src="https://avatars.githubusercontent.com/u/68444266?s=460&u=ff38ccc9dcb83047c2134ce9852e0dfef1fae8fb&v=4" width = "200" align="center"/>](https://github.com/SassyFatCat) |
-|                                                                [Linkedin](https://www.linkedin.com/in/tltsay/)                                                                |                                                       [Linkedin](https://www.linkedin.com/in/trevor-beadle-1850481b6/)                                                       |                                                              [Linkedin](https://www.linkedin.com/in/reuben-palumbo/)                                                              |
-|                                                                                                                                                                               |                                                                                                                                                                              |                                                                                                                                                                                   |
-|                                                                [Anna Brander](https://github.com/aelise17264)                                                                 |                                                              [Maycie Morris](https://github.com/maycie-morris)                                                               |                                                                   [Lynda Santiago](https://github.com/lyntechi)                                                                   |
-| [<img src="https://avatars.githubusercontent.com/u/66019108?s=460&u=b98ac38b13155691c2189b10914cff7a092ab5a5&v=4" width = "200" align="center"/>](https://github.com/avawing) | [<img src="https://avatars.githubusercontent.com/u/67204638?s=460&u=57c9c3585fd3326f80ce34c02cbb7939a3ddc0fa&v=4" width = "200" align="center"/>](https://github.com/TBau23) | [<img src="https://avatars.githubusercontent.com/u/64440403?s=460&u=ebd52037cfa31421477942f041a43a6ef88267ca&v=4" width = "200" align="center"/>](https://github.com/SassyFatCat) |
-|                                                             [Linkedin](https://www.linkedin.com/in/aelise17264/)                                                              |                                                            [Linkedin](https://www.linkedin.com/in/mayciemorris/)                                                             |                                                         [Linkedin](https://www.linkedin.com/in/lynda-santiago-7b58221b4/)                                                         |
+#### Deprecated!!!
+
+###### Referance newcase schema:
+
+    {
+        "primary_key": "150",
+        "user_id": "00ulzdrizE2yzxToH5d6",
+        "case_id": "A094-216-526",
+        "initial_or_appellate": false,
+        "hearing_date": "",
+        "judge": "3",
+        "case_origin": "",
+        "case_filed_within_one_year": true,
+        "application_type": "initial",
+        "protected_ground": "Not Applicable",
+        "case_outcome": "",
+        "nation_of_origin": "Mexico",
+        "applicant_gender": "Male",
+        "type_of_violence_experienced": "Not Applicable",
+        "applicant_indigenous_group": "Not Applicable",
+        "applicant_language": "Spanish",
+        "applicant_access_to_interpreter": true,
+        "applicant_perceived_credibility": false
+    }
+
+| Method | Endpoint           | Request Body        | Returns               |
+| ------ | ------------------ | ------------------- | --------------------- |
+| GET    | `/newcase`         | -                   | `[referance newcase]` |
+| POST   | `/newcase`         | `Referance newcase` | `{created_case}`      |
+| POST   | `/newcase/approve` | `{id}`              | `{approved_case}`     |
+| DELETE | `/newcase/:id`     | -                   | `{message}`           |
+
+
+### About
+
+- The Front End of the application allows Administrators to invite users and assign them as either an Administrator role or a Refugee Representative role. This application uses [Okta](https://www.okta.com/) to handle third-party authentication for user sign up/login. (FUTURE DEVS: This can be checked in the back-end repo, look to the ProfileRouter for more information. For front-end, look to the 'HomeContainer' component.)
+- Administrators are able to oversee user management such as inviting users, editing any user's role, and deleting users. They may also perform all other tasks available to Administrators or Refugee Representatives.
+- Administrators are able to approve, deny, or edit uploaded asylum case data, as well as perform all other tasks available to Refugee Representatives.
+- Refugee Representatives, or standard users, are able to look up information on judges, look up information on previous asylum cases, upload case file information in bulk on asylum case rulings, and see accurate data visualizations.
+
+### Key Features
+
+- Added new home page which displays visualizations meant to showcase the current state of the database and, eventually, the state of asylum cases across the nation
+- Swapped many Material UI components to use ANT D instead
+- Moved many features to use modals to prevent from UX being disrupted by unnecessary page-hopping (Case Upload, add/edit a user, edit/add a faq, case details/edit case, and support contact form)
+- Combined related features in the sidebar, making for a smoother user experience
+- Style improvements all around
+
+### Still Needs Work
+
+- All alerts need to be swapped to ANT D notifications to match the case upload notifications
+- Change the accordions on the 'Manage Users' page to a table to account for a larger userbase and facilitate searching for admins/our stakeholders
+- All of the reloading pages (Occurs on any delete, update, or add functionality) should be switched to simply update the state rather than starting a full reload
+- The stakeholders have mentioned possibly wanting an alert system to be implemented, either within the app itself and/or as customizable email notifications. This could be added to the account settings as an option so users can toggle as they please
+- Stakeholders have also mentioned users might want to be able to favorite/subscribe to specific judges so they can watch for new cases to be added that might be most relevant to them
+- Add a comment when you deny or reject a case describing your decision (Add/reject case functionality still needs to be built out on 'Manage Cases')
+- The new hub page could use some more fine-tuning/additional visualizations
+- The back-end repo has a lot of unused functions that may need to be cleaned up
+- The swapping from Material UI components to ANT D components still needs to be completed
+- Sort out where the support contact form goes (Check backend ENV credentials)
+- The ability to request to join the app still needs work
+- The PDF view for the my_cases table still needs work
+- Much discourse was had regarding judge ids and how to present them, this may need to be looked at deeper
+- May need to add a bridge table for protected_grounds
+- May need to reevaluate table relationships in handling judge to case relationships
