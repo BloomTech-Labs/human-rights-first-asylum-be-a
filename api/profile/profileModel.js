@@ -26,12 +26,12 @@ const findById = async (user_id) => {
   if (book_marked_cases.length > 0) {
     let cases = [];
     for (let i = 0; i < book_marked_cases.length; i++) {
-      const one_case = await db('cases')
+      const one_case = await db('cases as c')
+        .join('judges as j', 'j.judge_id', 'c.judge_id')
+        .select('c.*', 'j.first_name', 'j.middle_initial', 'j.last_name')
         .where({
           case_id: book_marked_cases[i].case_id,
-        })
-        .select('*');
-
+        });
       cases.push(Object.values(one_case)[0]);
     }
     book_marked_cases = cases;
