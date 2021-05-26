@@ -30,8 +30,6 @@ const sendPDF = (req, res) => {
     },
     function (error, response, body) {
       if (error) throw new Error(error);
-      // console.log('response', response);
-      // console.log('body', body);
       res.send(body);
     }
   );
