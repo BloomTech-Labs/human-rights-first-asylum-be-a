@@ -45,7 +45,12 @@ router.get('/:judge_id/cases', async (req, res) => {
       })
       .then((data_viz_res) => {
         // Respond to frontend with the data for the visualization
-        res.status(200).json({ judge_cases: JSON.parse(data_viz_res.data) });
+        const parsed_data = JSON.parse(data_viz_res.data);
+        let result = {};
+        for (const data in parsed_data) {
+          result[data] = JSON.parse(parsed_data[data]);
+        }
+        res.status(200).json(result);
       })
       .catch((err) => {
         res.status(500).json({ error: err });
