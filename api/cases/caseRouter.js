@@ -24,8 +24,8 @@ router.get('/', Cache.checkCache, (req, res) => {
 
 router.get('/cases-by-state', (req, res) => {
   Cases.casesByState()
-    .then((count) => {
-      res.status(200).json(count);
+    .then((counts) => {
+      res.status(200).json(counts);
     })
     .catch((err) => {
       res.status(500).json({ message: err.message });
