@@ -72,7 +72,7 @@ router.post('/', authRequired, async (req, res) => {
       lastName: profile.last_name,
       email: profile.email,
       login: profile.email,
-    }, //might be missing credentials object (reference docs: https://developer.okta.com/okta-sdk-nodejs/jsdocs/#create-a-user)
+    },
   };
   if (profile) {
     const id = profile.id || 0;
@@ -89,7 +89,6 @@ router.post('/', authRequired, async (req, res) => {
             email: user.profile.email,
             first_name: user.profile.firstName,
             last_name: user.profile.lastName,
-            // role: profile.role, //how to get Okta role? doesn't appear in response
           };
           Profiles.create(appUser).then((profile) => {
             res
