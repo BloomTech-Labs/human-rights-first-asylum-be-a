@@ -31,7 +31,7 @@ The base technologies are JavaScript, HTML and CSS. The frontend leverages [Reac
 
 ## Cases
 
-###### Referance case schema:
+###### Reference case schema:
 
     {
         "case_id": "2ff54195-ce30-456c-be63-2a6c765bdce2",
@@ -60,12 +60,12 @@ The base technologies are JavaScript, HTML and CSS. The frontend leverages [Reac
 
 | Method | Endpoint                  | Request Body     | Returns                          |
 | ------ | ------------------------- | ---------------- | -------------------------------- |
-| GET    | `/cases`                  | -                | `Referance case`                 |
-| GET    | `/cases/:id`              | -                | `Referance case`                 |
+| GET    | `/cases`                  | -                | `Reference case`                 |
+| GET    | `/cases/:id`              | -                | `Reference case`                 |
 | GET    | `/cases/:id/view-pdf`     | -                | `PDF file of the case`           |
 | GET    | `/cases/:id/download-pdf` | -                | `PDF file of the case`           |
 | GET    | `/cases/:id/download-csv` | -                | `case information as CSV format` |
-| PUT    | `/cases/:id`              | `Referance case` | `updatedCase`                    |
+| PUT    | `/cases/:id`              | `Reference case` | `updatedCase`                    |
 
 ## Data
 
@@ -77,7 +77,7 @@ The base technologies are JavaScript, HTML and CSS. The frontend leverages [Reac
 
 ## Judges
 
-###### Referance judge schema:
+###### Reference judge schema:
 
     {
         "judge_id": "1",
@@ -94,15 +94,15 @@ The base technologies are JavaScript, HTML and CSS. The frontend leverages [Reac
 
 | Method | Endpoint                  | Request Body | Returns                                                                                 |
 | ------ | ------------------------- | ------------ | --------------------------------------------------------------------------------------- |
-| GET    | `/judges`                 | -            | `[Referance judge]`                                                                     |
-| GET    | `/judges/:name`           | -            | `{Referance judge, appointed_by, social_data, grounds_data, country_data, case_data}`   |
-| GET    | `/judges/all`             | -            | `[{Referance judge, appointed_by, social_data, grounds_data, country_data, case_data}]` |
+| GET    | `/judges`                 | -            | `[Reference judge]`                                                                     |
+| GET    | `/judges/:name`           | -            | `{Reference judge, appointed_by, social_data, grounds_data, country_data, case_data}`   |
+| GET    | `/judges/all`             | -            | `[{Reference judge, appointed_by, social_data, grounds_data, country_data, case_data}]` |
 | GET    | `/judges/:name/csv`       | -            | `judge information as CSV format`                                                       |
 | GET    | `/judges/:judge_id/cases` | -            | `judge visualizations from DS API`                                                      |
 
 ## Profile
 
-###### Referance profile schema:
+###### Reference profile schema:
 
     {
         "id": "00ulzfj6nX72gu3Nh4d6",
@@ -116,13 +116,13 @@ The base technologies are JavaScript, HTML and CSS. The frontend leverages [Reac
 
 | Method | Endpoint                      | Request Body        | Returns                      |
 | ------ | ----------------------------- | ------------------- | ---------------------------- |
-| GET    | `/profiles`                   | -                   | `[Referance profile]`        |
-| GET    | `/profiles/:id`               | -                   | `Referance profile`          |
-| GET    | `/profiles/pending`           | -                   | `[Referance profile]`        |
-| GET    | `/profiles/pending/:id`       | -                   | `Referance profile`          |
-| POST   | `/profiles`                   | `Referance profile` | `{created profile}`          |
-| POST   | `/profiles/pending`           | `Referance profile` | `{created profile}`          |
-| PUT    | `/profiles/:id`               | `Referance profile` | `{updated profile}`          |
+| GET    | `/profiles`                   | -                   | `[Reference profile]`        |
+| GET    | `/profiles/:id`               | -                   | `Reference profile`          |
+| GET    | `/profiles/pending`           | -                   | `[Reference profile]`        |
+| GET    | `/profiles/pending/:id`       | -                   | `Reference profile`          |
+| POST   | `/profiles`                   | `Reference profile` | `{created profile}`          |
+| POST   | `/profiles/pending`           | `Reference profile` | `{created profile}`          |
+| PUT    | `/profiles/:id`               | `Reference profile` | `{updated profile}`          |
 | DELETE | `/profiles/:id`               | -                   | `{deleted profile}`          |
 | DELETE | `/profiles/pending/:id`       | -                   | `{deleted profile}`          |
 | POST   | `/profiles/:id/judge/:name`   | -                   | `{message, judge_bookmarks}` |
@@ -141,7 +141,7 @@ The base technologies are JavaScript, HTML and CSS. The frontend leverages [Reac
 
 #### Deprecated!!!
 
-###### Referance newcase schema:
+###### Reference pending case schema:
 
     {
         "primary_key": "150",
@@ -166,17 +166,17 @@ The base technologies are JavaScript, HTML and CSS. The frontend leverages [Reac
 
 | Method | Endpoint           | Request Body        | Returns               |
 | ------ | ------------------ | ------------------- | --------------------- |
-| GET    | `/newcase`         | -                   | `[referance newcase]` |
-| POST   | `/newcase`         | `Referance newcase` | `{created_case}`      |
+| GET    | `/newcase`         | -                   | `[reference newcase]` |
+| POST   | `/newcase`         | `Reference newcase` | `{created_case}`      |
 | POST   | `/newcase/approve` | `{id}`              | `{approved_case}`     |
 | DELETE | `/newcase/:id`     | -                   | `{message}`           |
 
 
 ### About
 
-- The Front End of the application allows Administrators to invite users and assign them as either an Administrator role or a Refugee Representative role. This application uses [Okta](https://www.okta.com/) to handle third-party authentication for user sign up/login. (FUTURE DEVS: This can be checked in the back-end repo, look to the ProfileRouter for more information. For front-end, look to the 'HomeContainer' component.)
-- Administrators are able to oversee user management such as inviting users, editing any user's role, and deleting users. They may also perform all other tasks available to Administrators or Refugee Representatives.
-- Administrators are able to approve, deny, or edit uploaded asylum case data, as well as perform all other tasks available to Refugee Representatives.
+- The Front End of the application allows Administrators to invite users and assign them as either an Administrator, Moderator, or User. This application uses [Okta](https://developer.okta.com/okta-sdk-nodejs/jsdocs/) to handle third-party authentication for user sign up/login.(FUTURE DEVS: This can be checked in the back-end repo, look to the ProfileRouter for more information. For front-end, look to the 'HomeContainer' component.)
+- Administrators are able to oversee user management such as inviting users, editing any user's role, and deleting users. They may also perform all other tasks available to moderators.
+- Administrators are able to approve, deny, or edit uploaded asylum case data, as well as perform all other tasks available to users (previously named, Refugee Representatives).
 - Refugee Representatives, or standard users, are able to look up information on judges, look up information on previous asylum cases, upload case file information in bulk on asylum case rulings, and see accurate data visualizations.
 
 ### Key Features
@@ -189,7 +189,7 @@ The base technologies are JavaScript, HTML and CSS. The frontend leverages [Reac
 
 ### Still Needs Work
 
-- All alerts need to be swapped to ANT D notifications to match the case upload notifications
+- All alerts need to be swapped to ANT D notifications to match the case upload notifications 
 - Change the accordions on the 'Manage Users' page to a table to account for a larger userbase and facilitate searching for admins/our stakeholders
 - All of the reloading pages (Occurs on any delete, update, or add functionality) should be switched to simply update the state rather than starting a full reload
 - The stakeholders have mentioned possibly wanting an alert system to be implemented, either within the app itself and/or as customizable email notifications. This could be added to the account settings as an option so users can toggle as they please
@@ -199,8 +199,9 @@ The base technologies are JavaScript, HTML and CSS. The frontend leverages [Reac
 - The back-end repo has a lot of unused functions that may need to be cleaned up
 - The swapping from Material UI components to ANT D components still needs to be completed
 - Sort out where the support contact form goes (Check backend ENV credentials)
-- The ability to request to join the app still needs work
+- The ability to request to join the app still needs work; currently, if the user isn't assigned a role at request, they may be able to access privateRoutes.
 - The PDF view for the my_cases table still needs work
 - Much discourse was had regarding judge ids and how to present them, this may need to be looked at deeper
 - May need to add a bridge table for protected_grounds
 - May need to reevaluate table relationships in handling judge to case relationships
+- Stakeholder mentioned the possibility of screening out users. Beyond deleting, implementing deactivating account might help solve for this problem.
