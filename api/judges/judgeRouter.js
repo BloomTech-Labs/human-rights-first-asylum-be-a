@@ -60,7 +60,6 @@ router.get('/:judge_id/cases', async (req, res) => {
   }
 });
 
-
 router.get('/all', Cache.checkCache, (req, res) => {
   Judges.findAll()
     .then((judges) => {
