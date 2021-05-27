@@ -5,14 +5,14 @@
 Human Rights First (HRF) is a non-profit, nonpartisan, 501(c)(3), international human rights organization based in New York, Washington D.C., Houston, and Los Angeles. HRF works to link immigration attorneys and advocates with asylum seekers and provide those attorneys with resources to best represent their clients. Our application leverages historical data to better inform advocates of a judge’s past decisions. The hope is that advocates for asylum seekers can use our tools to tailor their arguments before a particular judge and maximize their client's chances of receiving asylum.
 
 ## Getting Started
-The base technologies are JavaScript, HTML and CSS. The frontend leverages [React](https://reactjs.org/), the backend uses [Express](https://expressjs.com/) and [PostgreSQL](https://www.postgresql.org/), the server runs on [Heroku](heroku.com), and the authentication workflow runs on [Okta](https://developer.okta.com/okta-sdk-nodejs/jsdocs/). Frontend is hosted on [AWS](https://aws.amazon.com/).
-Style guide/wireframe located on [Figma](https://www.figma.com/file/V2XbE5rpvqrNLOXs3m82k8/HRF-Asylum-Labs34-A)
+The base technologies are JavaScript, HTML and CSS. The frontend leverages [React](https://reactjs.org/), the backend uses [Express](https://expressjs.com/) and [PostgreSQL](https://www.postgresql.org/), the server runs on [Heroku](heroku.com), and the authentication workflow runs on [Okta](https://developer.okta.com/okta-sdk-nodejs/jsdocs/). The frontend is hosted on [AWS](https://aws.amazon.com/) and the style guide/wireframe is located on [Figma](https://www.figma.com/file/V2XbE5rpvqrNLOXs3m82k8/HRF-Asylum-Labs34-A)
 
 ### Developer Instructions
 1. Clone both the [front-end](https://github.com/Lambda-School-Labs/human-rights-first-asylum-fe-a) and [back-end](https://github.com/Lambda-School-Labs/human-rights-first-asylum-be-a) repositories to your machine. DO NOT FORK.
 1. From the backend directory, in your terminal:
     1. Create an environment file (.env) based on the [sample .env](https://github.com/Lambda-School-Labs/human-rights-first-asylum-fe-a/blob/main/.env.sample) and populate the environment variables (Migrate/Seed your local database)
     1. Make sure the `.env` is in your `.gitignore`
+    1. Follow the [Lambda instructions](https://docs.labs.lambdaschool.com/api/#setup-postgres) to set up the local PostgreSQL database
     1. Download the server dependencies by running `npm install`
     1. Migrate your tables by running `npm run knex migrate:latest`
     1. Seed your tables by running `npm run knex seed:run`
@@ -92,12 +92,13 @@ Style guide/wireframe located on [Figma](https://www.figma.com/file/V2XbE5rpvqrN
         "appointed_by": "Janet Reno"
     }
 
-| Method | Endpoint            | Request Body | Returns                                                                                 |
-| ------ | ------------------- | ------------ | --------------------------------------------------------------------------------------- |
-| GET    | `/judges`           | -            | `[Referance judge]`                                                                     |
-| GET    | `/judges/:name`     | -            | `{Referance judge, appointed_by, social_data, grounds_data, country_data, case_data}`   |
-| GET    | `/judges/all`       | -            | `[{Referance judge, appointed_by, social_data, grounds_data, country_data, case_data}]` |
-| GET    | `/judges/:name/csv` | -            | `judge information as CSV format`                                                       |
+| Method | Endpoint                  | Request Body | Returns                                                                                 |
+| ------ | ------------------------- | ------------ | --------------------------------------------------------------------------------------- |
+| GET    | `/judges`                 | -            | `[Referance judge]`                                                                     |
+| GET    | `/judges/:name`           | -            | `{Referance judge, appointed_by, social_data, grounds_data, country_data, case_data}`   |
+| GET    | `/judges/all`             | -            | `[{Referance judge, appointed_by, social_data, grounds_data, country_data, case_data}]` |
+| GET    | `/judges/:name/csv`       | -            | `judge information as CSV format`                                                       |
+| GET    | `/judges/:judge_id/cases` | -            | `judge visualizations from DS API`                                                      |
 
 ## Profile
 
