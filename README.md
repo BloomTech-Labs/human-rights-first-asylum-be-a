@@ -92,12 +92,13 @@ The base technologies are JavaScript, HTML and CSS. The frontend leverages [Reac
         "appointed_by": "Janet Reno"
     }
 
-| Method | Endpoint            | Request Body | Returns                                                                                 |
-| ------ | ------------------- | ------------ | --------------------------------------------------------------------------------------- |
-| GET    | `/judges`           | -            | `[Referance judge]`                                                                     |
-| GET    | `/judges/:name`     | -            | `{Referance judge, appointed_by, social_data, grounds_data, country_data, case_data}`   |
-| GET    | `/judges/all`       | -            | `[{Referance judge, appointed_by, social_data, grounds_data, country_data, case_data}]` |
-| GET    | `/judges/:name/csv` | -            | `judge information as CSV format`                                                       |
+| Method | Endpoint                  | Request Body | Returns                                                                                 |
+| ------ | ------------------------- | ------------ | --------------------------------------------------------------------------------------- |
+| GET    | `/judges`                 | -            | `[Referance judge]`                                                                     |
+| GET    | `/judges/:name`           | -            | `{Referance judge, appointed_by, social_data, grounds_data, country_data, case_data}`   |
+| GET    | `/judges/all`             | -            | `[{Referance judge, appointed_by, social_data, grounds_data, country_data, case_data}]` |
+| GET    | `/judges/:name/csv`       | -            | `judge information as CSV format`                                                       |
+| GET    | `/judges/:judge_id/cases` | -            | `judge visualizations from DS API`                                                      |
 
 ## Profile
 
