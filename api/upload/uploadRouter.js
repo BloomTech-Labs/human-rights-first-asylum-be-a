@@ -8,7 +8,7 @@ const AWS = require('aws-sdk');
 const router = express.Router();
 require('dotenv').config();
 const authRequired = require('../middleware/authRequired');
-const PendingCase = require('../pendingCases/pendingCaseModel');
+const Cases = require('../cases/caseModel');
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -64,16 +64,16 @@ router.post('/', authRequired, (req, res) => {
       });
       const uploadedDate = new Date();
       const uploadedCase = {
-        pending_case_id: UUID,
+        case_id: UUID,
         user_id: req.profile.user_id,
-        case_url: s3return.Location,
+        url: s3return.Location,
         file_name: targetFile.name || '',
         status: 'Processing',
         uploaded: `${
           uploadedDate.getMonth() + 1
         }-${uploadedDate.getDate()}-${uploadedDate.getFullYear()}`,
       };
-      PendingCase.add(uploadedCase)
+      Cases.add(uploadedCase)
         .then(() => {
           res.status(200).json({ id: UUID });
         })
@@ -84,9 +84,8 @@ router.post('/', authRequired, (req, res) => {
   });
 });
 
-router.post('/scrap/:pending_case_id', authRequired, (req, res) => {
-  const UUID = req.params.pending_case_id;
-
+router.post('/scrap/:case_id', authRequired, (req, res) => {
+  const UUID = req.params.case_id;
   axios
     .post(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`)
     .then((scrape) => {
@@ -131,7 +130,7 @@ router.post('/scrap/:pending_case_id', authRequired, (req, res) => {
       console.log('---------------', scrapedData);
 
       const scrapedData = {
-        case_date: new Date(result.date) || '',
+        date: new Date(result.date) || '',
         judge_id: 1,
         case_outcome: result.outcome[0] || '',
         country_of_origin: result['country of origin'] || '',
@@ -147,9 +146,9 @@ router.post('/scrap/:pending_case_id', authRequired, (req, res) => {
         filed_in_one_year: result['check for one year'][0] || false,
         credible: result.credibility[0],
       };
-      PendingCase.changeStatus(UUID, 'Review')
+      Cases.changeStatus(UUID, 'Review')
         .then(() => {
-          PendingCase.update(UUID, scrapedData)
+          Cases.update(UUID, scrapedData)
             .then(() => {
               res.status(200).json({});
             })
@@ -165,17 +164,16 @@ router.post('/scrap/:pending_case_id', authRequired, (req, res) => {
         });
     })
     .catch((err) => {
-      PendingCase.changeStatus(UUID, 'Error');
-      console.log('ERRORORORORORRO');
-      res.status(500).json(err);
+      Cases.changeStatus(UUID, 'Error');
+      res.status(500).json(err.message);
     });
 });
 
-router.post('/:pending_case_id', authRequired, (req, res) => {
-  const UUID = req.params.pending_case_id;
+router.post('/:case_id', authRequired, (req, res) => {
+  const UUID = req.params.case_id;
   const uploadedCase = {
     date: req.body.date,
-    case_outcome: req.body.case_outcome,
+    outcome: req.body.outcome,
     country_of_origin: req.body.country_of_origin,
     protected_grounds: req.body.protected_grounds,
     application_type: req.body.application_type,
@@ -190,13 +188,14 @@ router.post('/:pending_case_id', authRequired, (req, res) => {
     credible: req.body.credible,
     status: 'Pending',
   };
-  PendingCase.update(UUID, uploadedCase)
+  Cases.update(UUID, uploadedCase)
     .then(() => {
       res.status(200).json();
     })
     .catch((err) => {
-      PendingCase.changeStatus(UUID, 'Error');
+      Cases.changeStatus(UUID, 'Error');
       res.status(500).json(err.message);
     });
 });
+
 module.exports = router;

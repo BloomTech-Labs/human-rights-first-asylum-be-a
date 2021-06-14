@@ -1,19 +1,15 @@
 const db = require('../../data/db-config');
 
 const findAll = async () => {
-  return await db('profiles');
+  return await db('profiles').where({ pending: false });
 };
 
 const findAllPending = async () => {
-  return await db('pending_profiles');
+  return await db('profiles').where({ pending: true });
 };
 
 const findBy = (filter) => {
   return db('profiles').where(filter);
-};
-
-const findPendingBy = (user_id) => {
-  return db('pending_profiles').where({ user_id });
 };
 
 const findById = async (user_id) => {
@@ -49,25 +45,17 @@ const findById = async (user_id) => {
     }
     book_marked_judges = judges;
   }
+  if (user) {
+    user['case_bookmarks'] = book_marked_cases;
+    user['judge_bookmarks'] = book_marked_judges;
+  }
 
-  user['case_bookmarks'] = book_marked_cases;
-  user['judge_bookmarks'] = book_marked_judges;
-
-  return user;
-};
-
-const findPendingById = async (id) => {
-  const user = await db('pending_profiles').where({ id }).first().select('*');
   return user;
 };
 
 const create = async (profile) => {
   await db('profiles').insert(profile);
   return await db('profiles');
-};
-
-const createPending = async (profile) => {
-  return db('pending_profiles').insert(profile).returning('*');
 };
 
 const update = async (user_id, profile) => {
@@ -82,10 +70,6 @@ const update = async (user_id, profile) => {
 const remove = async (user_id) => {
   await db('profiles').where({ user_id: user_id }).del();
   return await db('profiles');
-};
-
-const removePending = async (id) => {
-  return await db('pending_profiles').where({ id }).del();
 };
 
 const findOrCreateProfile = async (profileObj) => {
@@ -132,8 +116,4 @@ module.exports = {
   remove_judge_bookmark,
   remove_case_bookmark,
   findAllPending,
-  findPendingBy,
-  findPendingById,
-  createPending,
-  removePending,
 };
