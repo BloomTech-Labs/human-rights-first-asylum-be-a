@@ -126,7 +126,6 @@ const zipCache = (req, res, next) => {
       zip.file(`${name}_grounds_data.csv`, csv[4]);
 
       cacache.tmp.withTmp(cachePath, (dir) => {
-        console.log(dir);
         zip
           .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
           .pipe(fs.createWriteStream(`${dir}.zip`))
