@@ -141,4 +141,20 @@ router.delete('/:id', (req, res) => {
     });
   }
 });
+
+//updates the comment on case from null
+router.put('/comment/:id', (req, res) => {
+  const id = req.params.id;
+  const updatedComment = req.body;
+  Cases.updateComment(id, updatedComment)
+    .then(() => {
+      res.status(200).json({
+        message: `Comment on ${id} changed to '${updatedComment.comment}'.`,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({ message: err.message });
+    });
+});
+
 module.exports = router;
