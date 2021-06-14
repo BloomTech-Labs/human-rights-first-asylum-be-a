@@ -30,6 +30,7 @@ const uploadFile = (fileName) => {
 
   return s3Upload
     .then((res) => {
+      console.log(res);
       return res;
     })
     .catch((err) => {
@@ -45,18 +46,20 @@ router.use(
 
 router.post('/', authRequired, (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).send('No files were uploaded.');
+    res.status(400).send('No files were uploaded.');
   }
+  // console.log(req.files);
   let targetFile = req.files.target_file;
   let UUID = uuidv4();
   targetFile.mv(path.join(__dirname, 'uploads', `${UUID}.pdf`), (err) => {
     if (err) {
-      return res.status(500).send(err);
+      res.status(500).send(err);
     }
     uploadFile(UUID).then((s3return) => {
+      console.log(s3return);
       fs.unlink(path.join(__dirname, 'uploads', `${UUID}.pdf`), (err) => {
         if (err) {
-          return res.status(500).send(err);
+          res.status(500).send(err);
         }
       });
       const uploadedDate = new Date();
@@ -83,26 +86,66 @@ router.post('/', authRequired, (req, res) => {
 
 router.post('/scrap/:pending_case_id', authRequired, (req, res) => {
   const UUID = req.params.pending_case_id;
+
   axios
-    .post(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`, { name: UUID })
+    .post(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`)
     .then((scrape) => {
+      console.log(scrape);
       const result = scrape.data.body;
+      console.log('RESULT', result['check for one year'][0]);
+
+      // let scrapedData = {};
+
+      // for (const [k, v] of Object.entries(result)) {
+      //   if (Array.isArray(v)) {
+      //     if (k === 'application') {
+      //       scrapedData['application_type'] = v;
+      //     } else if (k === 'date') {
+      //       scrapedData['case_date'] = new Date(v);
+      //     } else if (k === 'outcome') {
+      //       scrapedData['case_outcome'] = v;
+      //     } else if (k === 'country of origin') {
+      //       scrapedData['country_of_origin'] = v;
+      //     } else if (k === 'panel members') {
+      //       console.log(k);
+      //     } else {
+      //       scrapedData[k] = v[0];
+      //     }
+      //   } else if (typeof v === 'object') {
+      //     scrapedData[k] = v[Object.keys(v)[0]];
+      //   } else {
+      //     if (k === 'state of origin') {
+      //       scrapedData['case_origin_state'] = v;
+      //     } else if (k === 'city of origin') {
+      //       scrapedData['case_origin_city'] = v;
+      //     } //else if (k === 'circuit of origin') {
+      //     //   {
+      //     //   }
+      //     // }
+      //     else {
+      //       scrapedData[k] = v;
+      //     }
+      //   }
+      // }
+
+      console.log('---------------', scrapedData);
+
       const scrapedData = {
         case_date: new Date(result.date) || '',
         judge_id: 1,
-        case_outcome: result.outcome || '',
+        case_outcome: result.outcome[0] || '',
         country_of_origin: result['country of origin'] || '',
         protected_grounds: result['protected grounds'] || '',
-        application_type: '',
-        case_origin_city: '',
-        case_origin_state: '',
-        gender: result.gender || '',
-        applicant_language: '',
-        indigenous_group: '',
-        type_of_violence: result['based violence'] || '',
+        application_type: result.application[0],
+        case_origin_city: result['city of origin'],
+        case_origin_state: result['state of origin'],
+        gender: result.gender[0] || '',
+        applicant_language: result['applicant_language'][0],
+        indigenous_group: result.indigenous[0],
+        type_of_violence: result['based violence'][0] || '',
         appellate: false,
-        filed_in_one_year: result['check for one year'] || false,
-        credible: false,
+        filed_in_one_year: result['check for one year'][0] || false,
+        credible: result.credibility[0],
       };
       PendingCase.changeStatus(UUID, 'Review')
         .then(() => {
@@ -111,16 +154,20 @@ router.post('/scrap/:pending_case_id', authRequired, (req, res) => {
               res.status(200).json({});
             })
             .catch((err) => {
+              console.log(err);
+              console.log(119);
               res.status(500).json(err);
             });
         })
         .catch((err) => {
+          console.log(124);
           res.status(500).json(err);
         });
     })
     .catch((err) => {
       PendingCase.changeStatus(UUID, 'Error');
-      res.status(500).json(err.message);
+      console.log('ERRORORORORORRO');
+      res.status(500).json(err);
     });
 });
 
