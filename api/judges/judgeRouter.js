@@ -29,6 +29,18 @@ router.get('/', Cache.checkCache, (req, res) => {
     .catch((err) => res.status(500).json({ message: err.message }));
 });
 
+//Does not currently work because of poor implementation of /:id
+/* router.get('/all', Cache.checkCache, (req, res) => {
+  Judges.findAll()
+    .then((judges) => {
+      Cache.makeCache('/judges/all', JSON.stringify(judges));
+      res.status(200).json(judges);
+    })
+    .catch((err) => {
+      res.status(500).json({ message: err.message });
+    });
+}); */
+
 // router.get('/:judge_id/cases', async (req, res) => {
 //   const data = await Judges.findJudgeCases(req.params.judge_id);
 //   res.status(200).json({ data });
@@ -59,32 +71,6 @@ router.get('/:judge_id/cases', async (req, res) => {
     res.status(404).json({ err });
   }
 });
-
-router.get('/all', Cache.checkCache, (req, res) => {
-  Judges.findAll()
-    .then((judges) => {
-      Cache.makeCache('/judges/all', JSON.stringify(judges));
-      res.status(200).json(judges);
-    })
-    .catch((err) => {
-      res.status(500).json({ message: err.message });
-    });
-});
-
-// router.get('/:name', Cache.checkCache, (req, res) => {
-//   const name = String(req.params.name);
-//   const key = `/judge/${name}`;
-//   Judges.findFullDataByName(name)
-//     .then((judges) => {
-//       Cache.makeCache(key, JSON.stringify(judges));
-//       res.status(200).json(judges);
-//     })
-//     .catch((err) => {
-//       res.status(500).json({ message: err.message });
-//     });
-// });
-
-// * ^ Commented out for now in case we need it in the future
 
 router.get('/:judge_id', (req, res) => {
   Judges.findById(req.params.judge_id)

@@ -40,10 +40,10 @@ const findJudgeCases = (judge_id) => {
       'j.judge_county',
       'j.appointed_by',
       'c.case_id',
-      'c.case_url',
-      'c.case_number',
-      'c.case_date',
-      'c.case_outcome',
+      'c.url',
+      'c.number',
+      'c.date',
+      'c.outcome',
       'c.country_of_origin',
       'c.protected_grounds',
       'c.application_type',
@@ -79,7 +79,7 @@ const countryData = async (judge) => {
   // * search cases db by judge name & return refugee origin and decision
   return db('cases')
     .where({ judge })
-    .select('refugee_origin', 'judge_decision')
+    .select('country_of_origin', 'outcome')
     .then((countries) => {
       // * if there are any countries, create a dictionary of dictionaries
       if (countries.length > 0) {
