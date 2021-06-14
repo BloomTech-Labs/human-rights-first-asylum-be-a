@@ -49,21 +49,6 @@ router.get('/:id', authRequired, function (req, res) {
     });
 });
 
-router.get('/pending/:id', authRequired, function (req, res) {
-  const id = String(req.params.id);
-  Profiles.findPendingById(id)
-    .then((profile) => {
-      if (profile) {
-        res.status(200).json(profile);
-      } else {
-        res.status(404).json({ error: 'Profile Not Found' });
-      }
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
-    });
-});
-
 router.post('/', authRequired, async (req, res) => {
   const profile = req.body;
   const newUser = {
@@ -77,9 +62,9 @@ router.post('/', authRequired, async (req, res) => {
   if (profile) {
     const id = profile.id || 0;
     try {
-      Profiles.findPendingById(id).then((pf) => {
+      Profiles.findById(id).then((pf) => {
         if (pf) {
-          Profiles.removePending(pf.id).catch((err) => {
+          Profiles.remove(pf.id).catch((err) => {
             throw err;
           });
         }
@@ -89,11 +74,13 @@ router.post('/', authRequired, async (req, res) => {
             email: user.profile.email,
             first_name: user.profile.firstName,
             last_name: user.profile.lastName,
+            pending: true,
           };
           Profiles.create(appUser).then((profile) => {
-            res
-              .status(200)
-              .json({ message: 'profile created by admin,', profile });
+            res.status(200).json({
+              message: 'profile created by admin,',
+              profile: profile[profile.length - 1],
+            });
           });
         });
       });
@@ -101,23 +88,6 @@ router.post('/', authRequired, async (req, res) => {
       console.error(e);
       res.status(500).json({ message: e.message });
     }
-  } else {
-    res.status(404).json({ message: 'Profile missing' });
-  }
-});
-
-router.post('/pending', (req, res) => {
-  const profile = req.body;
-  if (profile) {
-    Profiles.createPending(profile)
-      .then((profile) => {
-        res
-          .status(200)
-          .json({ message: 'profile created', profile: profile[0] });
-      })
-      .catch((err) => {
-        res.status(500).json(err.message);
-      });
   } else {
     res.status(404).json({ message: 'Profile missing' });
   }
@@ -141,7 +111,6 @@ router.put('/:id', authRequired, (req, res) => {
                 res.status(200).json({
                   message: 'profile updated',
                   updated_profile: updated.pop(),
-                  profiles: updated,
                 });
               })
               .catch((err) => {
@@ -174,29 +143,10 @@ router.delete('/:id', authRequired, (req, res) => {
           user.deactivate().then(() => user.delete());
         })
         .catch(() => res.json({ message: 'Okta failed to delete this user' }));
-      Profiles.remove(id).then((profiles) => {
+      Profiles.remove(id).then(() => {
         res.status(200).json({
           message: `Profile '${id}' was deleted.`,
-          profiles: profiles,
         });
-      });
-    });
-  } catch (err) {
-    res.status(500).json({
-      message: `Could not delete profile with ID: ${id}`,
-      error: err.message,
-    });
-  }
-});
-
-router.delete('/pending/:id', authRequired, (req, res) => {
-  const id = req.params.id;
-  try {
-    Profiles.findPendingById(id).then((profile) => {
-      Profiles.removePending(profile.id).then(() => {
-        res
-          .status(200)
-          .json({ message: `Profile '${id}' was deleted.`, profile: profile });
       });
     });
   } catch (err) {
