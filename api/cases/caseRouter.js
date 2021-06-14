@@ -11,7 +11,6 @@ router.use('/:id', authRequired, Verify.verifyCase);
 
 router.get('/', Cache.checkCache, (req, res) => {
   const key = String(req.originalUrl);
-
   Cases.findAll()
     .then((cases) => {
       Cache.makeCache(key, JSON.stringify(cases));
@@ -92,6 +91,7 @@ router.put('/:id', (req, res) => {
       res.status(500).json(err.message);
     });
 });
+
 router.get('/user/:id', (req, res) => {
   Cases.findByUserId(req.profile.user_id)
     .then((userCases) => {
@@ -100,5 +100,45 @@ router.get('/user/:id', (req, res) => {
     .catch((err) => {
       res.status(500).json(err.message);
     });
+});
+
+// Pending Cases
+
+router.get('/pending', Cache.checkCache, (req, res) => {
+  const key = String(req.originalUrl);
+  Cases.findPending()
+    .then((cases) => {
+      Cache.makeCache(key, JSON.stringify(cases));
+      res.status(200).json(cases);
+    })
+    .catch((err) => {
+      res.status(500).json({ message: err.message });
+    });
+});
+
+router.put('/pending/approve/:id', (req, res) => {
+  const id = req.params.id;
+  const status = req.body.status;
+  Cases.changeStatus(id, status)
+    .then((cases) => {
+      res.status(200).json(cases);
+    })
+    .catch((err) => {
+      res.status(500).json({ message: err.message });
+    });
+});
+
+router.delete('/:id', (req, res) => {
+  const id = req.params.id;
+  try {
+    Cases.remove(id).then(() => {
+      res.status(200).json({ message: `case '${id}' is deleted.` });
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: `Could not delete case with ID: ${id}`,
+      error: err.message,
+    });
+  }
 });
 module.exports = router;
