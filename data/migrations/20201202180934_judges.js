@@ -6,10 +6,9 @@ exports.up = function (knex) {
       table.string('first_name');
       table.string('middle_initial');
       table.string('last_name');
-      table.string('judge_county');
-      table.string('judge_image_url');
+      table.string('county');
+      table.string('image_url');
       table.date('date_appointed');
-      table.date('birthdate');
       table.string('biography');
       table.string('appointed_by');
     });

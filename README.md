@@ -36,11 +36,11 @@ The base technologies are JavaScript, HTML and CSS. The frontend leverages [Reac
     {
         "case_id": "2ff54195-ce30-456c-be63-2a6c765bdce2",
         "user_id": "00ulzdrizE2yzxToH5d6",
-        "case_url": "https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf",
-        "case_number": "A094-216-526",
+        "url": "https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf",
+        "number": "A094-216-526",
         "date": "1-24-2013",
-        "judge": "1",
-        "case_outcome": "Denied",
+        "judge_id": "1",
+        "outcome": "Denied",
         "country_of_origin": "Mexico",
         "protected_grounds": "Social Group",
         "application_type": "initial",
@@ -53,21 +53,29 @@ The base technologies are JavaScript, HTML and CSS. The frontend leverages [Reac
         "appellate": false,
         "filed_in_one_year": false,
         "credible": true,
+        "created_at": "2021-06-12T18:07:53.229Z",
+        "updated_at": "2021-06-12T18:07:53.229Z",
         "status": "approved",
-        "uploaded": "1",
-        "judge_name": "David W. Crosland"
+        "comment": "Case pdf blurry. Upload clearer one" // Null
     }
 
 | Method | Endpoint                  | Request Body     | Returns                          |
 | ------ | ------------------------- | ---------------- | -------------------------------- |
-| GET    | `/cases`                  | -                | `Reference case`                 |
-| GET    | `/cases/:id`              | -                | `Reference case`                 |
+| GET    | `/cases`                  | -                | `[{Reference cases}]`            |
+| GET    | `/cases/cases-by-state`   | -                | `[{state,int,int,int,int,int}]`  |
+| GET    | `/cases/:id`              | -                | `{Reference case}`               |
 | GET    | `/cases/:id/view-pdf`     | -                | `PDF file of the case`           |
 | GET    | `/cases/:id/download-pdf` | -                | `PDF file of the case`           |
 | GET    | `/cases/:id/download-csv` | -                | `case information as CSV format` |
-| PUT    | `/cases/:id`              | `Reference case` | `updatedCase`                    |
+| PUT    | `/cases/:id`              | `Reference case` | `{Reference case}`               |
+| GET    | `/cases/user/:id`         | -                | `[{Reference cases}]`            |
+| GET    | `/cases/pending`          | -                | `[{Reference cases}]`            |
+| PUT    | `/cases/status/:id`       | `Status`         | `Nothing`                        |
+| DEL    | `/cases/:id`              | -                | `{message}`                      |
 
 ## Data
+
+##### No schema; Not stored on database
 
 | Method | Endpoint                | Request Body | Returns                                               |
 | ------ | ----------------------- | ------------ | ----------------------------------------------------- |
@@ -81,37 +89,36 @@ The base technologies are JavaScript, HTML and CSS. The frontend leverages [Reac
 
     {
         "judge_id": "1",
-        "name": "David W. Crosland",
-        "judge_county": "Baltimore",
-        "judge_image": "https://s3.amazonaws.com/uifaces/faces/twitter/bfrohs/128.jpg",
+        "first_name": "David",
+        "middle_initial": "W",
+        "last_name":"Crosland",
+        "county": "Baltimore",
+        "image_url": "https://s3.amazonaws.com/uifaces/faces/twitter/bfrohs/128.jpg",
         "date_appointed": "May 1997",
-        "birth_date": "(unavailable)",
         "biography": "https://www.justice.gov/eoir/BaltimoreNatzCer03072012",
-        "denial_rate": 51.8,
-        "approval_rate": 48.2,
         "appointed_by": "Janet Reno"
     }
 
-| Method | Endpoint                  | Request Body | Returns                                                                                 |
-| ------ | ------------------------- | ------------ | --------------------------------------------------------------------------------------- |
-| GET    | `/judges`                 | -            | `[Reference judge]`                                                                     |
-| GET    | `/judges/:name`           | -            | `{Reference judge, appointed_by, social_data, grounds_data, country_data, case_data}`   |
-| GET    | `/judges/all`             | -            | `[{Reference judge, appointed_by, social_data, grounds_data, country_data, case_data}]` |
-| GET    | `/judges/:name/csv`       | -            | `judge information as CSV format`                                                       |
-| GET    | `/judges/:judge_id/cases` | -            | `judge visualizations from DS API`                                                      |
+| Method | Endpoint                  | Request Body         | Returns                             |
+| ------ | ------------------------- | -------------------- | ------------------------------------|
+| GET    | `/judges`                 | -                    | `[{Reference judge}]`               |
+| GET    | `/judges/:id`             | -                    | `[{Reference judge}]`               |
+
+Other endpoint exist but are broken beyond belief. Need serious rework/reimplementation
 
 ## Profile
 
 ###### Reference profile schema:
 
     {
-        "id": "00ulzfj6nX72gu3Nh4d6",
+        "user_id": "00ulzfj6nX72gu3Nh4d6",
         "email": "email@email.mail",
-        "name": "username",
-        "avatarUrl": null,
+        "first_name":"John",
+        "last_name":"Doe",
         "role": "user",
         "created_at": "2021-04-21T18:47:18.712Z",
-        "updated_at": "2021-04-21T18:47:18.712Z"
+        "updated_at": "2021-04-21T18:47:18.712Z",
+        "approved": True
     }
 
 | Method | Endpoint                      | Request Body        | Returns                      |
@@ -119,57 +126,48 @@ The base technologies are JavaScript, HTML and CSS. The frontend leverages [Reac
 | GET    | `/profiles`                   | -                   | `[Reference profile]`        |
 | GET    | `/profiles/:id`               | -                   | `Reference profile`          |
 | GET    | `/profiles/pending`           | -                   | `[Reference profile]`        |
-| GET    | `/profiles/pending/:id`       | -                   | `Reference profile`          |
-| POST   | `/profiles`                   | `Reference profile` | `{created profile}`          |
-| POST   | `/profiles/pending`           | `Reference profile` | `{created profile}`          |
-| PUT    | `/profiles/:id`               | `Reference profile` | `{updated profile}`          |
-| DELETE | `/profiles/:id`               | -                   | `{deleted profile}`          |
-| DELETE | `/profiles/pending/:id`       | -                   | `{deleted profile}`          |
+| POST   | `/profiles`                   | `first/last, email` | `{message,created profile}`  |
+| PUT    | `/profiles/:id`               | `first/last, email` | `{message,updated profile}`  |
+| DELETE | `/profiles/:id`               | -                   | `[message,Reference profile]`|
 | POST   | `/profiles/:id/judge/:name`   | -                   | `{message, judge_bookmarks}` |
 | DELETE | `/profiles/:id/judge/:name`   | -                   | `{message}`                  |
 | POST   | `/profiles/:id/case/:case_id` | -                   | `{message, case_bookmarks}`  |
 | DELETE | `/profiles/:id/case/:case_id` | -                   | `{message}`                  |
 
-## Tags
+## FAQ
 
-| Method | Endpoint        | Request Body | Returns |
-| ------ | --------------- | ------------ | ------- |
-| GET    | `/tags/grounds` | -            | `[]`    |
-| GET    | `/tags/social`  | -            | `[]`    |
-
-## NewCase
-
-#### Deprecated!!!
-
-###### Reference pending case schema:
+###### Reference FAQ schema:
 
     {
-        "primary_key": "150",
-        "user_id": "00ulzdrizE2yzxToH5d6",
-        "case_id": "A094-216-526",
-        "initial_or_appellate": false,
-        "hearing_date": "",
-        "judge": "3",
-        "case_origin": "",
-        "case_filed_within_one_year": true,
-        "application_type": "initial",
-        "protected_ground": "Not Applicable",
-        "case_outcome": "",
-        "nation_of_origin": "Mexico",
-        "applicant_gender": "Male",
-        "type_of_violence_experienced": "Not Applicable",
-        "applicant_indigenous_group": "Not Applicable",
-        "applicant_language": "Spanish",
-        "applicant_access_to_interpreter": true,
-        "applicant_perceived_credibility": false
+        "faq_id":1,
+        "question":"Why is the sky blue?"
+        "answer": "Gases and particles in Earth's atmosphere scatter sunlight in all directions. Blue light is scattered more than other colors because it travels as shorter, smaller waves."
     }
 
-| Method | Endpoint           | Request Body        | Returns               |
-| ------ | ------------------ | ------------------- | --------------------- |
-| GET    | `/newcase`         | -                   | `[reference newcase]` |
-| POST   | `/newcase`         | `Reference newcase` | `{created_case}`      |
-| POST   | `/newcase/approve` | `{id}`              | `{approved_case}`     |
-| DELETE | `/newcase/:id`     | -                   | `{message}`           |
+| Method | Endpoint                      | Request Body        | Returns                      |
+| ------ | ----------------------------- | ------------------- | ---------------------------- |
+| GET    | `/faq`                        | -                   | `[faq]`                      |
+| GET    | `/faq/:id`                    | -                   | `faq`                        |
+| POST   | `/faq`                        | -                   | `{message,created faq}`      |
+| PUT    | `/faq/:id`                    | -                   | `{updated faq}`              |
+| DELETE | `/faq/:id`                    | -                   | `{message}`                  |
+| POST   | `/faq/contact`                | `name,email,message`| `{status}`                   |
+
+## UPLOADS
+
+###### No schema; Not stored on database
+
+| Method | Endpoint                | Request Body        | Returns                      |
+| ------ | ----------------------- | ------------------- | ---------------------------- |
+| POST   | `/upload`               | -                   | `{id}`                       |
+| POST   | `/upload/scrap/:case_id`| `Reference case`    | `Nothing`                    |
+| POST   | `/upload/:case_id`      | `Reference case`    | `Nothing`                    |
+
+## DEPRECATED
+
+## TAGS
+
+A random assortment of non labeled, non connected words on the database. Needs a serious overhaul if implementation is needed.
 
 
 ### About
