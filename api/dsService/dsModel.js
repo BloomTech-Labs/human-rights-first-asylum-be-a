@@ -12,7 +12,6 @@ const getViz = (state) => {
 };
 
 const sendPDF = (req, res) => {
-  console.log(req.files.file);
   return request(
     {
       method: 'POST',
