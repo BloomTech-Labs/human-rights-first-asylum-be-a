@@ -54,7 +54,6 @@ router.post('/', authRequired, (req, res) => {
       res.status(500).send(err);
     }
     uploadFile(UUID).then((s3return) => {
-      console.log(s3return);
       fs.unlink(path.join(__dirname, 'uploads', `${UUID}.pdf`), (err) => {
         if (err) {
           res.status(500).send(err);
@@ -68,11 +67,9 @@ router.post('/', authRequired, (req, res) => {
       };
       Cases.add(uploadedCase)
         .then(() => {
-          console.log('added to db');
           res.status(200).json({ id: UUID });
         })
         .catch((err) => {
-          console.log(err);
           res.status(500).send(err);
         });
     });
@@ -84,7 +81,6 @@ router.post('/scrap/:case_id', authRequired, (req, res) => {
   axios
     .post(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`)
     .then((scrape) => {
-      console.log(scrape);
       const result = scrape.data.body;
 
       let scrapedData = {};
@@ -162,17 +158,13 @@ router.post('/scrap/:case_id', authRequired, (req, res) => {
         .then(() => {
           Cases.update(UUID, scrapedData)
             .then(() => {
-              console.log('------------- SUCCESS -------------');
               res.status(200).json({});
             })
             .catch((err) => {
-              console.log(err);
-              console.log(119);
               res.status(500).json(err);
             });
         })
         .catch((err) => {
-          console.log(124);
           res.status(500).json(err);
         });
     })
