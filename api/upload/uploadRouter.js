@@ -79,26 +79,81 @@ router.post('/', authRequired, (req, res) => {
 router.post('/scrap/:case_id', authRequired, (req, res) => {
   const UUID = req.params.case_id;
   axios
-    .post(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`, { name: UUID })
+    .post(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`)
     .then((scrape) => {
       const result = scrape.data.body;
-      const scrapedData = {
-        date: new Date(result.date) || '',
-        judge_id: 1,
-        outcome: result.outcome || '',
-        country_of_origin: result['country of origin'] || '',
-        protected_grounds: result['protected grounds'] || '',
-        application_type: '',
-        case_origin_city: '',
-        case_origin_state: '',
-        gender: result.gender || '',
-        applicant_language: '',
-        indigenous_group: '',
-        type_of_violence: result['based violence'] || '',
-        appellate: false,
-        filed_in_one_year: result['check for one year'] || false,
-        credible: false,
-      };
+
+      let scrapedData = {};
+
+      // formatting the returned scraped data to match naming in the database
+      for (const [k, v] of Object.entries(result)) {
+        if (Array.isArray(v)) {
+          switch (k) {
+            case 'application':
+              scrapedData['application_type'] = v[0];
+              break;
+            case 'date':
+              scrapedData['date'] = new Date(v);
+              break;
+            case 'outcome':
+              scrapedData['outcome'] = v[0][0];
+              break;
+            case 'country of origin':
+              scrapedData['country_of_origin'] = v[0];
+              break;
+            case 'panel members':
+              break;
+            case 'protected grounds':
+              scrapedData['protected_grounds'] = v[0];
+              break;
+            case 'based violence':
+              scrapedData['type_of_violence'] = v[0];
+              break;
+            case 'indigenous':
+              scrapedData['indigenous_group'] = v;
+              break;
+            case 'applicant language':
+              scrapedData['applicant_language'] = v;
+              break;
+            case 'credibility':
+              if (v[0] === 'Test') {
+                scrapedData['credible'] = true;
+              } else {
+                scrapedData['credible'] = v;
+              }
+              break;
+            case 'check for one year':
+              scrapedData['filed_in_one_year'] = v[0];
+              break;
+            case 'precedent cases':
+              break;
+            case 'statutes':
+              break;
+            default:
+              scrapedData[k] = v[0];
+              break;
+          } // end of switch
+        } else if (typeof v === 'object') {
+          scrapedData[k] = v[Object.keys(v)[0]];
+        } else {
+          switch (k) {
+            case 'state of origin':
+              scrapedData['case_origin_state'] = v;
+              break;
+            case 'city of origin':
+              scrapedData['case_origin_city'] = v;
+              break;
+            case 'circuit of origin':
+              break;
+            case 'time to process':
+              break;
+            default:
+              scrapedData[k] = v;
+              break;
+          } // end of switch
+        }
+      }
+
       Cases.changeStatus(UUID, 'Review')
         .then(() => {
           Cases.update(UUID, scrapedData)
