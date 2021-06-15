@@ -62,15 +62,11 @@ router.post('/', authRequired, (req, res) => {
           res.status(500).send(err);
         }
       });
-      // const uploadedDate = new Date();
       const uploadedCase = {
         case_id: UUID,
         user_id: req.profile.user_id,
         url: s3return.Location,
         status: 'Processing',
-        // uploaded: `${
-        //   uploadedDate.getMonth() + 1
-        // }-${uploadedDate.getDate()}-${uploadedDate.getFullYear()}`,
       };
       Cases.add(uploadedCase)
         .then(() => {

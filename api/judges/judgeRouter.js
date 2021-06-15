@@ -72,16 +72,6 @@ router.get('/:judge_id/cases', async (req, res) => {
   }
 });
 
-router.get('/:judge_id', (req, res) => {
-  Judges.findById(req.params.judge_id)
-    .then((judge_info) => {
-      res.status(200).json(judge_info);
-    })
-    .catch((err) => {
-      res.status(500).json({ message: err.message });
-    });
-});
-
 router.get('/:name/csv', Cache.zipCache, (req, res) => {
   const name = String(req.params.name);
 
@@ -109,6 +99,16 @@ router.get('/:name/csv', Cache.zipCache, (req, res) => {
         .then(() => {
           // `dir` no longer exists
         });
+    })
+    .catch((err) => {
+      res.status(500).json({ message: err.message });
+    });
+});
+
+router.get('/:judge_id', (req, res) => {
+  Judges.findById(req.params.judge_id)
+    .then((judge_info) => {
+      res.status(200).json(judge_info);
     })
     .catch((err) => {
       res.status(500).json({ message: err.message });
