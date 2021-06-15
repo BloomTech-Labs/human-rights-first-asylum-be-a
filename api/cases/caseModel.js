@@ -44,11 +44,11 @@ const findByUserId = (user_id) => {
 };
 
 const findPendingByUserId = (user_id) => {
-  return db('cases as c')
-    .where({ user_id })
-    .whereNot({ status: 'approved' })
-    .join('judges as j', 'j.judge_id', 'c.judge_id')
-    .select('c.*', 'j.first_name', 'j.middle_initial', 'j.last_name');
+  return db('cases as c').where({ user_id }).whereNot({ status: 'approved' });
+  // .join('judges as j', 'j.judge_id', 'c.judge_id')
+  // .select('c.*', 'j.first_name', 'j.middle_initial', 'j.last_name');
+  // This join is preventing cases from being returned accurately because we currently do not store judge_id when uploading a case.
+  // judge_id is currently uploaded as a null value
 };
 
 const writeCSV = async (case_id) => {
