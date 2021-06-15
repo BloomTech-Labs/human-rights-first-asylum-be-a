@@ -95,11 +95,6 @@ const casesByState = () => {
     .groupBy('case_origin_state');
 };
 
-//comments
-const updateComment = (id, updatedComment) => {
-  return db('cases').where({ case_id: id }).update(updatedComment);
-};
-
 module.exports = {
   add,
   remove,
@@ -113,5 +108,4 @@ module.exports = {
   findByUserId,
   findPendingByUserId,
   casesByState,
-  updateComment,
 };
