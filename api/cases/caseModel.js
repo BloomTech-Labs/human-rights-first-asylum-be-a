@@ -36,8 +36,17 @@ const findBy = async (filter) => {
 };
 
 const findByUserId = (user_id) => {
-  return db('cases')
+  return db('cases as c')
     .where({ user_id })
+    .where({ status: 'approved' })
+    .join('judges as j', 'j.judge_id', 'c.judge_id')
+    .select('c.*', 'j.first_name', 'j.middle_initial', 'j.last_name');
+};
+
+const findPendingByUserId = (user_id) => {
+  return db('cases as c')
+    .where({ user_id })
+    .whereNot({ status: 'approved' })
     .join('judges as j', 'j.judge_id', 'c.judge_id')
     .select('c.*', 'j.first_name', 'j.middle_initial', 'j.last_name');
 };
@@ -97,5 +106,6 @@ module.exports = {
   writeCSV,
   update,
   findByUserId,
+  findPendingByUserId,
   casesByState,
 };

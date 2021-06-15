@@ -31,19 +31,6 @@ router.get('/cases-by-state', (req, res) => {
     });
 });
 
-router.get('/:id', (req, res) => {
-  const id = String(req.params.id);
-  const key = String(req.originalUrl);
-  Cases.findById(id)
-    .then((cases) => {
-      Cache.makeCache(key, JSON.stringify(cases));
-      res.status(200).json(cases);
-    })
-    .catch((err) => {
-      res.status(500).json({ message: err.message });
-    });
-});
-
 router.get('/:id/view-pdf', (req, res) => {
   const id = String(req.params.id);
   AWS.make_params(id)
@@ -128,6 +115,16 @@ router.put('/pending/approve/:id', (req, res) => {
     });
 });
 
+router.get('/pending/user/:id', (req, res) => {
+  Cases.findPendingByUserId(req.profile.user_id)
+    .then((userCases) => {
+      res.status(200).json(userCases);
+    })
+    .catch((err) => {
+      res.status(500).json(err.message);
+    });
+});
+
 router.delete('/:id', (req, res) => {
   const id = req.params.id;
   try {
@@ -141,4 +138,18 @@ router.delete('/:id', (req, res) => {
     });
   }
 });
+
+router.get('/:id', (req, res) => {
+  const id = String(req.params.id);
+  const key = String(req.originalUrl);
+  Cases.findById(id)
+    .then((cases) => {
+      Cache.makeCache(key, JSON.stringify(cases));
+      res.status(200).json(cases);
+    })
+    .catch((err) => {
+      res.status(500).json({ message: err.message });
+    });
+});
+
 module.exports = router;
