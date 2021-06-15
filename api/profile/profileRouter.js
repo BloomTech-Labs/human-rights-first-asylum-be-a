@@ -34,21 +34,6 @@ router.get('/pending', authRequired, function (req, res) {
     });
 });
 
-router.get('/:id', authRequired, function (req, res) {
-  const id = String(req.params.id);
-  Profiles.findById(id)
-    .then((profile) => {
-      if (profile) {
-        res.status(200).json(profile);
-      } else {
-        res.status(404).json({ error: 'Profile Not Found' });
-      }
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
-    });
-});
-
 router.post('/', authRequired, async (req, res) => {
   const profile = req.body;
   const newUser = {
@@ -207,6 +192,21 @@ router.delete('/:id/case/:case_id', authRequired, (req, res) => {
     })
     .catch((err) => {
       res.status(500).json(err.message);
+    });
+});
+
+router.get('/:id', authRequired, function (req, res) {
+  const id = String(req.params.id);
+  Profiles.findById(id)
+    .then((profile) => {
+      if (profile) {
+        res.status(200).json(profile);
+      } else {
+        res.status(404).json({ error: 'Profile Not Found' });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err.message });
     });
 });
 
