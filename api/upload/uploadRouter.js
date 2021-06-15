@@ -30,7 +30,6 @@ const uploadFile = (fileName) => {
 
   return s3Upload
     .then((res) => {
-      // console.log(res);
       return res;
     })
     .catch((err) => {
@@ -48,7 +47,6 @@ router.post('/', authRequired, (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     res.status(400).send('No files were uploaded.');
   }
-  // console.log(req.files);
   let targetFile = req.files.target_file;
   let UUID = uuidv4();
   targetFile.mv(path.join(__dirname, 'uploads', `${UUID}.pdf`), (err) => {
