@@ -73,6 +73,7 @@ The base technologies are JavaScript, HTML and CSS. The frontend leverages [Reac
 | GET    | `/cases/pending`          | -                | `[{Reference cases}]`            |
 | PUT    | `/cases/status/:id`       | `Status`         | `Nothing`                        |
 | DEL    | `/cases/:id`              | -                | `{message}`                      |
+| PUT    | `/cases/comment/:id`      | `comment`        | `{message}`                      |
 
 ## Data
 
