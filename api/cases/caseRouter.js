@@ -139,6 +139,19 @@ router.delete('/:id', (req, res) => {
   }
 });
 
+//updates the comment on case
+router.put('/comment/:id', (req, res) => {
+  const id = req.params.id;
+  const updatedComment = req.body;
+  Cases.update(id, updatedComment)
+    .then(() => {
+      res.status(200).json({
+        message: `Comment on ${id} changed to '${updatedComment.comment}'.`,
+      });
+    .catch((err) => {
+      res.status(500).json({ message: err.message });
+    });
+    
 router.get('/:id', (req, res) => {
   const id = String(req.params.id);
   const key = String(req.originalUrl);
