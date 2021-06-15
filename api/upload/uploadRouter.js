@@ -30,7 +30,7 @@ const uploadFile = (fileName) => {
 
   return s3Upload
     .then((res) => {
-      console.log(res);
+      // console.log(res);
       return res;
     })
     .catch((err) => {
@@ -70,6 +70,7 @@ router.post('/', authRequired, (req, res) => {
       };
       Cases.add(uploadedCase)
         .then(() => {
+          console.log('added to db');
           res.status(200).json({ id: UUID });
         })
         .catch((err) => {
@@ -87,65 +88,83 @@ router.post('/scrap/:case_id', authRequired, (req, res) => {
     .then((scrape) => {
       console.log(scrape);
       const result = scrape.data.body;
-      console.log('RESULT', result['check for one year'][0]);
 
       let scrapedData = {};
 
+      // formatting the returned scraped data to match naming in the database
       for (const [k, v] of Object.entries(result)) {
         if (Array.isArray(v)) {
-          if (k === 'application') {
-            scrapedData['application_type'] = v;
-          } else if (k === 'date') {
-            scrapedData['case_date'] = new Date(v);
-          } else if (k === 'outcome') {
-            scrapedData['case_outcome'] = v;
-          } else if (k === 'country of origin') {
-            scrapedData['country_of_origin'] = v;
-          } else if (k === 'panel members') {
-            console.log(k);
-          } else {
-            scrapedData[k] = v[0];
-          }
+          switch (k) {
+            case 'application':
+              scrapedData['application_type'] = v[0];
+              break;
+            case 'date':
+              scrapedData['date'] = new Date(v);
+              break;
+            case 'outcome':
+              scrapedData['outcome'] = v[0][0];
+              break;
+            case 'country of origin':
+              scrapedData['country_of_origin'] = v[0];
+              break;
+            case 'panel members':
+              break;
+            case 'protected grounds':
+              scrapedData['protected_grounds'] = v[0];
+              break;
+            case 'based violence':
+              scrapedData['type_of_violence'] = v[0];
+              break;
+            case 'indigenous':
+              scrapedData['indigenous_group'] = v;
+              break;
+            case 'applicant language':
+              scrapedData['applicant_language'] = v;
+              break;
+            case 'credibility':
+              if (v[0] === 'Test') {
+                scrapedData['credible'] = true;
+              } else {
+                scrapedData['credible'] = v;
+              }
+              break;
+            case 'check for one year':
+              scrapedData['filed_in_one_year'] = v[0];
+              break;
+            case 'precedent cases':
+              break;
+            case 'statutes':
+              break;
+            default:
+              scrapedData[k] = v[0];
+              break;
+          } // end of switch
         } else if (typeof v === 'object') {
           scrapedData[k] = v[Object.keys(v)[0]];
         } else {
-          if (k === 'state of origin') {
-            scrapedData['case_origin_state'] = v;
-          } else if (k === 'city of origin') {
-            scrapedData['case_origin_city'] = v;
-          } else if (k === 'circuit of origin') {
-            // eslint-disable-next-line
-            {
-            }
-          } else {
-            scrapedData[k] = v;
-          }
+          switch (k) {
+            case 'state of origin':
+              scrapedData['case_origin_state'] = v;
+              break;
+            case 'city of origin':
+              scrapedData['case_origin_city'] = v;
+              break;
+            case 'circuit of origin':
+              break;
+            case 'time to process':
+              break;
+            default:
+              scrapedData[k] = v;
+              break;
+          } // end of switch
         }
       }
 
-      console.log('---------------', scrapedData);
-
-      // const scrapedData = {
-      //   date: new Date(result.date) || '',
-      //   judge_id: 1,
-      //   case_outcome: result.outcome[0] || '',
-      //   country_of_origin: result['country of origin'] || '',
-      //   protected_grounds: result['protected grounds'] || '',
-      //   application_type: result.application[0],
-      //   case_origin_city: result['city of origin'],
-      //   case_origin_state: result['state of origin'],
-      //   gender: result.gender[0] || '',
-      //   applicant_language: result['applicant_language'][0],
-      //   indigenous_group: result.indigenous[0],
-      //   type_of_violence: result['based violence'][0] || '',
-      //   appellate: false,
-      //   filed_in_one_year: result['check for one year'][0] || false,
-      //   credible: result.credibility[0],
-      // };
       Cases.changeStatus(UUID, 'Review')
         .then(() => {
           Cases.update(UUID, scrapedData)
             .then(() => {
+              console.log('------------- SUCCESS -------------');
               res.status(200).json({});
             })
             .catch((err) => {
