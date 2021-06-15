@@ -68,6 +68,7 @@ The base technologies are JavaScript, HTML and CSS. The frontend leverages [Reac
 | GET    | `/cases/:id/download-pdf` | -                | `PDF file of the case`           |
 | GET    | `/cases/:id/download-csv` | -                | `case information as CSV format` |
 | PUT    | `/cases/:id`              | `Reference case` | `{Reference case}`               |
+| GET    | `/cases/pending/user/:id` | -                | `[{Reference cases}]`            |
 | GET    | `/cases/user/:id`         | -                | `[{Reference cases}]`            |
 | GET    | `/cases/pending`          | -                | `[{Reference cases}]`            |
 | PUT    | `/cases/status/:id`       | `Status`         | `Nothing`                        |
