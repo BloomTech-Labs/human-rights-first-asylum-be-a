@@ -62,22 +62,22 @@ router.post('/', authRequired, (req, res) => {
           res.status(500).send(err);
         }
       });
-      const uploadedDate = new Date();
+      // const uploadedDate = new Date();
       const uploadedCase = {
         case_id: UUID,
         user_id: req.profile.user_id,
         url: s3return.Location,
-        file_name: targetFile.name || '',
         status: 'Processing',
-        uploaded: `${
-          uploadedDate.getMonth() + 1
-        }-${uploadedDate.getDate()}-${uploadedDate.getFullYear()}`,
+        // uploaded: `${
+        //   uploadedDate.getMonth() + 1
+        // }-${uploadedDate.getDate()}-${uploadedDate.getFullYear()}`,
       };
       Cases.add(uploadedCase)
         .then(() => {
           res.status(200).json({ id: UUID });
         })
         .catch((err) => {
+          console.log(err);
           res.status(500).send(err);
         });
     });
@@ -93,59 +93,59 @@ router.post('/scrap/:case_id', authRequired, (req, res) => {
       const result = scrape.data.body;
       console.log('RESULT', result['check for one year'][0]);
 
-      // let scrapedData = {};
+      let scrapedData = {};
 
-      // for (const [k, v] of Object.entries(result)) {
-      //   if (Array.isArray(v)) {
-      //     if (k === 'application') {
-      //       scrapedData['application_type'] = v;
-      //     } else if (k === 'date') {
-      //       scrapedData['case_date'] = new Date(v);
-      //     } else if (k === 'outcome') {
-      //       scrapedData['case_outcome'] = v;
-      //     } else if (k === 'country of origin') {
-      //       scrapedData['country_of_origin'] = v;
-      //     } else if (k === 'panel members') {
-      //       console.log(k);
-      //     } else {
-      //       scrapedData[k] = v[0];
-      //     }
-      //   } else if (typeof v === 'object') {
-      //     scrapedData[k] = v[Object.keys(v)[0]];
-      //   } else {
-      //     if (k === 'state of origin') {
-      //       scrapedData['case_origin_state'] = v;
-      //     } else if (k === 'city of origin') {
-      //       scrapedData['case_origin_city'] = v;
-      //     } //else if (k === 'circuit of origin') {
-      //     //   {
-      //     //   }
-      //     // }
-      //     else {
-      //       scrapedData[k] = v;
-      //     }
-      //   }
-      // }
+      for (const [k, v] of Object.entries(result)) {
+        if (Array.isArray(v)) {
+          if (k === 'application') {
+            scrapedData['application_type'] = v;
+          } else if (k === 'date') {
+            scrapedData['case_date'] = new Date(v);
+          } else if (k === 'outcome') {
+            scrapedData['case_outcome'] = v;
+          } else if (k === 'country of origin') {
+            scrapedData['country_of_origin'] = v;
+          } else if (k === 'panel members') {
+            console.log(k);
+          } else {
+            scrapedData[k] = v[0];
+          }
+        } else if (typeof v === 'object') {
+          scrapedData[k] = v[Object.keys(v)[0]];
+        } else {
+          if (k === 'state of origin') {
+            scrapedData['case_origin_state'] = v;
+          } else if (k === 'city of origin') {
+            scrapedData['case_origin_city'] = v;
+          } else if (k === 'circuit of origin') {
+            // eslint-disable-next-line
+            {
+            }
+          } else {
+            scrapedData[k] = v;
+          }
+        }
+      }
 
       console.log('---------------', scrapedData);
 
-      const scrapedData = {
-        date: new Date(result.date) || '',
-        judge_id: 1,
-        case_outcome: result.outcome[0] || '',
-        country_of_origin: result['country of origin'] || '',
-        protected_grounds: result['protected grounds'] || '',
-        application_type: result.application[0],
-        case_origin_city: result['city of origin'],
-        case_origin_state: result['state of origin'],
-        gender: result.gender[0] || '',
-        applicant_language: result['applicant_language'][0],
-        indigenous_group: result.indigenous[0],
-        type_of_violence: result['based violence'][0] || '',
-        appellate: false,
-        filed_in_one_year: result['check for one year'][0] || false,
-        credible: result.credibility[0],
-      };
+      // const scrapedData = {
+      //   date: new Date(result.date) || '',
+      //   judge_id: 1,
+      //   case_outcome: result.outcome[0] || '',
+      //   country_of_origin: result['country of origin'] || '',
+      //   protected_grounds: result['protected grounds'] || '',
+      //   application_type: result.application[0],
+      //   case_origin_city: result['city of origin'],
+      //   case_origin_state: result['state of origin'],
+      //   gender: result.gender[0] || '',
+      //   applicant_language: result['applicant_language'][0],
+      //   indigenous_group: result.indigenous[0],
+      //   type_of_violence: result['based violence'][0] || '',
+      //   appellate: false,
+      //   filed_in_one_year: result['check for one year'][0] || false,
+      //   credible: result.credibility[0],
+      // };
       Cases.changeStatus(UUID, 'Review')
         .then(() => {
           Cases.update(UUID, scrapedData)
