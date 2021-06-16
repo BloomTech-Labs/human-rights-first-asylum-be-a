@@ -47,29 +47,38 @@ router.get('/', Cache.checkCache, (req, res) => {
 // });
 
 router.get('/:judge_id/cases', async (req, res) => {
-  try {
-    // GET the judge cases data
-    const raw_data = await Judges.findJudgeCases(req.params.judge_id);
-    // Issue POST request to DS API
-    axios
-      .post(`${process.env.DS_API_URL}/vis/judges/${req.params.judge_id}`, {
-        data: raw_data,
-      })
-      .then((data_viz_res) => {
-        // Respond to frontend with the data for the visualization
-        const parsed_data = JSON.parse(data_viz_res.data);
-        let result = {};
-        for (const data in parsed_data) {
-          result[data] = JSON.parse(parsed_data[data]);
-        }
-        res.status(200).json(result);
-      })
-      .catch((err) => {
-        res.status(500).json({ error: err });
-      });
-  } catch (err) {
-    res.status(404).json({ err });
-  }
+  Judges.findJudgeCases(req.params.judge_id)
+    .then((data) => {
+      axios
+        .post(`${process.env.DS_API_URL}/vis/judges/`, {
+          data: data,
+          filters: req.filters,
+        })
+        .then((data_viz_res) => {
+          const parsed_data = JSON.parse(data_viz_res.data);
+          let result = {};
+          for (const data in parsed_data) {
+            result[data] = JSON.parse(parsed_data[data]);
+          }
+          res.status(200).json(result);
+        })
+        .catch((err) => {
+          res.status(500).json({ error: err });
+        });
+    })
+    .catch((err) => {
+      res.status(500).json({ err });
+    });
+});
+
+router.get('/:judge_id/cases', async (req, res) => {
+  Judges.findJudgeCases(req.params.judge_id)
+    .then((data) => {
+      res.status(200).json(data);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
 });
 
 router.get('/:name/csv', Cache.zipCache, (req, res) => {
