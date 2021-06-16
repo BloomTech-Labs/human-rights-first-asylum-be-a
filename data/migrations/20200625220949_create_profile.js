@@ -8,7 +8,7 @@ exports.up = (knex) => {
       table.string('last_name');
       table.string('role').notNullable().default('user');
       table.timestamps(true, true);
-      table.boolean('approved');
+      table.boolean('pending');
     });
 };
 
