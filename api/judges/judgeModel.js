@@ -31,28 +31,10 @@ const findById = async (judge_id) => {
 };
 
 const findJudgeCases = (judge_id) => {
-  return db('judges as j')
-    .join('cases as c', 'j.judge_id', 'c.judge_id')
-    .select(
-      'j.judge_id',
-      'j.first_name',
-      'j.last_name',
-      'j.judge_county',
-      'j.appointed_by',
-      'c.case_id',
-      'c.url',
-      'c.number',
-      'c.date',
-      'c.outcome',
-      'c.country_of_origin',
-      'c.protected_grounds',
-      'c.application_type',
-      'c.case_origin_city',
-      'c.case_origin_state',
-      'c.gender',
-      'c.appellate'
-    )
-    .where('j.judge_id', judge_id);
+  return db('cases as c')
+    .join('judges as j', 'j.judge_id', 'c.judge_id')
+    .select(`c.*`)
+    .where('c.judge_id', judge_id);
 };
 
 // * This call takes awhile because of the sheer amount of datajoins
