@@ -79,10 +79,9 @@ router.post('/', authRequired, (req, res) => {
 router.post('/scrap/:case_id', authRequired, (req, res) => {
   const UUID = req.params.case_id;
   axios
-    .post(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`)
+    .get(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`)
     .then((scrape) => {
       const result = scrape.data.body;
-
       let scrapedData = {};
 
       // formatting the returned scraped data to match naming in the database
@@ -100,6 +99,9 @@ router.post('/scrap/:case_id', authRequired, (req, res) => {
               break;
             case 'country of origin':
               scrapedData['country_of_origin'] = v[0];
+              break;
+            case 'city of origin':
+              scrapedData['case_origin_city'] = v[0];
               break;
             case 'panel members':
               break;
@@ -134,7 +136,13 @@ router.post('/scrap/:case_id', authRequired, (req, res) => {
               break;
           } // end of switch
         } else if (typeof v === 'object') {
-          scrapedData[k] = v[Object.keys(v)[0]];
+          switch (k) {
+            case 'statutes':
+              break;
+            default:
+              scrapedData[k] = v[Object.keys(v)[0]];
+              break;
+          }
         } else {
           switch (k) {
             case 'state of origin':
@@ -142,6 +150,31 @@ router.post('/scrap/:case_id', authRequired, (req, res) => {
               break;
             case 'city of origin':
               scrapedData['case_origin_city'] = v;
+              break;
+            case 'application':
+              scrapedData['application_type'] = v;
+              break;
+            case 'country of origin':
+              scrapedData['country_of_origin'] = v;
+              break;
+            case 'indigenous':
+              scrapedData['indigenous_group'] = v;
+              break;
+            case 'applicant language':
+              scrapedData['applicant_language'] = v;
+              break;
+            case 'credibility':
+              if (v === 'Test') {
+                scrapedData['credible'] = true;
+              } else {
+                scrapedData['credible'] = v;
+              }
+              break;
+            case 'check for one year':
+              scrapedData['filed_in_one_year'] = v;
+              break;
+            case 'date':
+              scrapedData['date'] = new Date(v);
               break;
             case 'circuit of origin':
               break;
