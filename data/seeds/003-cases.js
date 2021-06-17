@@ -350,7 +350,7 @@ exports.seed = function (knex) {
           appellate: true,
           filed_in_one_year: false,
           credible: true,
-          status: 'approved',
+          status: 'Pending',
           comment: null,
         },
         {
