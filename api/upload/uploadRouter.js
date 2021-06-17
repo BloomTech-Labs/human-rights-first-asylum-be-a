@@ -82,17 +82,13 @@ router.post('/scrap/:case_id', authRequired, (req, res) => {
   axios
     .get(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`)
     .then((scrape) => {
-      console.log('85:' + scrape);
       console.dir(scrape);
       const result = scrape.data.body;
       let scrapedData = {};
-      console.log('88:' + result);
 
       // formatting the returned scraped data to match naming in the database
       for (const [k, v] of Object.entries(result)) {
-        console.log('92');
         if (Array.isArray(v)) {
-          console.log('94');
           switch (k) {
             case 'application':
               scrapedData['application_type'] = v[0];
@@ -141,19 +137,15 @@ router.post('/scrap/:case_id', authRequired, (req, res) => {
               scrapedData[k] = v[0];
               break;
           } // end of switch
-          console.log('143');
         } else if (typeof v === 'object') {
-          console.log('145');
           switch (k) {
             case 'statutes':
               break;
             default:
-              console.log('150');
               scrapedData[k] = v[Object.keys(v)[0]];
               break;
           }
         } else {
-          console.log('155');
           switch (k) {
             case 'state of origin':
               scrapedData['case_origin_state'] = v;
@@ -197,7 +189,8 @@ router.post('/scrap/:case_id', authRequired, (req, res) => {
         }
       }
 
-      console.log('199');
+      console.log(scrapedData);
+      console.log(UUID);
 
       Cases.changeStatus(UUID, 'Review')
         .then(() => {
