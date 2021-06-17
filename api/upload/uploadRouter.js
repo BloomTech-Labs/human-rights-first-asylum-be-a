@@ -83,6 +83,7 @@ router.post('/scrap/:case_id', authRequired, (req, res) => {
     .get(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`)
     .then((scrape) => {
       console.log('85:' + scrape);
+      console.dir(scrape);
       const result = scrape.data.body;
       let scrapedData = {};
       console.log('88:' + result);
