@@ -189,12 +189,11 @@ router.post('/scrap/:case_id', authRequired, (req, res) => {
         }
       }
 
-      console.log(scrapedData);
-      console.log(UUID);
+      scrapedData['case_id'] = UUID;
 
       Cases.changeStatus(UUID, 'Review')
         .then(() => {
-          Cases.update(UUID, scrapedData)
+          Cases.update(scrapedData)
             .then(() => {
               res.status(200).json({});
             })
