@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 const express = require('express');
 const Cases = require('./caseModel');
 const AWS = require('../../utils/AWS');
@@ -70,11 +71,15 @@ router.get('/:id/download-csv', Cache.csvCache, (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-  Cases.update(req.params.id, req.body)
+  delete req.body.first_name;
+  delete req.body.middle_initial;
+  delete req.body.last_name;
+  Cases.update(req.body)
     .then((updatedCase) => {
       res.status(200).json(updatedCase);
     })
     .catch((err) => {
+      console.log(err);
       res.status(500).json(err.message);
     });
 });
