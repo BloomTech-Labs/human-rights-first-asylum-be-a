@@ -54,8 +54,9 @@ const findById = async (user_id) => {
 };
 
 const create = async (profile) => {
-  await db('profiles').insert(profile);
-  return await db('profiles');
+  await db('profiles').insert(
+    profile.id ? { user_id: profile.id, ...profile } : profile
+  );
 };
 
 const update = async (user_id, profile) => {

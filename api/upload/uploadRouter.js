@@ -79,7 +79,7 @@ router.post('/', authRequired, (req, res) => {
 router.post('/scrap/:case_id', authRequired, (req, res) => {
   const UUID = req.params.case_id;
   axios
-    .get(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`)
+    .get(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`, { name: UUID })
     .then((scrape) => {
       const result = scrape.data.body;
       let scrapedData = {};
@@ -202,7 +202,7 @@ router.post('/scrap/:case_id', authRequired, (req, res) => {
         });
     })
     .catch((err) => {
-      Cases.changeStatus(UUID, 'Error');
+      console.log(err);
       res.status(500).json(err.message);
     });
 });
