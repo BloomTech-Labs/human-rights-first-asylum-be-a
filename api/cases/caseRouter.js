@@ -145,13 +145,12 @@ router.delete('/:id', (req, res) => {
 });
 
 //updates the comment on case
-router.put('/comment/:id', (req, res) => {
-  const id = req.params.id;
+router.put('/comment', (req, res) => {
   const updatedComment = req.body;
-  Cases.update(id, updatedComment)
+  Cases.update(updatedComment)
     .then(() => {
       res.status(200).json({
-        message: `Comment on ${id} changed to '${updatedComment.comment}'.`,
+        message: `Comment changed to '${updatedComment.comment}'.`,
       });
     })
     .catch((err) => {
