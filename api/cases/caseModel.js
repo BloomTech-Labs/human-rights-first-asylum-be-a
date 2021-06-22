@@ -74,6 +74,9 @@ const writeCSV = async (case_id) => {
 };
 
 const update = async (changes) => {
+  changes.first_name ? delete changes.first_name : {};
+  changes.middle_initial ? delete changes.middle_initial : {};
+  changes.last_name ? delete changes.last_name : {};
   return await db('cases').where({ case_id: changes.case_id }).update(changes);
 };
 
