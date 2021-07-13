@@ -1,19 +1,29 @@
 const db = require('../../data/db-config');
 
 const findAll = async () => {
-  return await db('profiles').where({ pending: false });
+  return await db('profiles')
+    .leftJoin('roles', 'profiles.role_id', 'roles.role_id')
+    .where({ pending: false });
 };
 
 const findAllPending = async () => {
-  return await db('profiles').where({ pending: true });
+  return await db('profiles')
+    .leftJoin('roles', 'profiles.role_id', 'roles.role_id')
+    .where({ pending: true });
 };
 
 const findBy = (filter) => {
-  return db('profiles').where(filter);
+  return db('profiles')
+    .leftJoin('roles', 'profiles.role_id', 'roles.role_id')
+    .where(filter);
 };
 
 const findById = async (user_id) => {
-  const user = await db('profiles').where({ user_id }).first().select('*');
+  const user = await db('profiles')
+    .leftJoin('roles', 'profiles.role_id', 'roles.role_id')
+    .where({ user_id })
+    .first()
+    .select('*');
   let book_marked_cases = await db('book_mark_cases').where({ user_id });
   let book_marked_judges = await db('book_mark_judges').where({
     user_id,
