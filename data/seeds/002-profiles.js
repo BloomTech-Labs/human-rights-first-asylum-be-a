@@ -1,11 +1,11 @@
 // Only 8 Okta-approved profiles
-// ID 1 and 2 are admins, ID 3-8 are users
+// ID 1 and 2 are admins, ID 3 is moderator, 4-8 are users
 const profiles = [...new Array(9)].map((i, idx) => ({
   user_id: idx + 1,
   email: `llama00${idx + 1}@maildrop.cc`,
-  first_name: idx < 2 ? `Admin` : `User`,
+  first_name: idx < 2 ? `Admin` : idx == 2 ? `Moderator` : `User`,
   last_name: idx < 2 ? `${idx + 1}` : `${idx + 1}`,
-  role: idx < 2 ? 'admin' : 'user',
+  role_id: idx < 2 ? 1 : idx == 2 ? 2 : 3,
   pending: idx < 6 ? false : true,
 }));
 
