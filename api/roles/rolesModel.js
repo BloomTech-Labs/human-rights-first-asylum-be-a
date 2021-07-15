@@ -14,7 +14,7 @@ const getRoleByName = (role_name) => {
 
 const update = async (role_id, role) => {
   await db('roles').where({ role_id }).first().update(role);
-  return db('roles').where({ role_id }).first();
+  return getRoleById(role_id);
 };
 
 module.exports = {
