@@ -137,6 +137,22 @@ Other endpoint exist but are broken beyond belief. Need serious rework/reimpleme
 | POST   | `/profiles/:id/case/:case_id` | -                   | `{message, case_bookmarks}`  |
 | DELETE | `/profiles/:id/case/:case_id` | -                   | `{message}`                  |
 
+## Roles
+
+###### Reference roles schema:
+
+    {
+        "role_id": 3,
+        "role_name": "user"
+    }
+
+| Method | Endpoint                      | Request Body    | Returns                          |
+| ------ | ----------------------------- | --------------- | -------------------------------- |
+| GET    | `/roles`                      | -               | `[Reference role]`               |
+| GET    | `/roles/:role_id`             | -               | `Reference role`                 |
+| GET    | `/roles/:role_name`           | -               | `Reference role`                 |
+| PUT    | `/roles/:role_id`             | `role_name`     | `Reference role` or `{message}`  |
+
 ## FAQ
 
 ###### Reference FAQ schema:
