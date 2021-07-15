@@ -117,7 +117,8 @@ Other endpoint exist but are broken beyond belief. Need serious rework/reimpleme
         "email": "email@email.mail",
         "first_name":"John",
         "last_name":"Doe",
-        "role": "user",
+        "role_id": 3,
+        "role_name": "user",
         "created_at": "2021-04-21T18:47:18.712Z",
         "updated_at": "2021-04-21T18:47:18.712Z",
         "approved": True
