@@ -19,6 +19,7 @@ const caseRouter = require('./cases/caseRouter');
 const tagRouter = require('./tags/tagRouter');
 const uploadRouter = require('./upload/uploadRouter');
 const faqRouter = require('./faq/faqRouter');
+const rolesRouter = require('./roles/rolesRouter');
 
 const app = express();
 
@@ -46,6 +47,7 @@ app.use(['/case', '/cases'], caseRouter);
 app.use('/tags', tagRouter);
 app.use('/data', dsRouter);
 app.use('/faq', faqRouter);
+app.use('/roles', rolesRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
