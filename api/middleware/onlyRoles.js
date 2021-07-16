@@ -8,6 +8,13 @@ const onlyRoles = (role_ids) => (req, res, next) => {
   const profile = req.profile;
   let authorized = false;
 
+  if (
+    req.originalUrl == `/profiles/${profile.user_id}` &&
+    (req.method == 'GET' || req.method == 'PUT')
+  ) {
+    authorized = true;
+  }
+
   role_ids.forEach((role_id) => {
     if (profile.role_id == role_id) {
       authorized = true;
