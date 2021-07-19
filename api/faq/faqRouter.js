@@ -3,6 +3,7 @@ const authRequired = require('../middleware/authRequired');
 const FAQ = require('./faqModel');
 const router = express.Router();
 const nodemailer = require('nodemailer');
+const { onlyRoles } = require('../middleware/onlyRoles');
 
 const contactEmail = nodemailer.createTransport({
   host: process.env.CONTACT_EMAIL_HOST,
@@ -24,7 +25,7 @@ router.get('/', authRequired, function (req, res) {
     });
 });
 
-router.get('/:faq_id', authRequired, function (req, res) {
+router.get('/:faq_id', authRequired, onlyRoles([1]), function (req, res) {
   const id = req.params.faq_id;
   FAQ.findById(id)
     .then((faq) => {
@@ -39,7 +40,7 @@ router.get('/:faq_id', authRequired, function (req, res) {
     });
 });
 
-router.post('/', authRequired, async (req, res) => {
+router.post('/', authRequired, onlyRoles([1]), async (req, res) => {
   const question = req.body;
   if (question) {
     try {
@@ -57,7 +58,7 @@ router.post('/', authRequired, async (req, res) => {
   }
 });
 
-router.put('/:faq_id', authRequired, (req, res) => {
+router.put('/:faq_id', authRequired, onlyRoles([1]), (req, res) => {
   FAQ.update(req.params.faq_id, req.body)
     .then((updatedQuestion) => {
       res.status(200).json(updatedQuestion);
@@ -67,7 +68,7 @@ router.put('/:faq_id', authRequired, (req, res) => {
     });
 });
 
-router.delete('/:id', authRequired, (req, res) => {
+router.delete('/:id', authRequired, onlyRoles([1]), (req, res) => {
   const id = req.params.id;
   FAQ.remove(id)
     .then(() => {
