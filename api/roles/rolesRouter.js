@@ -2,6 +2,7 @@ const express = require('express');
 const authRequired = require('../middleware/authRequired');
 const Roles = require('./rolesModel');
 const router = express.Router();
+const { onlyRoles } = require('../middleware/onlyRoles');
 
 router.get('/', authRequired, function (req, res) {
   Roles.getAll()
@@ -38,7 +39,7 @@ router.get('/:role_name', authRequired, (req, res) => {
     });
 });
 
-router.put('/:role_id', authRequired, async (req, res) => {
+router.put('/:role_id', authRequired, onlyRoles([1]), async (req, res) => {
   const role_id = req.params.role_id;
   const { role_name } = req.body;
   if (role_name) {
