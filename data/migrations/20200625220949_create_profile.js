@@ -6,7 +6,15 @@ exports.up = (knex) => {
       table.string('email').notNullable().unique();
       table.string('first_name');
       table.string('last_name');
-      table.string('role').notNullable().default('user');
+      table
+        .integer('role_id')
+        .unsigned()
+        .notNullable()
+        .default(3)
+        .references('role_id')
+        .inTable('roles')
+        .onDelete('RESTRICT')
+        .onUpdate('RESTRICT');
       table.timestamps(true, true);
       table.boolean('pending');
     });
