@@ -212,7 +212,7 @@ A random assortment of non labeled, non connected words on the database. Needs a
 - Optimizing backend
 - Implementation of data normalization
 
-### Still Needs Work:
+### Still Needs Work
 
 - Home Page needs to accommdate for custom visualization like a form
 - The ability to request to join the app still needs work see Trello Board
