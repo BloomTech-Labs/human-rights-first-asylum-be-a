@@ -7,6 +7,7 @@ const Cache = require('../middleware/cache');
 const CSV = require('csv-string');
 const router = express.Router();
 const authRequired = require('../middleware/authRequired');
+const { onlyRoles } = require('../middleware/onlyRoles');
 
 router.use('/:id', authRequired, Verify.verifyCase);
 
@@ -84,7 +85,7 @@ router.put('/:id', (req, res) => {
     });
 });
 
-router.get('/user/:id', (req, res) => {
+router.get('/user/:id', onlyRoles([1, 2]), (req, res) => {
   Cases.findByUserId(req.profile.user_id)
     .then((userCases) => {
       res.status(200).json(userCases);
@@ -96,7 +97,7 @@ router.get('/user/:id', (req, res) => {
 
 // Pending Cases
 
-router.get('/pending', Cache.checkCache, (req, res) => {
+router.get('/pending', Cache.checkCache, onlyRoles([1, 2]), (req, res) => {
   const key = String(req.originalUrl);
   Cases.findPending()
     .then((cases) => {
@@ -108,7 +109,7 @@ router.get('/pending', Cache.checkCache, (req, res) => {
     });
 });
 
-router.put('/pending/approve/:id', (req, res) => {
+router.put('/pending/approve/:id', onlyRoles([1, 2]), (req, res) => {
   const id = req.params.id;
   const status = req.body.status;
   Cases.changeStatus(id, status)
@@ -120,7 +121,7 @@ router.put('/pending/approve/:id', (req, res) => {
     });
 });
 
-router.get('/pending/user/:id', (req, res) => {
+router.get('/pending/user/:id', onlyRoles([1, 2]), (req, res) => {
   Cases.findPendingByUserId(req.profile.user_id)
     .then((userCases) => {
       res.status(200).json(userCases);
@@ -145,7 +146,7 @@ router.delete('/:id', (req, res) => {
 });
 
 //updates the comment on case
-router.put('/comment', (req, res) => {
+router.put('/comment', onlyRoles([1, 2]), (req, res) => {
   const updatedComment = req.body;
   Cases.update(updatedComment)
     .then(() => {
