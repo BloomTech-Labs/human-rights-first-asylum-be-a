@@ -3,6 +3,7 @@ const authRequired = require('../middleware/authRequired');
 const Profiles = require('./profileModel');
 const router = express.Router();
 const okta = require('@okta/okta-sdk-nodejs');
+const { onlyRoles } = require('../middleware/onlyRoles');
 
 const client = new okta.Client({
   orgUrl: process.env.OKTA_ORG_URL,
@@ -12,7 +13,7 @@ const client = new okta.Client({
 
 //TODO /:id verify && judge verify && case verify
 
-router.get('/', authRequired, function (req, res) {
+router.get('/', authRequired, onlyRoles([1]), function (req, res) {
   Profiles.findAll()
     .then((profiles) => {
       res.status(200).json(profiles);
@@ -23,7 +24,7 @@ router.get('/', authRequired, function (req, res) {
     });
 });
 
-router.get('/pending', authRequired, function (req, res) {
+router.get('/pending', authRequired, onlyRoles([1]), function (req, res) {
   Profiles.findAllPending()
     .then((profiles) => {
       res.status(200).json(profiles);
@@ -34,7 +35,7 @@ router.get('/pending', authRequired, function (req, res) {
     });
 });
 
-router.post('/', authRequired, async (req, res) => {
+router.post('/', authRequired, onlyRoles([1]), async (req, res) => {
   const profile = req.body;
   const newUser = {
     profile: {
@@ -78,7 +79,7 @@ router.post('/', authRequired, async (req, res) => {
   }
 });
 
-router.put('/:id', authRequired, (req, res) => {
+router.put('/:id', authRequired, onlyRoles([1]), (req, res) => {
   const profile = req.body;
   const id = req.params.id;
   if (profile) {
@@ -118,7 +119,7 @@ router.put('/:id', authRequired, (req, res) => {
   }
 });
 
-router.delete('/:id', authRequired, (req, res) => {
+router.delete('/:id', authRequired, onlyRoles([1]), (req, res) => {
   const id = req.params.id;
   try {
     Profiles.findById(id).then(() => {
@@ -195,7 +196,7 @@ router.delete('/:id/case/:case_id', authRequired, (req, res) => {
     });
 });
 
-router.get('/:id', authRequired, function (req, res) {
+router.get('/:id', authRequired, onlyRoles([1]), function (req, res) {
   const id = String(req.params.id);
   Profiles.findById(id)
     .then((profile) => {
