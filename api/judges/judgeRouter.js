@@ -7,19 +7,11 @@ const JSZip = require('jszip');
 const cacache = require('cacache');
 const authRequired = require('../middleware/authRequired');
 const { default: axios } = require('axios');
-// const { nextTick } = require('process');
-// const { resolveSoa } = require('dns');
 
-// TODO add auth to router - final phase
-
-// router
 const router = express.Router();
-
-//middleware
 
 router.use('/:judge_id', authRequired, verify.verifyJudgeId);
 
-//routes
 router.get('/', Cache.checkCache, (req, res) => {
   Judges.findAllSimple()
     .then((judges) => {
