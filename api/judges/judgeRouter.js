@@ -29,59 +29,28 @@ router.get('/', Cache.checkCache, (req, res) => {
     .catch((err) => res.status(500).json({ message: err.message }));
 });
 
-//Does not currently work because of poor implementation of /:id
-/* router.get('/all', Cache.checkCache, (req, res) => {
-  Judges.findAll()
-    .then((judges) => {
-      Cache.makeCache('/judges/all', JSON.stringify(judges));
-      res.status(200).json(judges);
+router.get('/:judge_id/vis', async (req, res) => {
+  Judges.findById(req.params.judge_id)
+    .then((judge) => {
+      const first_name = judge['first_name']; // Current DS implementation takes first name, should refactor to query based on ID
+      console.log('Judge_name', first_name);
+      axios
+        .get(`${process.env.DS_API_URL}/vis/outcome-by-judge/${first_name}`)
+        .then((data_vis_res) => {
+          const parsed_data = JSON.parse(data_vis_res.data);
+          res.status(200).json(parsed_data);
+        })
+        .catch((err) => {
+          res.status(500).json({ message: err.message });
+        });
     })
     .catch((err) => {
       res.status(500).json({ message: err.message });
     });
-}); */
-
-// router.get('/:judge_id/cases', async (req, res) => {
-//   const data = await Judges.findJudgeCases(req.params.judge_id);
-//   res.status(200).json({ data });
-// });
-
-router.get('/:judge_id/cases', async (req, res) => {
-  Judges.findJudgeCases(req.params.judge_id)
-    .then((data) => {
-      axios
-        .post(`${process.env.DS_API_URL}/vis/judges/`, {
-          data: data,
-          filters: req.filters,
-        })
-        .then((data_viz_res) => {
-          const parsed_data = JSON.parse(data_viz_res.data);
-          let result = {};
-          for (const data in parsed_data) {
-            result[data] = JSON.parse(parsed_data[data]);
-          }
-          res.status(200).json(result);
-        })
-        .catch((err) => {
-          res.status(500).json({ error: err });
-        });
-    })
-    .catch((err) => {
-      res.status(500).json({ err });
-    });
-});
-
-router.get('/:judge_id/cases', async (req, res) => {
-  Judges.findJudgeCases(req.params.judge_id)
-    .then((data) => {
-      res.status(200).json(data);
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err });
-    });
 });
 
 router.get('/:name/csv', Cache.zipCache, (req, res) => {
+  //CSV function currently not fully implemented
   const name = String(req.params.name);
 
   Judges.writeCSV(name)
