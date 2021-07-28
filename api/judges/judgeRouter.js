@@ -25,7 +25,6 @@ router.get('/:judge_id/vis', async (req, res) => {
   Judges.findById(req.params.judge_id)
     .then((judge) => {
       const first_name = judge['first_name']; // Current DS implementation takes first name, should refactor to query based on ID
-      console.log('Judge_name', first_name);
       axios
         .get(`${process.env.DS_API_URL}/vis/outcome-by-judge/${first_name}`)
         .then((data_vis_res) => {
