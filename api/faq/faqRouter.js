@@ -6,8 +6,7 @@ const nodemailer = require('nodemailer');
 const { onlyRoles } = require('../middleware/onlyRoles');
 
 const contactEmail = nodemailer.createTransport({
-  host: process.env.CONTACT_EMAIL_HOST,
-  port: 587,
+  service: 'hotmail',
   auth: {
     user: process.env.CONTACT_EMAIL,
     pass: process.env.CONTACT_EMAIL_PASSWORD,
@@ -87,6 +86,7 @@ router.post('/contact', authRequired, (req, res) => {
     html: `<p><strong>Name:</strong> ${req.body.name}</p><p><strong>Email:</strong> ${req.body.email}</p><p><strong>Message:</strong> ${req.body.message}</p>`,
   };
   contactEmail.sendMail(mail, (error) => {
+    console.log(mail);
     if (error) {
       res.json({ status: 'failed' });
     } else {

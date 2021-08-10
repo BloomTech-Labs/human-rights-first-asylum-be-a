@@ -7,8 +7,13 @@ const JSZip = require('jszip');
 const cacache = require('cacache');
 const authRequired = require('../middleware/authRequired');
 const { default: axios } = require('axios');
+const util = require('util');
+const unlinkFile = util.promisify(fs.unlink);
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
 const router = express.Router();
+const { uploadFile, getFileStream } = require('./s3');
 
 router.use('/:judge_id', authRequired, verify.verifyJudgeId);
 
@@ -84,4 +89,18 @@ router.get('/:judge_id', (req, res) => {
     });
 });
 
+router.get('/images/:key', (req, res) => {
+  console.log(req.params);
+  const key = req.params.key;
+  const readStream = getFileStream(key);
+
+  readStream.pipe(res);
+});
+
+router.post('/images', upload.single('image'), async (req, res) => {
+  const file = req.file;
+  const result = await uploadFile(file);
+  await unlinkFile(file.path);
+  res.send({ imagePath: `/images/${result.Key}` });
+});
 module.exports = router;
