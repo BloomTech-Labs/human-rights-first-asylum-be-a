@@ -15,7 +15,7 @@ const profiles = [...new Array(9)].map((i, idx) => ({
   future will require the okta-id to be set as the `id` for each profile.
 */
 
-profiles[0].user_id = '00u19v1wwrVU5Ui1j5d7';
+profiles[0].user_id = '00ulzdrizE2yzxToH5d6';
 profiles[1].user_id = '00ulzcegtVucXsfdp5d6';
 profiles[2].user_id = '00ulzg60x94UujHsV5d6';
 profiles[3].user_id = '00ulzenirO3Evj2U95d6';
