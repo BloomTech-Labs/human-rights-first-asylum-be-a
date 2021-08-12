@@ -7,7 +7,8 @@ exports.up = function (knex) {
         .string('user_id')
         .references('user_id')
         .inTable('profiles')
-        .onDelete('RESTRICT');
+        .onDelete('cascade')
+        .onUpdate('cascade');
       table.string('url');
       table.string('number');
       table.date('date');

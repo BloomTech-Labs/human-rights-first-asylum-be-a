@@ -13,8 +13,8 @@ exports.up = (knex) => {
         .default(3)
         .references('role_id')
         .inTable('roles')
-        .onDelete('RESTRICT')
-        .onUpdate('RESTRICT');
+        .onDelete('Cascade')
+        .onUpdate('Cascade');
       table.timestamps(true, true);
       table.boolean('pending');
     });
