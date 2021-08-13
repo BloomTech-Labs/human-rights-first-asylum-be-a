@@ -58,13 +58,14 @@ const findById = async (user_id) => {
     user['case_bookmarks'] = book_marked_cases;
     user['judge_bookmarks'] = book_marked_judges;
   }
-
+  console.log('about to return user');
   return user;
 };
 
-const create = async (profile) => {
-  await db('profiles').insert(
-    profile.id ? { user_id: profile.id, ...profile } : profile
+const create = (profile) => {
+  return db('profiles').insert(
+    profile.id ? { user_id: profile.id, ...profile } : profile,
+    '*'
   );
 };
 
@@ -79,7 +80,12 @@ const update = async (user_id, profile) => {
 
 const remove = async (user_id) => {
   await db('profiles').where({ user_id: user_id }).del();
+  RemoveAllCaseWithUser_id(user_id);
   return await db('profiles');
+};
+
+const RemoveAllCaseWithUser_id = async (user_id) => {
+  await db('cases').where({ user_id: user_id }).del();
 };
 
 const findOrCreateProfile = async (profileObj) => {
@@ -126,4 +132,5 @@ module.exports = {
   remove_judge_bookmark,
   remove_case_bookmark,
   findAllPending,
+  RemoveAllCaseWithUser_id,
 };
