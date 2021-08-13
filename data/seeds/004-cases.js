@@ -56,7 +56,7 @@ exports.seed = function (knex) {
         {
           // Done
           case_id: 'cbd7658f-4c8b-4160-91b6-3bf5d1be6628',
-          user_id: '00ulzcegtVucXsfdp5d6',
+          user_id: '00u1gq2sw16OCjMls5d7',
           url: 'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           number: 'A043-400-049',
           date: '12-18-2012',
@@ -81,7 +81,7 @@ exports.seed = function (knex) {
         {
           // Done
           case_id: '90e156ca-8f0d-4ca6-b114-b168e4d1d79e',
-          user_id: '00ulzcegtVucXsfdp5d6',
+          user_id: '00u1gq2sw16OCjMls5d7',
           url: 'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           number: 'A088-268-610',
           date: '12-14-2012',
@@ -106,7 +106,7 @@ exports.seed = function (knex) {
         {
           // Done
           case_id: 'e0343942-2053-4499-96e7-85b300eef4eb',
-          user_id: '00ulzg60x94UujHsV5d6',
+          user_id: '00u19v66wqTNTSBw85d7',
           url: 'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           number: 'A057-056-1193',
           date: '2-8-2013',
@@ -131,7 +131,7 @@ exports.seed = function (knex) {
         {
           // Done
           case_id: 'f4574526-bb1f-4f20-ae24-75474ee15ee0',
-          user_id: '00ulzg60x94UujHsV5d6',
+          user_id: '00u19v66wqTNTSBw85d7',
           url: 'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           number: 'A071-996-819',
           date: '9-14-2012',
