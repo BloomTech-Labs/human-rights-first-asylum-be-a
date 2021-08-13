@@ -57,6 +57,7 @@
   "dependencies": {
     "@okta/jwt-verifier": "^1.0.0",
     "@okta/okta-sdk-nodejs": "^4.5.1",
+    "@sendgrid/mail": "^7.4.6",
     "aws-sdk": "^2.964.0",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
