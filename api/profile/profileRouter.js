@@ -46,27 +46,20 @@ router.post('/', authRequired, onlyRoles([1]), async (req, res) => {
     },
   };
   if (profile) {
-    const id = profile.id || 0;
     try {
-      Profiles.findById(id).then((pf) => {
-        if (pf) {
-          Profiles.remove(pf.id).catch((err) => {
-            throw err;
-          });
-        }
-        client.createUser(newUser).then((user) => {
-          const appUser = {
-            user_id: user.id,
-            email: user.profile.email,
-            first_name: user.profile.firstName,
-            last_name: user.profile.lastName,
-            pending: true,
-          };
-          Profiles.create(appUser).then((profile) => {
-            res.status(200).json({
-              message: 'profile created by admin,',
-              profile: profile[profile.length - 1],
-            });
+      console.log('in the try');
+      client.createUser(newUser).then((user) => {
+        const appUser = {
+          user_id: user.id,
+          email: user.profile.email,
+          first_name: user.profile.firstName,
+          last_name: user.profile.lastName,
+          pending: true,
+        };
+        Profiles.create(appUser).then((data) => {
+          res.status(200).json({
+            message: 'profile created by admin,',
+            profile: data,
           });
         });
       });

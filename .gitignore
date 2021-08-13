@@ -35,6 +35,6 @@ jspm_packages/
 .eslintcache
 
 # dotenv environment variables file
-# .env
-# .env.test
-# .env.local
+.env
+.env.test
+.env.local
