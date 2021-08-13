@@ -80,8 +80,8 @@ router.delete('/:id', authRequired, onlyRoles([1]), (req, res) => {
 
 router.post('/contact', authRequired, (req, res) => {
   const mail = {
-    from: req.body.email,
-    to: 'lawstuff123@outlook.com',
+    from: req.body.name,
+    to: process.env.CONTACT_EMAIL,
     subject: 'Contact Form Message',
     html: `<p><strong>Name:</strong> ${req.body.name}</p><p><strong>Email:</strong> ${req.body.email}</p><p><strong>Message:</strong> ${req.body.message}</p>`,
   };
