@@ -72,43 +72,12 @@ router.post('/', authRequired, onlyRoles([1]), async (req, res) => {
 });
 
 router.put('/:id', authRequired, onlyRoles([1]), (req, res) => {
-  const profile = req.body;
   const id = req.params.id;
-  if (profile) {
-    Profiles.findById(id)
-      .then(
-        client
-          .getUser(id)
-          .then((user) => {
-            user.profile.firstName = profile.first_name;
-            user.profile.lastName = profile.last_name;
-            user.profile.email = profile.email;
-            user.update();
-            Profiles.update(id, profile)
-              .then((updated) => {
-                res.status(200).json({
-                  message: 'profile updated',
-                  updated_profile: updated.pop(),
-                });
-              })
-              .catch((err) => {
-                res.status(500).json({
-                  message: `Could not update profile '${id}'`,
-                  error: err.message,
-                });
-              });
-          })
-          .catch(() =>
-            res.json({ message: 'Okta failed to update this profile' })
-          )
-      )
-      .catch((err) => {
-        res.status(404).json({
-          message: `Could not find profile '${id}'`,
-          error: err.message,
-        });
-      });
-  }
+  Profiles.update(id, { pending: false }).then(() => {
+    res.status(200).json({
+      message: 'profile updated',
+    });
+  });
 });
 
 router.delete('/:id', authRequired, onlyRoles([1]), (req, res) => {
