@@ -58,7 +58,6 @@ const findById = async (user_id) => {
     user['case_bookmarks'] = book_marked_cases;
     user['judge_bookmarks'] = book_marked_judges;
   }
-  console.log('about to return user');
   return user;
 };
 

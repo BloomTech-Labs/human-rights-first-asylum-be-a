@@ -47,7 +47,6 @@ router.post('/', authRequired, onlyRoles([1]), async (req, res) => {
   };
   if (profile) {
     try {
-      console.log('in the try');
       client.createUser(newUser).then((user) => {
         const appUser = {
           user_id: user.id,
