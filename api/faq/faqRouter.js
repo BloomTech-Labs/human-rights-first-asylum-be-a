@@ -6,8 +6,7 @@ const nodemailer = require('nodemailer');
 const { onlyRoles } = require('../middleware/onlyRoles');
 
 const contactEmail = nodemailer.createTransport({
-  host: process.env.CONTACT_EMAIL_HOST,
-  port: 587,
+  service: 'hotmail',
   auth: {
     user: process.env.CONTACT_EMAIL,
     pass: process.env.CONTACT_EMAIL_PASSWORD,
