@@ -43,7 +43,6 @@ router.post('/', authRequired, onlyRoles([1]), async (req, res) => {
       lastName: profile.last_name,
       email: profile.email,
       login: profile.email,
-      role_id: profile.role_id,
     },
   };
   if (profile) {
