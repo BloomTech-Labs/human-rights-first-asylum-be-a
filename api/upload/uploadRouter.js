@@ -49,7 +49,7 @@ router.get(`/scape/:case_id`, (req, res) => {
       type_of_violence: responses.type_of_violence,
       credible: responses.credible,
       appellate: responses.hearing_type == 'Appellate' ? true : false,
-      filled_in_one_year: responses.check_for_one_year == 'True' ? true : false,
+      filed_in_one_year: responses.check_for_one_year == 'True' ? true : false,
       status: 'pending',
     };
     Cases.updateCaseOnceSraped(UUID, formatCase).then((data) => res.json(data));
