@@ -20,6 +20,7 @@ const tagRouter = require('./tags/tagRouter');
 const uploadRouter = require('./upload/uploadRouter');
 const faqRouter = require('./faq/faqRouter');
 const rolesRouter = require('./roles/rolesRouter');
+const notifRouter = require('./notifs/notifRouter');
 
 const app = express();
 
@@ -48,6 +49,7 @@ app.use('/tags', tagRouter);
 app.use('/data', dsRouter);
 app.use('/faq', faqRouter);
 app.use('/roles', rolesRouter);
+app.use(['/notif', '/notifs'], notifRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
