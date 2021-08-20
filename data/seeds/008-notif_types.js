@@ -11,7 +11,7 @@ exports.seed = function (knex) {
           notif_description: 'A new user has requested to join the application',
         },
         {
-          notif_id: 2,
+          notif_id: 1,
           notif_name: 'Judge Report',
           notif_description: 'A judge you follow has handed down a decision',
         },
