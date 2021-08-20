@@ -52,7 +52,7 @@ router.get(`/scape/:case_id`, (req, res) => {
       filled_in_one_year: responses.check_for_one_year == 'True' ? true : false,
       status: 'pending',
     };
-    res.json(formatCase);
+    Cases.updateCaseOnceSraped(UUID, formatCase).then((data) => res.json(data));
   });
 });
 

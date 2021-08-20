@@ -9,6 +9,10 @@ const FindById_DS_Case = async (uuid) => {
   return await db('ds_cases').where({ uuid }).first();
 };
 
+const updateCaseOnceSraped = async (uuid, data) => {
+  return await db('cases').where({ uuid }).update(data, ['*']);
+};
+
 const findAll = async () => {
   return await db('cases as c')
     .join('judges as j', 'j.judge_id', 'c.judge_id')
@@ -116,4 +120,5 @@ module.exports = {
   findPendingByUserId,
   casesByState,
   FindById_DS_Case,
+  updateCaseOnceSraped,
 };
