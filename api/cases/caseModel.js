@@ -9,8 +9,8 @@ const FindById_DS_Case = async (uuid) => {
   return await db('ds_cases').where({ uuid }).first();
 };
 
-const updateCaseOnceSraped = async (uuid, data) => {
-  return await db('cases').where({ uuid }).update(data, ['*']);
+const updateCaseOnceSraped = async (case_id, data) => {
+  return await db('cases').where({ case_id }).update(data, ['*']);
 };
 
 const findAll = async () => {
