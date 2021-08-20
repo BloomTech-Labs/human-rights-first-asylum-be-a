@@ -35,11 +35,22 @@ router.get(`/scape/:case_id`, (req, res) => {
   const UUID = req.params.case_id;
   Cases.FindById_DS_Case(UUID).then((responses) => {
     const formatCase = {
-      ...responses,
-      status: 'pending',
-      panel_members: 1,
+      judge_id: 1,
+      date: responses.date,
+      outcome: responses.outcome,
+      country_of_origin: responses.country_of_origin,
+      protected_grounds: responses.protected_grounds,
+      application_type: responses.application_type,
+      case_origin_city: responses.case_origin_city,
+      case_origin_state: responses.case_origin_state,
+      gender: responses.gender,
+      applicant_language: responses.applicant_language,
+      indigenous_group: responses.indigenous_group,
+      type_of_violence: responses.type_of_violence,
+      credible: responses.credible,
       appellate: responses.hearing_type == 'Appellate' ? true : false,
-      filled_in_one_year: responses.check_for_one_year,
+      filled_in_one_year: responses.check_for_one_year == 'True' ? true : false,
+      status: 'pending',
     };
     res.json(formatCase);
   });
