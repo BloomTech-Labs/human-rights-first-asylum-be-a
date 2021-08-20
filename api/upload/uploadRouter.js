@@ -1,88 +1,99 @@
 const express = require('express');
-const fileUpload = require('express-fileupload');
-const path = require('path');
+// const fileUpload = require('express-fileupload');
+// const path = require('path');
 const axios = require('axios');
-const { v4: uuidv4 } = require('uuid');
-const fs = require('fs');
-const AWS = require('aws-sdk');
+// const { v4: uuidv4 } = require('uuid');
+// const fs = require('fs');
+// const AWS = require('aws-sdk');
 const router = express.Router();
 require('dotenv').config();
 const authRequired = require('../middleware/authRequired');
 const Cases = require('../cases/caseModel');
-
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-});
-
-const uploadFile = (fileName) => {
-  const fileContent = fs.readFileSync(
-    path.join(__dirname, `/uploads/${fileName}.pdf`)
-  );
-
-  const s3Upload = s3
-    .upload({
-      Bucket: process.env.AWS_BUCKET,
-      Key: `${fileName}.pdf`,
-      Body: fileContent,
-    })
-    .promise();
-
-  return s3Upload
-    .then((res) => {
-      return res;
-    })
-    .catch((err) => {
-      return err;
-    });
-};
-router.use(
-  fileUpload({
-    useTempFiles: true,
-    tempFileDir: path.join(__dirname, 'tmp'),
-  })
-);
+const upload = require('./uploads/fileupload');
+const singleUpload = upload.single('image');
 
 router.post('/', authRequired, (req, res) => {
-  if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).send('No files were uploaded.');
-  }
-  let targetFile = req.files.target_file;
-  let UUID = uuidv4();
-  targetFile.mv(path.join(__dirname, 'uploads', `${UUID}.pdf`), (err) => {
-    if (err) {
-      return res.status(500).send(err);
-    }
-    uploadFile(UUID).then((s3return) => {
-      fs.unlink(path.join(__dirname, 'uploads', `${UUID}.pdf`), (err) => {
-        if (err) {
-          return res.status(500).send(err);
-        }
-      });
-      const uploadedCase = {
-        case_id: UUID,
-        user_id: req.profile.user_id,
-        url: s3return.Location,
-        status: 'Processing',
-      };
-      Cases.add(uploadedCase)
-        .then(() => {
-          res.status(200).json({ id: UUID });
-        })
-        .catch((err) => {
-          res.status(500).send(err);
-        });
-    });
+  singleUpload(req, res, () => {
+    let UUID = req.file.key.slice(0, 36);
+    axios.get(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`);
+    return res.json({ imageURL: req.file.location });
   });
 });
+
+// const s3 = new AWS.S3({
+//   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+//   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+// });
+
+// const uploadFile = (fileName) => {
+//   const fileContent = fs.readFileSync(
+//     path.join(__dirname, `/uploads/${fileName}.pdf`)
+//   );
+
+//   const s3Upload = s3
+//     .upload({
+//       Bucket: process.env.AWS_BUCKET,
+//       Key: `${fileName}.pdf`,
+//       Body: fileContent,
+//     })
+//     .promise();
+
+//   return s3Upload
+//     .then((res) => {
+//       return res;
+//     })
+//     .catch((err) => {
+//       return err;
+//     });
+// };
+// router.use(
+//   fileUpload({
+//     useTempFiles: true,
+//     tempFileDir: path.join(__dirname, 'tmp'),
+//   })
+// );
+
+// router.post('/', authRequired, (req, res) => {
+//   if (!req.files || Object.keys(req.files).length === 0) {
+//     return res.status(400).send('No files were uploaded.');
+//   }
+//   let targetFile = req.files.target_file;
+//   let UUID = uuidv4();
+//   targetFile.mv(path.join(__dirname, 'uploads', `${UUID}.pdf`), (err) => {
+//     if (err) {
+//       return res.status(500).send(err);
+//     }
+//     uploadFile(UUID).then((s3return) => {
+//       fs.unlink(path.join(__dirname, 'uploads', `${UUID}.pdf`), (err) => {
+//         if (err) {
+//           return res.status(500).send(err);
+//         }
+//       });
+//       const uploadedCase = {
+//         case_id: UUID,
+//         user_id: req.profile.user_id,
+//         url: s3return.Location,
+//         status: 'Processing',
+//       };
+//       Cases.add(uploadedCase)
+//         .then(() => {
+//           console.log('here', UUID);
+//           res.status(200).json({ id: UUID });
+//         })
+//         .catch((err) => {
+//           res.status(500).send(err);
+//         });
+//     });
+//   });
+// });
 
 router.post('/scrap/:case_id', authRequired, (req, res) => {
   const UUID = req.params.case_id;
   axios
     .get(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`)
     .then((scrape) => {
-      console.dir(scrape);
       const result = scrape.data.body;
+      // console.log(result);
       let scrapedData = {};
 
       // formatting the returned scraped data to match naming in the database
