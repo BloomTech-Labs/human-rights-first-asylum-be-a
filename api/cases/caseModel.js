@@ -5,6 +5,10 @@ const add = async (data) => {
   return await db('cases').insert(data);
 };
 
+const FindById_DS_Case = async (case_id) => {
+  return await db('ds_cases').where({ case_id });
+};
+
 const findAll = async () => {
   return await db('cases as c')
     .join('judges as j', 'j.judge_id', 'c.judge_id')
@@ -111,4 +115,5 @@ module.exports = {
   findByUserId,
   findPendingByUserId,
   casesByState,
+  FindById_DS_Case,
 };

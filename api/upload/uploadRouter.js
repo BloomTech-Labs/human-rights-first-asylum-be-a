@@ -14,211 +14,160 @@ const singleUpload = upload.single('image');
 
 router.post('/', authRequired, (req, res) => {
   singleUpload(req, res, () => {
-    let UUID = req.file.key.slice(0, 36);
-    axios.get(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`);
-    return res.json({ imageURL: req.file.location });
+    if (req?.file?.key) {
+      let UUID = req.file.key.slice(0, 36);
+      axios.get(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`);
+      const uploadedCase = {
+        case_id: UUID,
+        user_id: req.profile.user_id,
+        url: req.file.location,
+        status: 'Processing',
+      };
+      Cases.add(uploadedCase);
+      return res.json({ imageURL: req?.file?.location });
+    } else {
+      res.status(400).json('failed to upload');
+    }
   });
 });
 
-// const s3 = new AWS.S3({
-//   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-//   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-// });
+router.get(`/scape/:case_id`, authRequired, (req, res) => {
+  const UUID = req.params.case_id;
+  Cases.FindById_DS_Case(UUID).then((data) => res.json(data));
+});
 
-// const uploadFile = (fileName) => {
-//   const fileContent = fs.readFileSync(
-//     path.join(__dirname, `/uploads/${fileName}.pdf`)
-//   );
+// router.post('/scrap/:case_id', authRequired, (req, res) => {
+//   const UUID = req.params.case_id;
+//   axios
+//     .get(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`)
+//     .then((scrape) => {
+//       const result = scrape.data.body;
+//       // console.log(result);
+//       let scrapedData = {};
 
-//   const s3Upload = s3
-//     .upload({
-//       Bucket: process.env.AWS_BUCKET,
-//       Key: `${fileName}.pdf`,
-//       Body: fileContent,
-//     })
-//     .promise();
-
-//   return s3Upload
-//     .then((res) => {
-//       return res;
-//     })
-//     .catch((err) => {
-//       return err;
-//     });
-// };
-// router.use(
-//   fileUpload({
-//     useTempFiles: true,
-//     tempFileDir: path.join(__dirname, 'tmp'),
-//   })
-// );
-
-// router.post('/', authRequired, (req, res) => {
-//   if (!req.files || Object.keys(req.files).length === 0) {
-//     return res.status(400).send('No files were uploaded.');
-//   }
-//   let targetFile = req.files.target_file;
-//   let UUID = uuidv4();
-//   targetFile.mv(path.join(__dirname, 'uploads', `${UUID}.pdf`), (err) => {
-//     if (err) {
-//       return res.status(500).send(err);
-//     }
-//     uploadFile(UUID).then((s3return) => {
-//       fs.unlink(path.join(__dirname, 'uploads', `${UUID}.pdf`), (err) => {
-//         if (err) {
-//           return res.status(500).send(err);
+//       // formatting the returned scraped data to match naming in the database
+//       for (const [k, v] of Object.entries(result)) {
+//         if (Array.isArray(v)) {
+//           switch (k) {
+//             case 'application':
+//               scrapedData['application_type'] = v[0];
+//               break;
+//             case 'date':
+//               scrapedData['date'] = new Date(v);
+//               break;
+//             case 'outcome':
+//               scrapedData['outcome'] = v[0][0];
+//               break;
+//             case 'country of origin':
+//               scrapedData['country_of_origin'] = v[0];
+//               break;
+//             case 'city of origin':
+//               scrapedData['case_origin_city'] = v[0];
+//               break;
+//             case 'panel members':
+//               break;
+//             case 'protected grounds':
+//               scrapedData['protected_grounds'] = v[0];
+//               break;
+//             case 'based violence':
+//               scrapedData['type_of_violence'] = v[0];
+//               break;
+//             case 'indigenous':
+//               scrapedData['indigenous_group'] = v;
+//               break;
+//             case 'applicant language':
+//               scrapedData['applicant_language'] = v;
+//               break;
+//             case 'credibility':
+//               if (v[0] === 'Test') {
+//                 scrapedData['credible'] = true;
+//               } else {
+//                 scrapedData['credible'] = v;
+//               }
+//               break;
+//             case 'check for one year':
+//               scrapedData['filed_in_one_year'] = v[0];
+//               break;
+//             case 'precedent cases':
+//               break;
+//             case 'statutes':
+//               break;
+//             default:
+//               scrapedData[k] = v[0];
+//               break;
+//           } // end of switch
+//         } else if (typeof v === 'object') {
+//           switch (k) {
+//             case 'statutes':
+//               break;
+//             default:
+//               scrapedData[k] = v[Object.keys(v)[0]];
+//               break;
+//           }
+//         } else {
+//           switch (k) {
+//             case 'state of origin':
+//               scrapedData['case_origin_state'] = v;
+//               break;
+//             case 'city of origin':
+//               scrapedData['case_origin_city'] = v;
+//               break;
+//             case 'application':
+//               scrapedData['application_type'] = v;
+//               break;
+//             case 'country of origin':
+//               scrapedData['country_of_origin'] = v;
+//               break;
+//             case 'indigenous':
+//               scrapedData['indigenous_group'] = v;
+//               break;
+//             case 'applicant language':
+//               scrapedData['applicant_language'] = v;
+//               break;
+//             case 'credibility':
+//               if (v === 'Test') {
+//                 scrapedData['credible'] = true;
+//               } else {
+//                 scrapedData['credible'] = v;
+//               }
+//               break;
+//             case 'check for one year':
+//               scrapedData['filed_in_one_year'] = v;
+//               break;
+//             case 'date':
+//               scrapedData['date'] = new Date(v);
+//               break;
+//             case 'circuit of origin':
+//               break;
+//             case 'time to process':
+//               break;
+//             default:
+//               scrapedData[k] = v;
+//               break;
+//           } // end of switch
 //         }
-//       });
-//       const uploadedCase = {
-//         case_id: UUID,
-//         user_id: req.profile.user_id,
-//         url: s3return.Location,
-//         status: 'Processing',
-//       };
-//       Cases.add(uploadedCase)
+//       }
+
+//       scrapedData['case_id'] = UUID;
+
+//       Cases.changeStatus(UUID, 'Review')
 //         .then(() => {
-//           console.log('here', UUID);
-//           res.status(200).json({ id: UUID });
+//           Cases.update(scrapedData)
+//             .then(() => {
+//               res.status(200).json({});
+//             })
+//             .catch((err) => {
+//               res.status(500).json(err);
+//             });
 //         })
 //         .catch((err) => {
-//           res.status(500).send(err);
+//           res.status(500).json(err);
 //         });
+//     })
+//     .catch((err) => {
+//       res.status(500).json(err.message);
 //     });
-//   });
 // });
-
-router.post('/scrap/:case_id', authRequired, (req, res) => {
-  const UUID = req.params.case_id;
-  axios
-    .get(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`)
-    .then((scrape) => {
-      const result = scrape.data.body;
-      // console.log(result);
-      let scrapedData = {};
-
-      // formatting the returned scraped data to match naming in the database
-      for (const [k, v] of Object.entries(result)) {
-        if (Array.isArray(v)) {
-          switch (k) {
-            case 'application':
-              scrapedData['application_type'] = v[0];
-              break;
-            case 'date':
-              scrapedData['date'] = new Date(v);
-              break;
-            case 'outcome':
-              scrapedData['outcome'] = v[0][0];
-              break;
-            case 'country of origin':
-              scrapedData['country_of_origin'] = v[0];
-              break;
-            case 'city of origin':
-              scrapedData['case_origin_city'] = v[0];
-              break;
-            case 'panel members':
-              break;
-            case 'protected grounds':
-              scrapedData['protected_grounds'] = v[0];
-              break;
-            case 'based violence':
-              scrapedData['type_of_violence'] = v[0];
-              break;
-            case 'indigenous':
-              scrapedData['indigenous_group'] = v;
-              break;
-            case 'applicant language':
-              scrapedData['applicant_language'] = v;
-              break;
-            case 'credibility':
-              if (v[0] === 'Test') {
-                scrapedData['credible'] = true;
-              } else {
-                scrapedData['credible'] = v;
-              }
-              break;
-            case 'check for one year':
-              scrapedData['filed_in_one_year'] = v[0];
-              break;
-            case 'precedent cases':
-              break;
-            case 'statutes':
-              break;
-            default:
-              scrapedData[k] = v[0];
-              break;
-          } // end of switch
-        } else if (typeof v === 'object') {
-          switch (k) {
-            case 'statutes':
-              break;
-            default:
-              scrapedData[k] = v[Object.keys(v)[0]];
-              break;
-          }
-        } else {
-          switch (k) {
-            case 'state of origin':
-              scrapedData['case_origin_state'] = v;
-              break;
-            case 'city of origin':
-              scrapedData['case_origin_city'] = v;
-              break;
-            case 'application':
-              scrapedData['application_type'] = v;
-              break;
-            case 'country of origin':
-              scrapedData['country_of_origin'] = v;
-              break;
-            case 'indigenous':
-              scrapedData['indigenous_group'] = v;
-              break;
-            case 'applicant language':
-              scrapedData['applicant_language'] = v;
-              break;
-            case 'credibility':
-              if (v === 'Test') {
-                scrapedData['credible'] = true;
-              } else {
-                scrapedData['credible'] = v;
-              }
-              break;
-            case 'check for one year':
-              scrapedData['filed_in_one_year'] = v;
-              break;
-            case 'date':
-              scrapedData['date'] = new Date(v);
-              break;
-            case 'circuit of origin':
-              break;
-            case 'time to process':
-              break;
-            default:
-              scrapedData[k] = v;
-              break;
-          } // end of switch
-        }
-      }
-
-      scrapedData['case_id'] = UUID;
-
-      Cases.changeStatus(UUID, 'Review')
-        .then(() => {
-          Cases.update(scrapedData)
-            .then(() => {
-              res.status(200).json({});
-            })
-            .catch((err) => {
-              res.status(500).json(err);
-            });
-        })
-        .catch((err) => {
-          res.status(500).json(err);
-        });
-    })
-    .catch((err) => {
-      res.status(500).json(err.message);
-    });
-});
 
 router.post('/:case_id', authRequired, (req, res) => {
   const UUID = req.params.case_id;
