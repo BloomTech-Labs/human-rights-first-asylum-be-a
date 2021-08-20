@@ -33,7 +33,13 @@ router.post('/', authRequired, (req, res) => {
 
 router.get(`/scape/:case_id`, authRequired, (req, res) => {
   const UUID = req.params.case_id;
-  Cases.FindById_DS_Case(UUID).then((data) => res.json(data));
+  let data = [];
+  Cases.FindById_DS_Case(UUID).then((responses) => (data = responses));
+  const uploadedCase = {
+    ...data,
+    status: 'Pending',
+  };
+  res.json(uploadedCase);
 });
 
 // router.post('/scrap/:case_id', authRequired, (req, res) => {
