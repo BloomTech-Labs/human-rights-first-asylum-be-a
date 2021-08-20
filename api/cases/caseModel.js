@@ -6,7 +6,7 @@ const add = async (data) => {
 };
 
 const FindById_DS_Case = async (uuid) => {
-  return await db('ds_cases').where({ uuid }).first();
+  return await db('ds_cases').where({ uuid });
 };
 
 const findAll = async () => {

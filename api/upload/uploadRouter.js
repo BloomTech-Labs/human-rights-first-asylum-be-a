@@ -34,7 +34,7 @@ router.post('/', authRequired, (req, res) => {
 router.get(`/scape/:case_id`, authRequired, (req, res) => {
   const UUID = req.params.case_id;
   let data = null;
-  Cases.FindById_DS_Case(UUID).then((responses) => (data = responses));
+  Cases.FindById_DS_Case(UUID).then((responses) => res.json(responses));
   // const uploadedCase = {
   //   ...data,
   //   status: 'Pending',
