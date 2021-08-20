@@ -1,19 +1,24 @@
 const db = require('../../data/db-config');
 
-const getAllNotifTypes = () => {
-  return db('notif_types');
+const getAllNotifs = () => {
+  return db('notif_to_users');
 };
 
-const getNotifById = (notif_id) => {
-  return db('notif_types').where({ notif_id }).first();
+const getNotifById = (id) => {
+  return db('notif_to_users').where({ id }).first();
 };
 
-const getNotifByName = (notif_name) => {
-  return db('notif_types').where({ notif_name }).first();
+const create = (notif) => {
+  return db('notif_to_users').insert(notif).returning('*');
+};
+
+const remove = (id) => {
+  return db('notif_to_users').where({ id }).del().returning('*');
 };
 
 module.exports = {
-  getAllNotifTypes,
+  getAllNotifs,
   getNotifById,
-  getNotifByName,
+  create,
+  remove,
 };
