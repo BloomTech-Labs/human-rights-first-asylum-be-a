@@ -3,11 +3,7 @@ exports.up = function (knex) {
     .raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
     .createTable('cases', function (table) {
       table.string('case_id').notNullable().primary();
-      table
-        .string('user_id')
-        .references('user_id')
-        .inTable('profiles')
-        .onDelete('RESTRICT');
+      table.string('user_id');
       table.string('url');
       table.string('number');
       table.date('date');
