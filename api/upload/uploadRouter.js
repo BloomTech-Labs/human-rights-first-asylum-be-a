@@ -34,7 +34,13 @@ router.post('/', authRequired, (req, res) => {
 router.get(`/scape/:case_id`, (req, res) => {
   const UUID = req.params.case_id;
   Cases.FindById_DS_Case(UUID).then((responses) => {
-    const formatCase = { ...responses, status: 'pending' };
+    const formatCase = {
+      ...responses,
+      status: 'pending',
+      panel_members: 1,
+      appellate: responses.hearing_type,
+      filled_in_one_year: responses.check_for_one_year,
+    };
     res.json(formatCase);
   });
 });
