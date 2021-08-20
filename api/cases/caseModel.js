@@ -5,8 +5,8 @@ const add = async (data) => {
   return await db('cases').insert(data);
 };
 
-const FindById_DS_Case = async (case_id) => {
-  return await db('ds_cases').where({ case_id });
+const FindById_DS_Case = async (uuid) => {
+  return await db('ds_cases').where({ uuid });
 };
 
 const findAll = async () => {
