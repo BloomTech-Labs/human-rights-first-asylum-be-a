@@ -38,7 +38,7 @@ router.get(`/scape/:case_id`, (req, res) => {
       ...responses,
       status: 'pending',
       panel_members: 1,
-      appellate: responses.hearing_type,
+      appellate: responses.hearing_type == 'Appellate' ? true : false,
       filled_in_one_year: responses.check_for_one_year,
     };
     res.json(formatCase);
