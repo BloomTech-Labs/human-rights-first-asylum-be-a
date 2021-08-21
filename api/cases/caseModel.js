@@ -33,7 +33,6 @@ const makeAnewJudge = (first_name, middle_initial, last_name) => {
 };
 
 const createCaseOnceSraped = async (case_id, data) => {
-  console.log(data);
   return await db('cases').where({ case_id }).insert(data, ['*']);
 };
 
