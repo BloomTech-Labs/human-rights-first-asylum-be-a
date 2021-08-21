@@ -9,6 +9,10 @@ const FindById_DS_Case = async (uuid) => {
   return await db('ds_cases').where({ uuid }).first();
 };
 
+const getAllDs_case = () => {
+  return db('ds_case');
+};
+
 const updateCaseOnceSraped = async (case_id, data) => {
   return await db('cases').where({ case_id }).update(data, ['*']);
 };
@@ -121,4 +125,5 @@ module.exports = {
   casesByState,
   FindById_DS_Case,
   updateCaseOnceSraped,
+  getAllDs_case,
 };

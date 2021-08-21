@@ -12,7 +12,7 @@ const Cases = require('../cases/caseModel');
 const upload = require('./uploads/fileupload');
 const singleUpload = upload.single('image');
 
-router.post('/', authRequired, (req, res) => {
+router.post('/', authRequired, async (req, res) => {
   singleUpload(req, res, () => {
     if (req?.file?.key) {
       let UUID = req.file.key.slice(0, 36);
@@ -73,7 +73,7 @@ router.get(`/scape/:case_id`, (req, res) => {
 //               scrapedData['application_type'] = v[0];
 //               break;
 //             case 'date':
-//               scrapedData['date'] = new Date(v);
+// scrapedData['date'] = new Date(v);
 //               break;
 //             case 'outcome':
 //               scrapedData['outcome'] = v[0][0];
