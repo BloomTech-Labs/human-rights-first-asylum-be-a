@@ -38,28 +38,63 @@ router.get('/ds', (req, res) => {
   });
 });
 
+const addCase = (UUID, responses, res) => {
+  const formatCase = {
+    case_id: UUID,
+    judge_id: responses.judge_id,
+    date: '1999-01-01',
+    outcome: responses.outcome,
+    url: responses.url,
+    country_of_origin: responses.country_of_origin,
+    protected_grounds: responses.protected_grounds,
+    application_type: responses.application_type,
+    case_origin_city: responses.case_origin_city,
+    case_origin_state: responses.case_origin_state,
+    gender: responses.gender,
+    applicant_language: responses.applicant_language,
+    indigenous_group: responses.indigenous_group,
+    type_of_violence: responses.type_of_violence,
+    credible: responses.credibility == 'Unknown' ? false : true,
+    appellate: responses.hearing_type == 'Appellate' ? true : false,
+    filed_in_one_year: responses.check_for_one_year == 'True' ? true : false,
+    status: 'pending',
+  };
+  Cases.createCaseOnceSraped(UUID, formatCase)
+    .then((data) => res.json(data))
+    .catch(() => res.status(400).json('failed to add case'));
+};
+
 router.get(`/scape/:case_id`, (req, res) => {
   const UUID = req.params.case_id;
-  Cases.FindById_DS_Case(UUID).then((responses) => {
-    const formatCase = {
-      judge_id: 1,
-      date: responses.date,
-      outcome: responses.outcome,
-      country_of_origin: responses.country_of_origin,
-      protected_grounds: responses.protected_grounds,
-      application_type: responses.application_type,
-      case_origin_city: responses.case_origin_city,
-      case_origin_state: responses.case_origin_state,
-      gender: responses.gender,
-      applicant_language: responses.applicant_language,
-      indigenous_group: responses.indigenous_group,
-      type_of_violence: responses.type_of_violence,
-      credible: responses.credible,
-      appellate: responses.hearing_type == 'Appellate' ? true : false,
-      filed_in_one_year: responses.check_for_one_year == 'True' ? true : false,
-      status: 'pending',
-    };
-    Cases.updateCaseOnceSraped(UUID, formatCase).then((data) => res.json(data));
+  let counter = 0;
+  Cases.findUrlByUUID(UUID).then((link) => {
+    Cases.FindById_DS_Case(UUID).then((responses) => {
+      const judges = responses.panel_members.split(', ');
+      judges.map((singleJudge) => {
+        const arr = singleJudge.split(' ');
+        const first_name = arr[0];
+        const middle_initial = arr.length == 3 ? arr[1] : null;
+        const last_name = arr.length == 3 ? arr[3] : arr[1];
+        Cases.findJudgeByFullName(first_name, middle_initial, last_name).then(
+          (data) => {
+            if (!data) {
+              Cases.makeAnewJudge(first_name, middle_initial, last_name)
+                .then((stuff) => {
+                  counter += 1;
+                  responses.url = link;
+                  responses.judge_id = stuff[0].judge_id;
+                  addCase(UUID + '-' + counter.toString(), responses, res);
+                })
+                .catch((err) => console.log(err));
+            } else {
+              counter += 1;
+              responses.judge_id = data.judge_id;
+              addCase(UUID + '-' + counter.toString(), responses, res);
+            }
+          }
+        );
+      });
+    });
   });
 });
 

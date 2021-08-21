@@ -13,8 +13,26 @@ const getAllDs_case = () => {
   return db('ds_cases');
 };
 
-const updateCaseOnceSraped = async (case_id, data) => {
-  return await db('cases').where({ case_id }).update(data, ['*']);
+const findUrlByUUID = async (case_id) => {
+  const data = await db('cases').where({ case_id }).select('url').first();
+  return data?.url;
+};
+
+const findJudgeByFullName = (first_name, middle_initial, last_name) => {
+  return db('judges')
+    .where({ first_name }, { middle_initial }, { last_name })
+    .first();
+};
+
+const makeAnewJudge = (first_name, middle_initial, last_name) => {
+  return db('judges').insert({ first_name, middle_initial, last_name }, [
+    'judge_id',
+  ]);
+};
+
+const createCaseOnceSraped = async (case_id, data) => {
+  console.log(data);
+  return await db('cases').where({ case_id }).insert(data, ['*']);
 };
 
 const findAll = async () => {
@@ -124,6 +142,9 @@ module.exports = {
   findPendingByUserId,
   casesByState,
   FindById_DS_Case,
-  updateCaseOnceSraped,
+  createCaseOnceSraped,
   getAllDs_case,
+  findJudgeByFullName,
+  makeAnewJudge,
+  findUrlByUUID,
 };
