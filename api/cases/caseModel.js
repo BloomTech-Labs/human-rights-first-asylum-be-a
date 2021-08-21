@@ -10,7 +10,7 @@ const FindById_DS_Case = async (uuid) => {
 };
 
 const getAllDs_case = () => {
-  return db('ds_case');
+  return db('ds_cases');
 };
 
 const updateCaseOnceSraped = async (case_id, data) => {
