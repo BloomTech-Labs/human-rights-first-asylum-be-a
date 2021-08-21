@@ -7,7 +7,7 @@ exports.up = function (knex) {
       table.string('panel_members');
       table.string('decision_type');
       table.string('application_type');
-      table.date('date');
+      table.string('date');
       table.string('country_of_origin');
       table.string('outcome');
       table.string('case_origin_state');
@@ -19,7 +19,7 @@ exports.up = function (knex) {
       table.string('check_for_one_year');
     });
 };
-
+//here
 exports.down = (knex) => {
   return knex.schema.dropTableIfExists('ds_case');
 };

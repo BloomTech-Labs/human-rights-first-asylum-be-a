@@ -31,6 +31,13 @@ router.post('/', authRequired, async (req, res) => {
   });
 });
 
+router.get('/ds', (req, res) => {
+  console.log('in ds getall');
+  Cases.getAllDs_case().then((data) => {
+    res.json(data);
+  });
+});
+
 router.get(`/scape/:case_id`, (req, res) => {
   const UUID = req.params.case_id;
   Cases.FindById_DS_Case(UUID).then((responses) => {
