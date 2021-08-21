@@ -13,29 +13,33 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:notif_type', (req, res) => {
-  const { notif_type } = req.params;
-  if (isNaN(notif_type)) {
-    Type.getNotifTypeByName(notif_type)
-      .then((notif_type) => {
-        if (!notif_type) throw new Error('Not Found');
-        res.status(200).json(notif_type);
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(404).json({ message: err.message });
-      });
-  } else {
-    Type.getNotifTypeById(notif_type)
-      .then((notif_type) => {
-        if (!notif_type) throw new Error('Not Found');
-        res.status(200).json(notif_type);
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(404).json({ message: err.message });
-      });
-  }
+router.get('/:notif_id', (req, res, next) => {
+  const { notif_id } = req.params;
+  Type.getNotifTypeById(notif_id)
+    .then((notif_type) => {
+      if (!notif_type) throw new Error('not found by notif_id');
+      res.status(200).json(notif_type);
+    })
+    .catch((err) => {
+      if (isNaN(notif_id)) {
+        return next();
+      }
+      console.error(err);
+      res.status(404).json({ message: err.message });
+    });
+});
+
+router.get('/:notif_name', (req, res) => {
+  const { notif_name } = req.params;
+  Type.getNotifTypeByName(notif_name)
+    .then((notif_type) => {
+      if (!notif_type) throw new Error('not found by notif_name');
+      res.status(200).json(notif_type);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(404).json({ message: err.message });
+    });
 });
 
 module.exports = router;

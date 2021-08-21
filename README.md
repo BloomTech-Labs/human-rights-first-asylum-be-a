@@ -156,6 +156,39 @@ Other endpoint exist but are broken beyond belief. Need serious rework/reimpleme
 | GET    | `/roles/:role_name` | -            | `Reference role`                |
 | PUT    | `/roles/:role_id`   | `role_name`  | `Reference role` or `{message}` |
 
+## Notification Types
+
+###### Reference type schema:
+
+    {
+        "notif_id": 0,
+        "notif_name": "New User Registration",
+        "notif_description": "A new user has requested to join the application"
+    }
+
+| Method    | Endpoint             | Request Body | Returns            |
+| --------- | -------------------- | ------------ | ------------------ |
+| GET       | `/types`             | -            | `[Reference type]` |
+| GET       | `/types/:notif_id`   | -            | `Reference type`   |
+| GET       | `/types/:notif_name` | -            | `Reference type`   |
+
+## Notification To Users
+
+###### Reference notif schema:
+
+    {
+        "id": 19,
+        "user_id": "00ulzdb18iCY1wMep5d6",
+        "notif_id": 2
+    }
+
+| Method    | Endpoint      | Request Body       | Returns                   |
+| --------- | ------------- | ------------------ | ------------------------- |
+| GET       | `/notifs`     | -                  | `[Reference notif]`       |
+| GET       | `/notifs/:id` | -                  | `Reference notif`         |
+| POST      | `/notifs`     | `user_id,notif_id` | `{message,created notif}` |
+| DELETE    | `/notifs/:id` | -                  | `{message,deleted notif}` |
+
 ## FAQ
 
 ###### Reference FAQ schema:

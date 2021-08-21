@@ -13,11 +13,11 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', (req, res) => {
   const { id } = req.params;
   Notif.getNotifById(id)
     .then((notif) => {
-      notif ? res.status(200).json(notif) : next();
+      res.status(200).json(notif);
     })
     .catch((err) => {
       console.error(err);
