@@ -14,8 +14,10 @@ const getAllDs_case = () => {
 };
 
 const findUrlByUUID = async (case_id) => {
-  const data = await db('cases').where({ case_id }).select('url').first();
-  return data?.url;
+  const data = await db('cases')
+    .where({ case_id })
+    .update({ status: 'pending' }, 'url');
+  return data[0]?.url;
 };
 
 const findJudgeByFullName = (first_name, middle_initial, last_name) => {
