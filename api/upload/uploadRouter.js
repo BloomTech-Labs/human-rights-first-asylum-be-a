@@ -31,13 +31,11 @@ router.post('/', authRequired, async (req, res) => {
   });
 });
 
-const addCase = (UUID, responses, res) => {
+const updateCase = (UUID, responses, res) => {
   const formatCase = {
     case_id: UUID,
-    judge_id: responses.judge_id,
     date: responses.date,
     outcome: responses.outcome,
-    url: responses.url,
     country_of_origin: responses.country_of_origin,
     protected_grounds: responses.protected_grounds,
     application_type: responses.application_type,
@@ -52,7 +50,7 @@ const addCase = (UUID, responses, res) => {
     filed_in_one_year: responses.check_for_one_year == 'True' ? true : false,
     status: 'pending',
   };
-  Cases.createCaseOnceSraped(UUID, formatCase)
+  Cases.updateCaseOnceSraped(UUID, formatCase)
     .then((data) => res.json(data))
     .catch((err) => res.status(400).json(err, 'failed to add case'));
 };
@@ -85,39 +83,34 @@ const dateformater9000 = (date) => {
 
 router.get(`/scape/:case_id`, (req, res) => {
   const UUID = req.params.case_id;
-  let counter = 0;
-  Cases.findUrlByUUID(UUID).then((link) => {
-    Cases.FindById_DS_Case(UUID).then((responses) => {
-      const judges = responses.panel_members.split(', ');
-      judges.map((singleJudge) => {
-        const arr = singleJudge.split(' ');
-        const first_name = arr[0];
-        const middle_initial = arr.length == 3 ? arr[1] : null;
-        const last_name = arr.length == 3 ? arr[3] : arr[1] || null;
-        Cases.findJudgeByFullName(first_name, middle_initial, last_name).then(
-          (data) => {
-            if (!data) {
-              Cases.makeAnewJudge(first_name, middle_initial, last_name)
-                .then((stuff) => {
-                  counter += 1;
-                  responses.url = link;
-                  responses.judge_id = stuff[0].judge_id;
-                  const date = responses.date;
-                  responses.date = dateformater9000(date);
-                  addCase(UUID + '-' + counter.toString(), responses, res);
-                })
-                .catch((err) => console.log(err));
-            } else {
-              counter += 1;
-              responses.judge_id = data.judge_id;
-              responses.url = link;
-              const date = responses.date;
-              responses.date = dateformater9000(date);
-              addCase(UUID + '-' + counter.toString(), responses, res);
-            }
+  Cases.FindById_DS_Case(UUID).then((responses) => {
+    const judges = responses.panel_members.split(', ');
+    judges.map((singleJudge) => {
+      const arr = singleJudge.split(' ');
+      const first_name = arr[0];
+      const middle_initial = arr.length == 3 ? arr[1] : null;
+      const last_name = arr.length == 3 ? arr[3] : arr[1] || null;
+      Cases.findJudgeByFullName(first_name, middle_initial, last_name).then(
+        (data) => {
+          if (!data) {
+            Cases.makeAnewJudge(first_name, middle_initial, last_name)
+              .then((stuff) => {
+                const judge_id = stuff[0].judge_id;
+                const date = responses.date;
+                responses.date = dateformater9000(date);
+                updateCase(UUID, responses, res);
+                Cases.assignJudgesToCase(UUID, judge_id);
+              })
+              .catch((err) => console.log(err));
+          } else {
+            const judge_id = data.judge_id;
+            const date = responses.date;
+            responses.date = dateformater9000(date);
+            updateCase(UUID, responses, res);
+            Cases.assignJudgesToCase(UUID, judge_id);
           }
-        );
-      });
+        }
+      );
     });
   });
 });

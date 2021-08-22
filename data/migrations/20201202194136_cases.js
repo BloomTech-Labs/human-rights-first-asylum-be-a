@@ -7,11 +7,6 @@ exports.up = function (knex) {
       table.string('url');
       table.string('number');
       table.date('date');
-      table
-        .integer('judge_id')
-        .references('judge_id')
-        .inTable('judges')
-        .onDelete('RESTRICT');
       table.string('outcome');
       table.string('country_of_origin');
       table.string('protected_grounds');

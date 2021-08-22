@@ -15,10 +15,12 @@ router.get('/', Cache.checkCache, (req, res) => {
   const key = String(req.originalUrl);
   Cases.findAll()
     .then((cases) => {
+      console.log(cases);
       Cache.makeCache(key, JSON.stringify(cases));
       res.status(200).json(cases);
     })
     .catch((err) => {
+      console.log(err);
       res.status(500).json({ message: err.message });
     });
 });

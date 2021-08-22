@@ -32,13 +32,19 @@ const makeAnewJudge = (first_name, middle_initial, last_name) => {
   ]);
 };
 
-const createCaseOnceSraped = async (case_id, data) => {
-  return await db('cases').where({ case_id }).insert(data, ['*']);
+const updateCaseOnceSraped = async (case_id, data) => {
+  return await db('cases').where({ case_id }).update(data, ['*']);
+};
+
+const assignJudgesToCase = async (case_id, judge_id) => {
+  console.log('here', case_id, judge_id);
+  return await db('judges_to_case').insert({ case_id, judge_id }, ['*']);
 };
 
 const findAll = async () => {
   return await db('cases as c')
-    .join('judges as j', 'j.judge_id', 'c.judge_id')
+    .join('judges_to_case as jc', 'jc.case_id', 'c.case_id')
+    .join('judges as j', 'jc.judge_id', 'j.judge_id')
     .select('c.*', 'j.first_name', 'j.middle_initial', 'j.last_name')
     .where({ status: 'approved' });
 };
@@ -143,9 +149,10 @@ module.exports = {
   findPendingByUserId,
   casesByState,
   FindById_DS_Case,
-  createCaseOnceSraped,
+  updateCaseOnceSraped,
   getAllDs_case,
   findJudgeByFullName,
   makeAnewJudge,
   findUrlByUUID,
+  assignJudgesToCase,
 };
