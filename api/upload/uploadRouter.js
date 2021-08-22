@@ -31,13 +31,6 @@ router.post('/', authRequired, async (req, res) => {
   });
 });
 
-router.get('/ds', (req, res) => {
-  console.log('in ds getall');
-  Cases.getAllDs_case().then((data) => {
-    res.json(data);
-  });
-});
-
 const addCase = (UUID, responses, res) => {
   const formatCase = {
     case_id: UUID,
