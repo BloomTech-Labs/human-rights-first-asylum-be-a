@@ -2,14 +2,11 @@
 const express = require('express');
 const Cases = require('./caseModel');
 const AWS = require('../../utils/AWS');
-const Verify = require('../middleware/verifyDataID');
 const Cache = require('../middleware/cache');
 const CSV = require('csv-string');
 const router = express.Router();
 const authRequired = require('../middleware/authRequired');
 const { onlyRoles } = require('../middleware/onlyRoles');
-
-router.use('/:id', authRequired, Verify.verifyCase);
 
 router.get('/', Cache.checkCache, (req, res) => {
   const key = String(req.originalUrl);
@@ -97,8 +94,6 @@ router.get('/user/:id', onlyRoles([1, 2]), (req, res) => {
     });
 });
 
-// Pending Cases
-
 router.get('/pending', Cache.checkCache, onlyRoles([1, 2]), (req, res) => {
   const key = String(req.originalUrl);
   Cases.findPending()
@@ -123,8 +118,9 @@ router.put('/pending/approve/:id', onlyRoles([1, 2]), (req, res) => {
     });
 });
 
-router.get('/pending/user/:id', onlyRoles([1, 2]), (req, res) => {
-  Cases.findPendingByUserId(req.profile.user_id)
+router.get('/pending/user/:user_id', authRequired, (req, res) => {
+  console.log('here');
+  Cases.findCasesByUser_id(req.profile.user_id)
     .then((userCases) => {
       res.status(200).json(userCases);
     })
