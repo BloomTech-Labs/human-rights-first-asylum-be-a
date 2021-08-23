@@ -24,7 +24,7 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: false,
           credible: true,
-          status: 'approved',
+          status: 'Approved',
           comment: null,
         },
         {
@@ -48,7 +48,7 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: true,
           credible: false,
-          status: 'pending',
+          status: 'Approved',
           comment: null,
         },
         {
@@ -72,7 +72,7 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: false,
           credible: true,
-          status: 'approved',
+          status: 'Approved',
           comment: null,
         },
         {
@@ -96,7 +96,7 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: false,
           credible: false,
-          status: 'approved',
+          status: 'Approved',
           comment: null,
         },
         {
@@ -120,7 +120,7 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: false,
           credible: false,
-          status: 'approved',
+          status: 'Approved',
           comment: null,
         },
         {
@@ -144,7 +144,7 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: true,
           credible: false,
-          status: 'approved',
+          status: 'Approved',
           comment: null,
         },
         {
@@ -168,7 +168,7 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: false,
           credible: true,
-          status: 'approved',
+          status: 'Approved',
           comment: null,
         },
         {
@@ -192,7 +192,7 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: false,
           credible: false,
-          status: 'approved',
+          status: 'Approved',
           comment: null,
         },
         {
@@ -216,7 +216,7 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: true,
           credible: false,
-          status: 'approved',
+          status: 'Approved',
           comment: null,
         },
         {
@@ -240,7 +240,7 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: false,
           credible: false,
-          status: 'approved',
+          status: 'Approved',
           comment: null,
         },
         {
@@ -264,7 +264,7 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: false,
           credible: false,
-          status: 'approved',
+          status: 'Approved',
           comment: null,
         },
         {
@@ -288,7 +288,7 @@ exports.seed = function (knex) {
           appellate: false,
           filed_in_one_year: false,
           credible: false,
-          status: 'approved',
+          status: 'Approved',
           comment: null,
         },
         {
@@ -312,7 +312,7 @@ exports.seed = function (knex) {
           appellate: true,
           filed_in_one_year: false,
           credible: false,
-          status: 'approved',
+          status: 'Approved',
           comment: null,
         },
         {
@@ -336,7 +336,7 @@ exports.seed = function (knex) {
           appellate: true,
           filed_in_one_year: false,
           credible: true,
-          status: 'Pending',
+          status: 'Processing',
           comment: null,
         },
         {

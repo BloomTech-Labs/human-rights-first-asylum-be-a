@@ -41,12 +41,17 @@ const assignJudgesToCase = async (case_id, judge_id) => {
   return await db('judges_to_case').insert({ case_id, judge_id }, ['*']);
 };
 
+const updateCaseStatusTest = (case_id) => {
+  console.log(case_id);
+  return db('cases').where({ case_id }).update({ status: 'Pending' });
+};
+
 const findAll = async () => {
   return await db('cases as c')
     .join('judges_to_case as jc', 'jc.case_id', 'c.case_id')
     .join('judges as j', 'jc.judge_id', 'j.judge_id')
     .select('c.*', 'j.first_name', 'j.middle_initial', 'j.last_name')
-    .where({ status: 'approved' });
+    .where({ status: 'Approved' });
 };
 
 const findPending = async () => {
@@ -135,6 +140,10 @@ const casesByState = () => {
     .groupBy('case_origin_state');
 };
 
+const caseOutcome = () => {
+  return db('cases as c').select('c.outcome', 'c.case_origin_state');
+};
+
 module.exports = {
   add,
   remove,
@@ -155,4 +164,6 @@ module.exports = {
   makeAnewJudge,
   findUrlByUUID,
   assignJudgesToCase,
+  caseOutcome,
+  updateCaseStatusTest,
 };

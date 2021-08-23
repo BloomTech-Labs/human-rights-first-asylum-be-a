@@ -32,6 +32,13 @@ router.get('/cases-by-state', (req, res) => {
     });
 });
 
+router.get('/caseOutcome', (req, res) => {
+  console.log('here');
+  Cases.caseOutcome().then((data) => {
+    res.json(data);
+  });
+});
+
 router.get('/:id/view-pdf', (req, res) => {
   const id = String(req.params.id);
   AWS.make_params(id)
@@ -119,7 +126,6 @@ router.put('/pending/approve/:id', onlyRoles([1, 2]), (req, res) => {
 });
 
 router.get('/pending/user/:user_id', authRequired, (req, res) => {
-  console.log('here');
   Cases.findCasesByUser_id(req.profile.user_id)
     .then((userCases) => {
       res.status(200).json(userCases);

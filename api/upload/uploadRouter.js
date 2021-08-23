@@ -48,7 +48,7 @@ const updateCase = (UUID, responses, res) => {
     credible: responses.credibility == 'Unknown' ? false : true,
     appellate: responses.hearing_type == 'Appellate' ? true : false,
     filed_in_one_year: responses.check_for_one_year == 'True' ? true : false,
-    status: 'pending',
+    status: 'Pending',
   };
   Cases.updateCaseOnceSraped(UUID, formatCase)
     .then((data) => res.json(data))
@@ -80,6 +80,9 @@ const dateformater9000 = (date) => {
     return null;
   }
 };
+router.get('/:case_id', (req, res) => {
+  Cases.updateCaseStatusTest(req.params.case_id).then(res.json('sucess'));
+});
 
 router.get(`/scape/:case_id`, (req, res) => {
   const UUID = req.params.case_id;
@@ -248,33 +251,33 @@ router.get(`/scape/:case_id`, (req, res) => {
 //     });
 // });
 
-router.post('/:case_id', authRequired, (req, res) => {
-  const UUID = req.params.case_id;
-  const uploadedCase = {
-    date: req.body.date,
-    outcome: req.body.outcome,
-    country_of_origin: req.body.country_of_origin,
-    protected_grounds: req.body.protected_grounds,
-    application_type: req.body.application_type,
-    case_origin_city: req.body.case_origin_city,
-    case_origin_state: req.body.case_origin_state,
-    gender: req.body.gender,
-    applicant_language: req.body.applicant_language,
-    indigenous_group: req.body.indigenous_group,
-    type_of_violence: req.body.type_of_violence,
-    appellate: req.body.appellate,
-    filed_in_one_year: req.body.filed_in_one_year,
-    credible: req.body.credible,
-    status: 'Pending',
-  };
-  Cases.update(UUID, uploadedCase)
-    .then(() => {
-      res.status(200).json();
-    })
-    .catch((err) => {
-      Cases.changeStatus(UUID, 'Error');
-      res.status(500).json(err.message);
-    });
-});
+// router.post('/:case_id', authRequired, (req, res) => {
+//   const UUID = req.params.case_id;
+//   const uploadedCase = {
+//     date: req.body.date,
+//     outcome: req.body.outcome,
+//     country_of_origin: req.body.country_of_origin,
+//     protected_grounds: req.body.protected_grounds,
+//     application_type: req.body.application_type,
+//     case_origin_city: req.body.case_origin_city,
+//     case_origin_state: req.body.case_origin_state,
+//     gender: req.body.gender,
+//     applicant_language: req.body.applicant_language,
+//     indigenous_group: req.body.indigenous_group,
+//     type_of_violence: req.body.type_of_violence,
+//     appellate: req.body.appellate,
+//     filed_in_one_year: req.body.filed_in_one_year,
+//     credible: req.body.credible,
+//     status: 'Pending',
+//   };
+//   Cases.update(UUID, uploadedCase)
+//     .then(() => {
+//       res.status(200).json();
+//     })
+//     .catch((err) => {
+//       Cases.changeStatus(UUID, 'Error');
+//       res.status(500).json(err.message);
+//     });
+// });
 
 module.exports = router;
