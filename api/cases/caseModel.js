@@ -5,11 +5,53 @@ const add = async (data) => {
   return await db('cases').insert(data);
 };
 
+const FindById_DS_Case = async (uuid) => {
+  return await db('ds_cases').where({ uuid }).first();
+};
+
+const getAllDs_case = () => {
+  return db('ds_cases');
+};
+
+const findUrlByUUID = async (case_id) => {
+  const data = await db('cases')
+    .where({ case_id })
+    .update({ status: 'pending' }, 'url');
+  return data[0]?.url;
+};
+
+const findJudgeByFullName = (first_name, middle_initial, last_name) => {
+  return db('judges')
+    .where({ first_name }, { middle_initial }, { last_name })
+    .first();
+};
+
+const makeAnewJudge = (first_name, middle_initial, last_name) => {
+  return db('judges').insert({ first_name, middle_initial, last_name }, [
+    'judge_id',
+  ]);
+};
+
+const updateCaseOnceSraped = async (case_id, data) => {
+  return await db('cases').where({ case_id }).update(data, ['*']);
+};
+
+const assignJudgesToCase = async (case_id, judge_id) => {
+  console.log('here', case_id, judge_id);
+  return await db('judges_to_case').insert({ case_id, judge_id }, ['*']);
+};
+
+const updateCaseStatusTest = (case_id) => {
+  console.log(case_id);
+  return db('cases').where({ case_id }).update({ status: 'Pending' });
+};
+
 const findAll = async () => {
   return await db('cases as c')
-    .join('judges as j', 'j.judge_id', 'c.judge_id')
+    .join('judges_to_case as jc', 'jc.case_id', 'c.case_id')
+    .join('judges as j', 'jc.judge_id', 'j.judge_id')
     .select('c.*', 'j.first_name', 'j.middle_initial', 'j.last_name')
-    .where({ status: 'approved' });
+    .where({ status: 'Approved' });
 };
 
 const findPending = async () => {
@@ -43,8 +85,8 @@ const findByUserId = (user_id) => {
     .select('c.*', 'j.first_name', 'j.middle_initial', 'j.last_name');
 };
 
-const findPendingByUserId = (user_id) => {
-  return db('cases as c').where({ user_id }).whereNot({ status: 'approved' });
+const findCasesByUser_id = (user_id) => {
+  return db('cases').where({ user_id });
   // .join('judges as j', 'j.judge_id', 'c.judge_id')
   // .select('c.*', 'j.first_name', 'j.middle_initial', 'j.last_name');
   // This join is preventing cases from being returned accurately because we currently do not store judge_id when uploading a case.
@@ -98,6 +140,10 @@ const casesByState = () => {
     .groupBy('case_origin_state');
 };
 
+const caseOutcome = () => {
+  return db('cases as c').select('c.outcome', 'c.case_origin_state');
+};
+
 module.exports = {
   add,
   remove,
@@ -109,6 +155,15 @@ module.exports = {
   writeCSV,
   update,
   findByUserId,
-  findPendingByUserId,
+  findCasesByUser_id,
   casesByState,
+  FindById_DS_Case,
+  updateCaseOnceSraped,
+  getAllDs_case,
+  findJudgeByFullName,
+  makeAnewJudge,
+  findUrlByUUID,
+  assignJudgesToCase,
+  caseOutcome,
+  updateCaseStatusTest,
 };

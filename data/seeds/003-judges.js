@@ -9,7 +9,6 @@ exports.seed = function (knex) {
       // Inserts seed entries
       return knex('judges').insert([
         {
-          judge_id: 1,
           first_name: 'David',
           middle_initial: 'W',
           last_name: 'Crosland',
@@ -20,7 +19,6 @@ exports.seed = function (knex) {
           biography: 'https://www.justice.gov/eoir/BaltimoreNatzCer03072012',
         },
         {
-          judge_id: 2,
           first_name: 'Patricia',
           middle_initial: 'A',
           last_name: 'Cole',
@@ -32,7 +30,6 @@ exports.seed = function (knex) {
             'Appears to be retired? https://www.justice.gov/sites/default/files/eoir/legacy/2014/02/04/BIA_Bios_February2014.pdf',
         },
         {
-          judge_id: 3,
           first_name: 'David',
           middle_initial: 'B',
           last_name: 'Holmes',
@@ -44,7 +41,6 @@ exports.seed = function (knex) {
             'Appears to be retired? https://www.justice.gov/sites/default/files/eoir/legacy/2014/02/04/BIA_Bios_February2014.pdf',
         },
         {
-          judge_id: 4,
           first_name: 'Neil',
           middle_initial: 'P',
           last_name: 'Miller',
@@ -56,7 +52,6 @@ exports.seed = function (knex) {
             'Appears to be retired? https://www.justice.gov/sites/default/files/eoir/legacy/2014/02/04/BIA_Bios_February2014.pdf',
         },
         {
-          judge_id: 5,
           first_name: 'Linda',
           middle_initial: 'S',
           last_name: 'Wendtland',
@@ -68,7 +63,6 @@ exports.seed = function (knex) {
             'Appears to be retired? https://www.justice.gov/archive/opa/pr/2008/December/08-eoir-1110.html',
         },
         {
-          judge_id: 6,
           first_name: 'Charles',
           middle_initial: 'K',
           last_name: 'Adkins-Blanch',
@@ -80,7 +74,6 @@ exports.seed = function (knex) {
             'https://www.justice.gov/eoir/board-of-immigration-appeals-bios#CharlesAdkins-Blanch',
         },
         {
-          judge_id: 7,
           first_name: 'Gary',
           middle_initial: 'D',
           last_name: 'Malphrus',
@@ -92,7 +85,6 @@ exports.seed = function (knex) {
             'https://www.justice.gov/eoir/board-of-immigration-appeals-bios#GarryMalphrus',
         },
         {
-          judge_id: 8,
           first_name: 'John',
           middle_initial: '',
           last_name: 'Guendelsberger',
