@@ -84,7 +84,7 @@ router.get('/:case_id', (req, res) => {
   Cases.updateCaseStatusTest(req.params.case_id).then(res.json('sucess'));
 });
 
-router.get(`/scape/:case_id`, (req, res) => {
+router.get(`/scrape/:case_id`, (req, res) => {
   const UUID = req.params.case_id;
   Cases.FindById_DS_Case(UUID).then((responses) => {
     const judges = responses.panel_members.split(', ');

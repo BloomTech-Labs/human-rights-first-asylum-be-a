@@ -42,7 +42,6 @@ const assignJudgesToCase = async (case_id, judge_id) => {
 };
 
 const updateCaseStatusTest = (case_id) => {
-  console.log(case_id);
   return db('cases').where({ case_id }).update({ status: 'Pending' });
 };
 
