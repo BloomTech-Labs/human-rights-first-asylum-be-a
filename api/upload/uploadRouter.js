@@ -21,7 +21,7 @@ router.post('/', authRequired, async (req, res) => {
         case_id: UUID,
         user_id: req.profile.user_id,
         url: req.file.location,
-        status: 'Review',
+        status: 'Processing',
       };
       Cases.add(uploadedCase);
       return res.json({ imageURL: req?.file?.location });
@@ -48,7 +48,7 @@ const updateCase = (UUID, responses, res) => {
     credible: responses.credibility == 'Unknown' ? false : true,
     appellate: responses.hearing_type == 'Appellate' ? true : false,
     filed_in_one_year: responses.check_for_one_year == 'True' ? true : false,
-    status: 'Pending',
+    status: 'Review',
   };
   Cases.updateCaseOnceSraped(UUID, formatCase)
     .then((data) => res.json(data))
