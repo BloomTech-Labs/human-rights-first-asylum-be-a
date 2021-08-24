@@ -15,6 +15,7 @@ const singleUpload = upload.single('image');
 router.post('/', authRequired, async (req, res) => {
   singleUpload(req, res, () => {
     if (req?.file?.key) {
+      console.log(req.file);
       let UUID = req.file.key.slice(0, 36);
       axios.get(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`);
       const uploadedCase = {
@@ -22,6 +23,7 @@ router.post('/', authRequired, async (req, res) => {
         user_id: req.profile.user_id,
         url: req.file.location,
         status: 'Processing',
+        file_name: req.file.originalname,
       };
       Cases.add(uploadedCase);
       return res.json({ imageURL: req?.file?.location });
