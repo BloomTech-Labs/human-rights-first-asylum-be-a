@@ -21,7 +21,7 @@ router.post('/', authRequired, async (req, res) => {
         case_id: UUID,
         user_id: req.profile.user_id,
         url: req.file.location,
-        status: 'Processing',
+        status: 'Review',
       };
       Cases.add(uploadedCase);
       return res.json({ imageURL: req?.file?.location });
