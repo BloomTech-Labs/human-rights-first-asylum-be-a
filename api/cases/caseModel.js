@@ -45,12 +45,19 @@ const updateCaseStatusTest = (case_id) => {
   return db('cases').where({ case_id }).update({ status: 'Pending' });
 };
 
-const findAll = async () => {
-  return await db('cases as c')
-    .join('judges_to_case as jc', 'jc.case_id', 'c.case_id')
-    .join('judges as j', 'jc.judge_id', 'j.judge_id')
-    .select('c.*', 'j.first_name', 'j.middle_initial', 'j.last_name')
-    .where({ status: 'Approved' });
+const findAll = () => {
+  const cases = db('cases').where({ status: 'Approved' });
+  const judges = db('judges as j')
+    .join('judges_to_case as jc', 'j.judge_id', 'jc.judge_id')
+    .orderBy('first_name', 'asc');
+
+  return Promise.all([cases, judges]).then(([cases, judges]) => {
+    const data = cases.map((res) => {
+      res.judges = judges.filter((judge) => judge.case_id === res.case_id);
+      return res;
+    });
+    return data;
+  });
 };
 
 const findPending = async () => {
