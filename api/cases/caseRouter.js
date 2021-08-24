@@ -9,7 +9,6 @@ const authRequired = require('../middleware/authRequired');
 const { onlyRoles } = require('../middleware/onlyRoles');
 
 router.get('/', Cache.checkCache, (req, res) => {
-  console.log('here');
   const key = String(req.originalUrl);
   Cases.findAll()
     .then((cases) => {
