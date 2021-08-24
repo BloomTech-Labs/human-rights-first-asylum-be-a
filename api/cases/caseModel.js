@@ -37,7 +37,6 @@ const updateCaseOnceSraped = async (case_id, data) => {
 };
 
 const assignJudgesToCase = async (case_id, judge_id) => {
-  console.log('here', case_id, judge_id);
   return await db('judges_to_case').insert({ case_id, judge_id }, ['*']);
 };
 
