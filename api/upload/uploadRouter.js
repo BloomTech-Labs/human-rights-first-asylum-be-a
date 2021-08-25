@@ -64,34 +64,34 @@ const updateCase = (UUID, responses, res) => {
     .catch((err) => res.status(400).json(err, 'failed to add case'));
 };
 
-const dateformater9000 = (date) => {
-  if (date && date != 'Unknown') {
-    const arr = date.split(' ');
-    const month = arr[0].slice(0, 3).toLowerCase();
-    const monthArr = {
-      jan: '01',
-      feb: '02',
-      mar: '03',
-      apr: '04',
-      may: '05',
-      jun: '06',
-      jul: '07',
-      aug: '08',
-      sep: '09',
-      oct: '10',
-      nov: '11',
-      dec: '12',
-    };
-    const day = arr[1].match(/\d+/)[0];
-    const year = arr[2].slice(arr[2].length - 4, arr[2].length);
-    return year + '-' + monthArr[month] + '-' + day;
-  } else {
-    return null;
-  }
-};
-router.get('/:case_id', (req, res) => {
-  Cases.updateCaseStatusTest(req.params.case_id).then(res.json('sucess'));
-});
+// const dateformater9000 = (date) => {
+//   if (date && date != 'Unknown') {
+//     const arr = date.split(' ');
+//     const month = arr[0].slice(0, 3).toLowerCase();
+//     const monthArr = {
+//       jan: '01',
+//       feb: '02',
+//       mar: '03',
+//       apr: '04',
+//       may: '05',
+//       jun: '06',
+//       jul: '07',
+//       aug: '08',
+//       sep: '09',
+//       oct: '10',
+//       nov: '11',
+//       dec: '12',
+//     };
+//     const day = arr[1].match(/\d+/)[0];
+//     const year = arr[2].slice(arr[2].length - 4, arr[2].length);
+//     return year + '-' + monthArr[month] + '-' + day;
+//   } else {
+//     return null;
+//   }
+// };
+// router.get('/:case_id', (req, res) => {
+//   Cases.updateCaseStatusTest(req.params.case_id).then(res.json('sucess'));
+// });
 
 router.get(`/scrape/:case_id`, (req, res) => {
   const UUID = req.params.case_id;
@@ -108,16 +108,16 @@ router.get(`/scrape/:case_id`, (req, res) => {
             Cases.makeAnewJudge(first_name, middle_initial, last_name)
               .then((stuff) => {
                 const judge_id = stuff[0].judge_id;
-                const date = responses.date;
-                responses.date = dateformater9000(date);
+                // const date = responses.date;
+                // responses.date = dateformater9000(date);
                 updateCase(UUID, responses, res);
                 Cases.assignJudgesToCase(UUID, judge_id);
               })
               .catch((err) => console.log(err));
           } else {
             const judge_id = data.judge_id;
-            const date = responses.date;
-            responses.date = dateformater9000(date);
+            // const date = responses.date;
+            // responses.date = dateformater9000(date);
             updateCase(UUID, responses, res);
             Cases.assignJudgesToCase(UUID, judge_id);
           }
