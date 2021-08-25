@@ -99,7 +99,7 @@ router.get('/user/:id', onlyRoles([1, 2]), (req, res) => {
     });
 });
 
-router.get('/pending', Cache.checkCache, onlyRoles([1, 2]), (req, res) => {
+router.get('/pending', (req, res) => {
   const key = String(req.originalUrl);
   Cases.findPending()
     .then((cases) => {
@@ -111,7 +111,19 @@ router.get('/pending', Cache.checkCache, onlyRoles([1, 2]), (req, res) => {
     });
 });
 
-router.put('/pending/approve/:id', onlyRoles([1, 2]), (req, res) => {
+router.put('/pending/approve/:id', (req, res) => {
+  const id = req.params.id;
+  const status = req.body.status;
+  Cases.changeStatus(id, status)
+    .then((cases) => {
+      res.status(200).json(cases);
+    })
+    .catch((err) => {
+      res.status(500).json({ message: err.message });
+    });
+});
+
+router.put('/pending/reject/:id', (req, res) => {
   const id = req.params.id;
   const status = req.body.status;
   Cases.changeStatus(id, status)
@@ -148,9 +160,9 @@ router.delete('/:id', (req, res) => {
 });
 
 //updates the comment on case
-router.put('/comment', onlyRoles([1, 2]), (req, res) => {
+router.put('/comment/:case_id', (req, res) => {
   const updatedComment = req.body;
-  Cases.update(updatedComment)
+  Cases.update(req.params.case_id, updatedComment)
     .then(() => {
       res.status(200).json({
         message: `Comment changed to '${updatedComment.comment}'.`,

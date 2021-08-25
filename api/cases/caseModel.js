@@ -59,11 +59,8 @@ const findAll = () => {
   });
 };
 
-const findPending = async () => {
-  return await db('cases as c')
-    .join('judges as j', 'j.judge_id', 'c.judge_id')
-    .select('c.*', 'j.first_name', 'j.middle_initial', 'j.last_name')
-    .whereNot({ status: 'approved' });
+const findPending = () => {
+  return db('cases').where({ status: 'Pending' });
 };
 
 const findById = async (case_id) => {
@@ -120,19 +117,16 @@ const writeCSV = async (case_id) => {
   }
 };
 
-const update = async (changes) => {
-  changes.first_name ? delete changes.first_name : {};
-  changes.middle_initial ? delete changes.middle_initial : {};
-  changes.last_name ? delete changes.last_name : {};
-  return await db('cases').where({ case_id: changes.case_id }).update(changes);
+const update = async (case_id, changes) => {
+  return await db('cases').where({ case_id }).update(changes);
 };
 
 const remove = async (case_id) => {
   return await db('cases').where({ case_id }).del();
 };
 
-const changeStatus = async (id, newStatus) => {
-  return await db('cases').where({ case_id: id }).update({ status: newStatus });
+const changeStatus = async (case_id, newStatus) => {
+  return await db('cases').where({ case_id }).update({ status: newStatus });
 };
 
 const casesByState = () => {

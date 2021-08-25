@@ -45,7 +45,7 @@ exports.seed = function (knex) {
           applicant_language: 'English',
           indigenous_group: 'Not Applicable',
           type_of_violence: 'Not Applicable',
-          appellate: false,
+          appellate: true,
           filed_in_one_year: true,
           credible: false,
           status: 'Approved',
@@ -312,7 +312,7 @@ exports.seed = function (knex) {
           appellate: true,
           filed_in_one_year: false,
           credible: false,
-          status: 'Approved',
+          status: 'Pending',
           comment: null,
         },
         {
