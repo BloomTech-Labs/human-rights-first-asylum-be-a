@@ -123,6 +123,14 @@ router.put('/pending/approve/:id', (req, res) => {
     });
 });
 
+router.put('/update/:case_id', authRequired, (req, res) => {
+  const case_id = req.params.case_id;
+  req.body.status = 'Pending';
+  Cases.updateCaseOnceSraped(case_id, req.body).then((data) => {
+    res.json(data);
+  });
+});
+
 router.put('/pending/reject/:id', (req, res) => {
   const id = req.params.id;
   const status = req.body.status;

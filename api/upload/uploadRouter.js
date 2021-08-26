@@ -33,14 +33,6 @@ router.post('/', authRequired, async (req, res) => {
   });
 });
 
-router.put('/update/:case_id', authRequired, (req, res) => {
-  const case_id = req.params.case_id;
-  req.body.status = 'Review';
-  Cases.updateCaseOnceSraped(case_id, req.body).then((data) => {
-    res.json(data);
-  });
-});
-
 const updateCase = (UUID, responses, res) => {
   const formatCase = {
     case_id: UUID,
