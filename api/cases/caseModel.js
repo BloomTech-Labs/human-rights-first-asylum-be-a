@@ -37,28 +37,30 @@ const updateCaseOnceSraped = async (case_id, data) => {
 };
 
 const assignJudgesToCase = async (case_id, judge_id) => {
-  console.log('here', case_id, judge_id);
   return await db('judges_to_case').insert({ case_id, judge_id }, ['*']);
 };
 
 const updateCaseStatusTest = (case_id) => {
-  console.log(case_id);
   return db('cases').where({ case_id }).update({ status: 'Pending' });
 };
 
-const findAll = async () => {
-  return await db('cases as c')
-    .join('judges_to_case as jc', 'jc.case_id', 'c.case_id')
-    .join('judges as j', 'jc.judge_id', 'j.judge_id')
-    .select('c.*', 'j.first_name', 'j.middle_initial', 'j.last_name')
-    .where({ status: 'Approved' });
+const findAll = () => {
+  const cases = db('cases').where({ status: 'Approved' });
+  const judges = db('judges as j')
+    .join('judges_to_case as jc', 'j.judge_id', 'jc.judge_id')
+    .orderBy('first_name', 'asc');
+
+  return Promise.all([cases, judges]).then(([cases, judges]) => {
+    const data = cases.map((res) => {
+      res.judges = judges.filter((judge) => judge.case_id === res.case_id);
+      return res;
+    });
+    return data;
+  });
 };
 
-const findPending = async () => {
-  return await db('cases as c')
-    .join('judges as j', 'j.judge_id', 'c.judge_id')
-    .select('c.*', 'j.first_name', 'j.middle_initial', 'j.last_name')
-    .whereNot({ status: 'approved' });
+const findPending = () => {
+  return db('cases').where({ status: 'Pending' });
 };
 
 const findById = async (case_id) => {
@@ -115,19 +117,16 @@ const writeCSV = async (case_id) => {
   }
 };
 
-const update = async (changes) => {
-  changes.first_name ? delete changes.first_name : {};
-  changes.middle_initial ? delete changes.middle_initial : {};
-  changes.last_name ? delete changes.last_name : {};
-  return await db('cases').where({ case_id: changes.case_id }).update(changes);
+const update = async (case_id, changes) => {
+  return await db('cases').where({ case_id }).update(changes);
 };
 
 const remove = async (case_id) => {
   return await db('cases').where({ case_id }).del();
 };
 
-const changeStatus = async (id, newStatus) => {
-  return await db('cases').where({ case_id: id }).update({ status: newStatus });
+const changeStatus = async (case_id, newStatus) => {
+  return await db('cases').where({ case_id }).update({ status: newStatus });
 };
 
 const casesByState = () => {
