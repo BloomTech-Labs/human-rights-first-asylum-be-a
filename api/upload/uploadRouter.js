@@ -47,7 +47,7 @@ const updateCase = (UUID, responses, res) => {
     applicant_language: responses.applicant_language,
     indigenous_group: responses.indigenous_group,
     type_of_persecution: responses.type_of_persecution,
-    credible: responses.credibility == 'Unknown' ? false : true,
+    credibility: responses.credibility == 'Unknown' ? false : true,
     appellate: responses.hearing_type == 'Appellate' ? true : false,
     filed_in_one_year: responses.check_for_one_year == 'True' ? true : false,
     status: 'Review',
@@ -164,9 +164,9 @@ router.get(`/scrape/:case_id`, (req, res) => {
 //               break;
 //             case 'credibility':
 //               if (v[0] === 'Test') {
-//                 scrapedData['credible'] = true;
+//                 scrapedData['credibility'] = true;
 //               } else {
-//                 scrapedData['credible'] = v;
+//                 scrapedData['credibility'] = v;
 //               }
 //               break;
 //             case 'check for one year':
@@ -210,9 +210,9 @@ router.get(`/scrape/:case_id`, (req, res) => {
 //               break;
 //             case 'credibility':
 //               if (v === 'Test') {
-//                 scrapedData['credible'] = true;
+//                 scrapedData['credibility'] = true;
 //               } else {
-//                 scrapedData['credible'] = v;
+//                 scrapedData['credibility'] = v;
 //               }
 //               break;
 //             case 'check for one year':
@@ -269,7 +269,7 @@ router.get(`/scrape/:case_id`, (req, res) => {
 //     type_of_persecution: req.body.type_of_persecution,
 //     appellate: req.body.appellate,
 //     filed_in_one_year: req.body.filed_in_one_year,
-//     credible: req.body.credible,
+//     credibility: req.body.credibility,
 //     status: 'Pending',
 //   };
 //   Cases.update(UUID, uploadedCase)

@@ -19,7 +19,7 @@ exports.up = function (knex) {
       table.string('type_of_persecution');
       table.boolean('appellate');
       table.boolean('filed_in_one_year');
-      table.boolean('credible');
+      table.boolean('credibility');
       table.timestamps(false, true);
       table.string('comment');
       table.string('status');
