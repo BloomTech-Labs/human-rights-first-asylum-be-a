@@ -49,7 +49,7 @@ const updateCase = (UUID, responses, res) => {
     type_of_persecution: responses.type_of_persecution,
     credibility: responses.credibility == 'Unknown' ? false : true,
     appellate: responses.hearing_type == 'Appellate' ? true : false,
-    filed_in_one_year: responses.check_for_one_year == 'True' ? true : false,
+    check_for_one_year: responses.check_for_one_year == 'True' ? true : false,
     status: 'Review',
   };
   Cases.updateCaseOnceSraped(UUID, formatCase)
@@ -170,7 +170,7 @@ router.get(`/scrape/:case_id`, (req, res) => {
 //               }
 //               break;
 //             case 'check for one year':
-//               scrapedData['filed_in_one_year'] = v[0];
+//               scrapedData['check_for_one_year'] = v[0];
 //               break;
 //             case 'precedent cases':
 //               break;
@@ -216,7 +216,7 @@ router.get(`/scrape/:case_id`, (req, res) => {
 //               }
 //               break;
 //             case 'check for one year':
-//               scrapedData['filed_in_one_year'] = v;
+//               scrapedData['check_for_one_year'] = v;
 //               break;
 //             case 'date':
 //               scrapedData['date'] = new Date(v);
@@ -268,7 +268,7 @@ router.get(`/scrape/:case_id`, (req, res) => {
 //     indigenous_group: req.body.indigenous_group,
 //     type_of_persecution: req.body.type_of_persecution,
 //     appellate: req.body.appellate,
-//     filed_in_one_year: req.body.filed_in_one_year,
+//     check_for_one_year: req.body.check_for_one_year,
 //     credibility: req.body.credibility,
 //     status: 'Pending',
 //   };

@@ -53,7 +53,7 @@ The base technologies are JavaScript, HTML and CSS. The frontend leverages [Reac
         "indigenous_group": "Not Applicable",
         "type_of_persecution": "Not Applicable",
         "appellate": false,
-        "filed_in_one_year": false,
+        "check_for_one_year": false,
         "credibility": true,
         "created_at": "2021-06-12T18:07:53.229Z",
         "updated_at": "2021-06-12T18:07:53.229Z",
