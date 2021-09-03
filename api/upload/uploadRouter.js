@@ -46,7 +46,7 @@ const updateCase = (UUID, responses, res) => {
     gender: responses.gender,
     applicant_language: responses.applicant_language,
     indigenous_group: responses.indigenous_group,
-    type_of_violence: responses.type_of_violence,
+    type_of_persecution: responses.type_of_persecution,
     credible: responses.credibility == 'Unknown' ? false : true,
     appellate: responses.hearing_type == 'Appellate' ? true : false,
     filed_in_one_year: responses.check_for_one_year == 'True' ? true : false,
@@ -154,7 +154,7 @@ router.get(`/scrape/:case_id`, (req, res) => {
 //               scrapedData['protected_grounds'] = v[0];
 //               break;
 //             case 'based violence':
-//               scrapedData['type_of_violence'] = v[0];
+//               scrapedData['type_of_persecution'] = v[0];
 //               break;
 //             case 'indigenous':
 //               scrapedData['indigenous_group'] = v;
@@ -266,7 +266,7 @@ router.get(`/scrape/:case_id`, (req, res) => {
 //     gender: req.body.gender,
 //     applicant_language: req.body.applicant_language,
 //     indigenous_group: req.body.indigenous_group,
-//     type_of_violence: req.body.type_of_violence,
+//     type_of_persecution: req.body.type_of_persecution,
 //     appellate: req.body.appellate,
 //     filed_in_one_year: req.body.filed_in_one_year,
 //     credible: req.body.credible,

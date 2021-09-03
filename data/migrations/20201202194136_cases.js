@@ -16,7 +16,7 @@ exports.up = function (knex) {
       table.string('gender');
       table.string('applicant_language');
       table.string('indigenous_group');
-      table.string('type_of_violence');
+      table.string('type_of_persecution');
       table.boolean('appellate');
       table.boolean('filed_in_one_year');
       table.boolean('credible');

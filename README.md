@@ -51,7 +51,7 @@ The base technologies are JavaScript, HTML and CSS. The frontend leverages [Reac
         "gender": "Male",
         "applicant_language": "Spanish",
         "indigenous_group": "Not Applicable",
-        "type_of_violence": "Not Applicable",
+        "type_of_persecution": "Not Applicable",
         "appellate": false,
         "filed_in_one_year": false,
         "credible": true,
