@@ -6,7 +6,7 @@ exports.up = function (knex) {
       table.string('user_id');
       table.string('url');
       table.string('number');
-      table.date('date');
+      table.date('decision_date');
       table.string('outcome');
       table.string('country_of_origin');
       table.string('protected_grounds');
