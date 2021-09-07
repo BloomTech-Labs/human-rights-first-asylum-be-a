@@ -36,7 +36,7 @@ router.post('/', authRequired, async (req, res) => {
 const updateCase = (UUID, responses, res) => {
   const formatCase = {
     case_id: UUID,
-    date: responses.date,
+    decision_date: responses.decision_date,
     outcome: responses.outcome,
     country_of_origin: responses.country_of_origin,
     protected_grounds: responses.protected_grounds,
