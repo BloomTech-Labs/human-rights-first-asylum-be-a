@@ -18,7 +18,7 @@ exports.up = function (knex) {
       table.string('indigenous_group');
       table.string('type_of_violence');
       table.boolean('appellate');
-      table.boolean('filed_in_one_year');
+      table.string('filed_in_one_year').default('unknown');
       table.boolean('credible');
       table.timestamps(false, true);
       table.string('comment');
