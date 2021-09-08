@@ -55,6 +55,7 @@ const updateCase = (UUID, responses, res) => {
         : responses.check_for_one_year == 'False'
         ? 'no'
         : 'unknown',
+    status: 'Review',
   };
   Cases.updateCaseOnceSraped(UUID, formatCase)
     .then((data) => res.json(data))
