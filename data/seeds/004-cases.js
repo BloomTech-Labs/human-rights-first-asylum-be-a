@@ -22,7 +22,7 @@ exports.seed = function (knex) {
           indigenous_group: 'Not Applicable',
           type_of_violence: 'Not Applicable',
           appellate: false,
-          check_for_one_year: 'no',
+          check_for_one_year: 'unknown',
           credible: true,
           status: 'Approved',
           comment: null,
