@@ -11,7 +11,7 @@ exports.up = function (knex) {
   //   table.string('case_origin_state');
   //   table.string('case_origin_city');
   //   table.string('protected_grounds');
-  //   table.string('type_of_violence');
+  //   table.string('type_of_persecution');
   //   table.string('gender');
   //   table.string('credibility');
   //   table.string('check_for_one_year');

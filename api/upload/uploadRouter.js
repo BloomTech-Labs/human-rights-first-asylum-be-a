@@ -36,7 +36,7 @@ router.post('/', authRequired, async (req, res) => {
 const updateCase = (UUID, responses, res) => {
   const formatCase = {
     case_id: UUID,
-    date: responses.date,
+    decision_date: responses.decision_date,
     outcome: responses.outcome,
     country_of_origin: responses.country_of_origin,
     protected_grounds: responses.protected_grounds,
@@ -46,10 +46,10 @@ const updateCase = (UUID, responses, res) => {
     gender: responses.gender,
     applicant_language: responses.applicant_language,
     indigenous_group: responses.indigenous_group,
-    type_of_violence: responses.type_of_violence,
-    credible: responses.credibility == 'Unknown' ? false : true,
+    type_of_persecution: responses.type_of_persecution,
+    credibility: responses.credibility == 'Unknown' ? false : true,
     appellate: responses.hearing_type == 'Appellate' ? true : false,
-    filed_in_one_year: responses.check_for_one_year == 'True' ? true : false,
+    check_for_one_year: responses.check_for_one_year == 'True' ? true : false,
     status: 'Review',
   };
   Cases.updateCaseOnceSraped(UUID, formatCase)
@@ -154,7 +154,7 @@ router.get(`/scrape/:case_id`, (req, res) => {
 //               scrapedData['protected_grounds'] = v[0];
 //               break;
 //             case 'based violence':
-//               scrapedData['type_of_violence'] = v[0];
+//               scrapedData['type_of_persecution'] = v[0];
 //               break;
 //             case 'indigenous':
 //               scrapedData['indigenous_group'] = v;
@@ -164,13 +164,13 @@ router.get(`/scrape/:case_id`, (req, res) => {
 //               break;
 //             case 'credibility':
 //               if (v[0] === 'Test') {
-//                 scrapedData['credible'] = true;
+//                 scrapedData['credibility'] = true;
 //               } else {
-//                 scrapedData['credible'] = v;
+//                 scrapedData['credibility'] = v;
 //               }
 //               break;
 //             case 'check for one year':
-//               scrapedData['filed_in_one_year'] = v[0];
+//               scrapedData['check_for_one_year'] = v[0];
 //               break;
 //             case 'precedent cases':
 //               break;
@@ -210,13 +210,13 @@ router.get(`/scrape/:case_id`, (req, res) => {
 //               break;
 //             case 'credibility':
 //               if (v === 'Test') {
-//                 scrapedData['credible'] = true;
+//                 scrapedData['credibility'] = true;
 //               } else {
-//                 scrapedData['credible'] = v;
+//                 scrapedData['credibility'] = v;
 //               }
 //               break;
 //             case 'check for one year':
-//               scrapedData['filed_in_one_year'] = v;
+//               scrapedData['check_for_one_year'] = v;
 //               break;
 //             case 'date':
 //               scrapedData['date'] = new Date(v);
@@ -266,10 +266,10 @@ router.get(`/scrape/:case_id`, (req, res) => {
 //     gender: req.body.gender,
 //     applicant_language: req.body.applicant_language,
 //     indigenous_group: req.body.indigenous_group,
-//     type_of_violence: req.body.type_of_violence,
+//     type_of_persecution: req.body.type_of_persecution,
 //     appellate: req.body.appellate,
-//     filed_in_one_year: req.body.filed_in_one_year,
-//     credible: req.body.credible,
+//     check_for_one_year: req.body.check_for_one_year,
+//     credibility: req.body.credibility,
 //     status: 'Pending',
 //   };
 //   Cases.update(UUID, uploadedCase)

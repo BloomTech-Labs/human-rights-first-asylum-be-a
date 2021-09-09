@@ -6,7 +6,7 @@ exports.up = function (knex) {
       table.string('user_id');
       table.string('url');
       table.string('number');
-      table.date('date');
+      table.date('decision_date');
       table.string('outcome');
       table.string('country_of_origin');
       table.string('protected_grounds');
@@ -16,10 +16,10 @@ exports.up = function (knex) {
       table.string('gender');
       table.string('applicant_language');
       table.string('indigenous_group');
-      table.string('type_of_violence');
+      table.string('type_of_persecution');
       table.boolean('appellate');
-      table.boolean('filed_in_one_year');
-      table.boolean('credible');
+      table.boolean('check_for_one_year');
+      table.boolean('credibility');
       table.timestamps(false, true);
       table.string('comment');
       table.string('status');
