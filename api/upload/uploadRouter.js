@@ -49,7 +49,7 @@ const updateCase = (UUID, responses, res) => {
     type_of_violence: responses.type_of_violence,
     credible: responses.credibility == 'Unknown' ? false : true,
     appellate: responses.hearing_type == 'Appellate' ? true : false,
-    filed_in_one_year:
+    check_for_one_year:
       responses.check_for_one_year == 'True'
         ? 'yes'
         : responses.check_for_one_year == 'False'
