@@ -49,7 +49,12 @@ const updateCase = (UUID, responses, res) => {
     type_of_persecution: responses.type_of_persecution,
     credibility: responses.credibility == 'Unknown' ? false : true,
     appellate: responses.hearing_type == 'Appellate' ? true : false,
-    check_for_one_year: responses.check_for_one_year == 'True' ? true : false,
+    check_for_one_year:
+      responses.check_for_one_year == 'True'
+        ? 'yes'
+        : responses.check_for_one_year == 'False'
+        ? 'no'
+        : 'unknown',
     status: 'Review',
   };
   Cases.updateCaseOnceSraped(UUID, formatCase)

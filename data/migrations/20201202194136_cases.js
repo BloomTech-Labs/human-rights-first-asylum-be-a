@@ -18,7 +18,7 @@ exports.up = function (knex) {
       table.string('indigenous_group');
       table.string('type_of_persecution');
       table.boolean('appellate');
-      table.boolean('check_for_one_year');
+      table.string('check_for_one_year').default('unknown');
       table.boolean('credibility');
       table.timestamps(false, true);
       table.string('comment');
