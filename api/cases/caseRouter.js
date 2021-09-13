@@ -79,7 +79,8 @@ router.put('/:id', (req, res) => {
   delete req.body.first_name;
   delete req.body.middle_initial;
   delete req.body.last_name;
-  Cases.update(req.body)
+  const { id } = req.params
+  Cases.update(id, req.body)
     .then((updatedCase) => {
       res.status(200).json(updatedCase);
     })
