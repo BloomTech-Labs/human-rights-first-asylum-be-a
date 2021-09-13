@@ -63,7 +63,7 @@ const findById = async (user_id) => {
 
 const create = (profile) => {
   return db('profiles').insert(
-    profile.id ? { user_id: profile.id, ...profile } : profile,
+    profile.user_id ? { user_id: profile.user_id, ...profile } : profile,
     '*'
   );
 };
