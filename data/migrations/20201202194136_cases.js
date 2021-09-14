@@ -3,6 +3,12 @@ exports.up = function (knex) {
     .raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
     .createTable('cases', function (table) {
       table.string('case_id').notNullable().primary();
+      table
+        .integer('judge_id')
+        .references('judge_id')
+        .inTable('judges')
+        .onUpdate('RESTRICT')
+        .onDelete('RESTRICT');
       table.string('user_id');
       table.string('url');
       table.string('number');
