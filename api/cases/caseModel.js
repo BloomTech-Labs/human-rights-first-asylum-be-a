@@ -118,7 +118,7 @@ const writeCSV = async (case_id) => {
 };
 
 const update = async (case_id, changes) => {
-  return await db('cases').where({ case_id }).update(changes);
+  return await db('cases').where({ case_id }).update(changes, ['*']);
 };
 
 const remove = async (case_id) => {
