@@ -63,7 +63,7 @@ const findById = async (user_id) => {
 
 const create = (profile) => {
   return db('profiles').insert(
-    profile.id ? { user_id: profile.id, ...profile } : profile,
+    profile.user_id ? { user_id: profile.user_id, ...profile } : profile,
     '*'
   );
 };
@@ -88,11 +88,18 @@ const RemoveAllCaseWithUser_id = async (user_id) => {
 };
 
 const findOrCreateProfile = async (profileObj) => {
+  const nameArray = profileObj.name.split(' ');
+  const formattedProfile = {
+    user_id: profileObj.id,
+    email: profileObj.email,
+    first_name: nameArray[0],
+    last_name: nameArray[1],
+  };
   const foundProfile = await findById(profileObj.id).then((profile) => profile);
   if (foundProfile) {
     return foundProfile;
   } else {
-    return await create(profileObj).then((newProfile) => {
+    return await create(formattedProfile).then((newProfile) => {
       return newProfile ? newProfile[0] : newProfile;
     });
   }
