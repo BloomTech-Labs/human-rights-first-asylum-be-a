@@ -38,6 +38,7 @@ The base technologies are JavaScript, HTML and CSS. The frontend leverages [Reac
     {
         "case_id": "2ff54195-ce30-456c-be63-2a6c765bdce2",
         "user_id": "00ulzdrizE2yzxToH5d6",
+        "judge_id": 2,
         "url": "https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf",
         "number": "A094-216-526",
         "date": "1-24-2013",

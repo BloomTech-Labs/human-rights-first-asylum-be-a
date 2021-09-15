@@ -6,6 +6,7 @@ exports.seed = function (knex) {
         {
           // Done
           case_id: '2ff54195-ce30-456c-be63-2a6c765bdce2',
+          judge_id: 1,
           user_id: '00u19v1wwrVU5Ui1j5d7',
           url: 'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           number: 'A094-216-526',
@@ -31,6 +32,7 @@ exports.seed = function (knex) {
           // Done
           case_id: '099f113a-3514-45be-a2c7-9257eded3fe7',
           user_id: '00u19v1wwrVU5Ui1j5d7',
+          judge_id: 2,
           url: 'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           number: 'A079-531-484',
           decision_date: '8-30-2012',
@@ -55,6 +57,7 @@ exports.seed = function (knex) {
           // Done
           case_id: 'cbd7658f-4c8b-4160-91b6-3bf5d1be6628',
           user_id: '00u19v1wwrVU5Ui1j5d7',
+          judge_id: 5,
           url: 'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           number: 'A043-400-049',
           decision_date: '12-18-2012',
@@ -79,6 +82,7 @@ exports.seed = function (knex) {
           // Done
           case_id: '90e156ca-8f0d-4ca6-b114-b168e4d1d79e',
           user_id: '00u19v1wwrVU5Ui1j5d7',
+          judge_id: 3,
           url: 'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           number: 'A088-268-610',
           decision_date: '12-14-2012',
@@ -103,6 +107,7 @@ exports.seed = function (knex) {
           // Done
           case_id: 'e0343942-2053-4499-96e7-85b300eef4eb',
           user_id: '00u19v1wwrVU5Ui1j5d7',
+          judge_id: 8,
           url: 'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           number: 'A057-056-1193',
           decision_date: '2-8-2013',
@@ -127,6 +132,7 @@ exports.seed = function (knex) {
           // Done
           case_id: 'f4574526-bb1f-4f20-ae24-75474ee15ee0',
           user_id: '00u19v1wwrVU5Ui1j5d7',
+          judge_id: 2,
           url: 'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           number: 'A071-996-819',
           decision_date: '9-14-2012',
@@ -151,6 +157,7 @@ exports.seed = function (knex) {
           // Done
           case_id: '2a27418f-3444-4f5b-9730-b01609f7b428',
           user_id: '00u19v1wwrVU5Ui1j5d7',
+          judge_id: 6,
           url: 'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           number: 'A093-138-113',
           decision_date: '3-07-2013',
@@ -175,6 +182,7 @@ exports.seed = function (knex) {
           // Done
           case_id: '0da16c93-6fdd-4f0a-8ed6-4c686e675693',
           user_id: '00u19v1wwrVU5Ui1j5d7',
+          judge_id: 3,
           url: 'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           number: 'A027-392-198',
           decision_date: '6-12-2012',
@@ -199,6 +207,7 @@ exports.seed = function (knex) {
           // Done
           case_id: '22726ebf-f968-4610-a3c8-0c5f921fcbf9',
           user_id: '00u19v1wwrVU5Ui1j5d7',
+          judge_id: 7,
           url: 'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           number: 'A028-803-028',
           decision_date: '4-3-2012',
@@ -223,6 +232,7 @@ exports.seed = function (knex) {
           // Done
           case_id: '75a1fb1b-1ffe-45d6-b347-9ef67d4b9180',
           user_id: '00u19v1wwrVU5Ui1j5d7',
+          judge_id: 5,
           url: 'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           number: 'A089-207-04',
           decision_date: '1-31-2012',
@@ -247,6 +257,7 @@ exports.seed = function (knex) {
           // Done
           case_id: '04fbe436-da2c-4e20-9cfb-2221ad8e1f29',
           user_id: '00u19v1wwrVU5Ui1j5d7',
+          judge_id: 6,
           url: 'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           number: 'A044-857-956',
           decision_date: '12-15-2011',
@@ -271,6 +282,7 @@ exports.seed = function (knex) {
           // Done
           case_id: '78efa342-4f5a-4e04-bd96-13dadc17bff5',
           user_id: '00ulzfj6nX79gu0Nh5d6',
+          judge_id: 2,
           url: 'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           number: 'A095-094-694 ',
           decision_date: '11-16-2012',
@@ -295,6 +307,7 @@ exports.seed = function (knex) {
           // Done
           case_id: '10e9b2b1-4eb3-4d7d-b4d7-4b60fa5d42b5',
           user_id: '00u19v1wwrVU5Ui1j5d7',
+          judge_id: 1,
           url: 'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           number: 'A076-593-027',
           decision_date: '12-14-2012',
@@ -319,6 +332,7 @@ exports.seed = function (knex) {
           // Done
           case_id: '90226140-67e6-482c-b21a-b8ee6351879d',
           user_id: '00u19v1wwrVU5Ui1j5d7',
+          judge_id: 8,
           url: 'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce2.pdf',
           number: 'A027-824-163',
           decision_date: '5-30-2013',
@@ -343,6 +357,7 @@ exports.seed = function (knex) {
           // Done
           case_id: '2ff54195-ce30-456c-be63-2a6c765bdce3',
           user_id: '00u19v1wwrVU5Ui1j5d7',
+          judge_id: 2,
           url: 'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce3.pdf',
           decision_date: '1-24-2014',
           file_name: 'Asylum test',
@@ -365,6 +380,7 @@ exports.seed = function (knex) {
         {
           case_id: '2ff54195-ce30-456c-be63-2a6c765bdce4',
           user_id: '00u19v1wwrVU5Ui1j5d7',
+          judge_id: 3,
           url: 'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce4.pdf',
           decision_date: '1-24-2014',
           file_name: 'Asylum test',
@@ -388,6 +404,7 @@ exports.seed = function (knex) {
           // Done
           case_id: '2ff54195-ce30-456c-be63-2a6c765bdce5',
           user_id: '00u19v1wwrVU5Ui1j5d7',
+          judge_id: 7,
           url: 'https://hrf-asylum-cases.s3.amazonaws.com/2ff54195-ce30-456c-be63-2a6c765bdce5.pdf',
           decision_date: '1-24-2014',
           file_name: 'Asylum test',
