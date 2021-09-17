@@ -27,18 +27,12 @@ router.get('/', Cache.checkCache, (req, res) => {
 });
 
 router.get('/:judge_id/vis', async (req, res) => {
-  Judges.findById(req.params.judge_id)
-    .then((judge) => {
-      const first_name = judge['first_name']; // Current DS implementation takes first name, should refactor to query based on ID
-      axios
-        .get(`${process.env.DS_API_URL}/vis/outcome-by-judge/${first_name}`)
-        .then((data_vis_res) => {
-          const parsed_data = JSON.parse(data_vis_res.data);
-          res.status(200).json(parsed_data);
-        })
-        .catch((err) => {
-          res.status(500).json({ message: err.message });
-        });
+  const { judge_id } = req.params;
+  axios
+    .get(`${process.env.DS_API_URL}/vis/judge/${judge_id}`)
+    .then((data_vis_res) => {
+      const parsed_data = JSON.parse(data_vis_res.data);
+      res.status(200).json(parsed_data);
     })
     .catch((err) => {
       res.status(500).json({ message: err.message });
