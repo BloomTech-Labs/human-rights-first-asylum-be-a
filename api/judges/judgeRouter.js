@@ -15,19 +15,6 @@ const upload = multer({ dest: 'uploads/' });
 const router = express.Router();
 const { uploadFile, getFileStream } = require('./s3');
 
-const getCircularReplacer = () => {
-  const seen = new WeakSet();
-  return (key, value) => {
-    if (typeof value === "object" && value !== null) {
-      if (seen.has(value)) {
-        return;
-      }
-      seen.add(value);
-    }
-    return value;
-  };
-};
-
 router.use('/:judge_id', verify.verifyJudgeId);
 
 router.get('/', Cache.checkCache, (req, res) => {
@@ -44,6 +31,18 @@ router.get('/:judge_id/vis', async (req, res) => {
   axios
     .get(`${process.env.DS_API_URL}/vis/judge/${judge_id}`)
     .then((data_vis_res) => {
+      const getCircularReplacer = () => {
+        const seen = new WeakSet();
+        return (key, value) => {
+          if (typeof value === 'object' && value !== null) {
+            if (seen.has(value)) {
+              return;
+            }
+            seen.add(value);
+          }
+          return value;
+        };
+      };
       const data = JSON.stringify(data_vis_res.data, getCircularReplacer());
       const parsed_data = JSON.parse(data);
       res.status(200).json(parsed_data);
