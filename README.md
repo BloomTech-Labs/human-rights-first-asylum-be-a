@@ -23,6 +23,11 @@ The base technologies are JavaScript, HTML and CSS. The frontend leverages [Reac
    1. Download the frontend dependencies by running `npm install`
    1. Start up the app by running `npm start`
 
+## Data Flow
+This diagram shows the flow of data between frontend, backend, data science, and the database.
+
+![Screen Shot 2021-09-22 at 11 58 06 AM](https://user-images.githubusercontent.com/71359375/134414307-d2703b4d-0769-4d5c-92eb-7be4dfba6bec.png)
+
 # Endpoints
 
 ## Status
