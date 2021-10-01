@@ -235,6 +235,7 @@ A random assortment of non labeled, non connected words on the database. Needs a
 - BE needs to create a judges table by creating a many-to-many in handling judge to case relationships
 - BE delete protected_grounds and social_tags tables
 - Manage Users Page has buttons that are not functioning properly
+- Account edit button needs work
 - For Case Uploads:
   1. BE needs to pull from table ds_cases
   2. Look into work queue system to rate limit the amount of uploads being performed at once
