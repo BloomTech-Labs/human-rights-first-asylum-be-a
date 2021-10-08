@@ -1,36 +1,32 @@
 const express = require('express');
-// const fileUpload = require('express-fileupload');
+
 // const path = require('path');
-const axios = require('axios');
-// const { v4: uuidv4 } = require('uuid');
-// const fs = require('fs');
-// const AWS = require('aws-sdk');
+// const axios = require('axios');
+// const fs = require('fs')
+
 const router = express.Router();
 require('dotenv').config();
 const authRequired = require('../middleware/authRequired');
 const Cases = require('../cases/caseModel');
 const upload = require('./uploads/fileupload');
-const singleUpload = upload.single('image');
 
-router.post('/', authRequired, async (req, res) => {
-  singleUpload(req, res, () => {
-    if (req?.file?.key) {
-      console.log(req.file);
-      let UUID = req.file.key.slice(0, 36);
-      axios.get(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`);
-      const uploadedCase = {
-        case_id: UUID,
-        user_id: req.profile.user_id,
-        url: req.file.location,
-        status: 'Processing',
-        file_name: req.file.originalname,
-      };
-      Cases.add(uploadedCase);
-      return res.json({ imageURL: req?.file?.location });
-    } else {
-      res.status(400).json('failed to upload');
-    }
-  });
+router.post('/', authRequired, upload.single('case'), async (req, res) => {
+  if (req?.file?.key) {
+    console.log(req.file);
+    let UUID = req.file.key.slice(0, 36);
+    // axios.get(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`);
+    const uploadedCase = {
+      case_id: UUID,
+      user_id: req.profile.user_id,
+      url: req.file.location,
+      status: 'Processing',
+      file_name: req.file.originalname,
+    };
+    Cases.add(uploadedCase);
+    return res.json({ imageURL: req?.file?.location });
+  } else {
+    res.status(400).json('failed to upload');
+  }
 });
 
 const updateCase = (UUID, responses, res) => {
