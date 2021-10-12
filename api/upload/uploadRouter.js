@@ -1,8 +1,7 @@
 const express = require('express');
-
 // const path = require('path');
-// const axios = require('axios');
 // const fs = require('fs')
+const axios = require('axios');
 
 const router = express.Router();
 require('dotenv').config();
@@ -14,7 +13,6 @@ router.post('/', authRequired, upload.single('case'), async (req, res) => {
   if (req?.file?.key) {
     console.log(req.file);
     let UUID = req.file.key.slice(0, 36);
-    // axios.get(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`);
     const uploadedCase = {
       case_id: UUID,
       user_id: req.profile.user_id,
@@ -23,6 +21,7 @@ router.post('/', authRequired, upload.single('case'), async (req, res) => {
       file_name: req.file.originalname,
     };
     Cases.add(uploadedCase);
+    axios.get(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`);
     return res.json({ imageURL: req?.file?.location });
   } else {
     res.status(400).json('failed to upload');
