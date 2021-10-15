@@ -203,7 +203,7 @@ Other endpoint exist but are broken beyond belief. Need serious rework/reimpleme
     {
         "notification_id": 1,
         "title": "Case Approved",
-        "text": "Admin Kaitlyn approved your request for a the case you uploaded",
+        "text": "Admin Kaitlyn approved your request for a the case you uploaded.",
         "read": false,
         "user_id": "8",
     }
