@@ -196,6 +196,26 @@ Other endpoint exist but are broken beyond belief. Need serious rework/reimpleme
 | POST   | `/upload/scrap/:case_id` | `Reference case` | `Nothing` |
 | POST   | `/upload/:case_id`       | `Reference case` | `Nothing` |
 
+## Notifications
+
+###### Reference notification schema:
+
+    {
+        "notification_id": 1,
+        "title": "Case Approved",
+        "text": "Admin Kaitlyn approved your request for a the case you uploaded",
+        "read": false,
+        "user_id": "8",
+    }
+
+| Method | Endpoint                                      | Request Body | Returns                                                  |
+| ------ | --------------------------------------------- | ------------ | -------------------------------------------------------  |
+| GET    | `/notifications/:profile_id`                  | -            | `[{notification_1}, {notification_2}]`                   |
+| GET    | `/notifications/:profile_id/:notification_id` | -            | `[{notification}]`                                       |
+| PUT    | `/notifications/:profile_id/:notification_id` | -            | `Notification {notification_id} has been marked as read` |
+
+These are the only invites the team deemed necessary for endpoint access. Notifications will be created in the individual components as needed.
+
 ## DEPRECATED
 
 ## TAGS
