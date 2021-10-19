@@ -36,10 +36,6 @@ const updateCaseOnceSraped = async (case_id, data) => {
   return await db('cases').where({ case_id }).update(data, ['*']);
 };
 
-const assignJudgesToCase = async (case_id, judge_id) => {
-  return await db('judges_to_case').insert({ case_id, judge_id }, ['*']);
-};
-
 const updateCaseStatusTest = (case_id) => {
   return db('cases').where({ case_id }).update({ status: 'Pending' });
 };
@@ -78,14 +74,6 @@ const findByUserId = (user_id) => {
     .where({ status: 'approved' })
     .join('judges as j', 'j.judge_id', 'c.judge_id')
     .select('c.*', 'j.first_name', 'j.middle_initial', 'j.last_name');
-};
-
-const findCasesByUser_id = (user_id) => {
-  return db('cases').where({ user_id });
-  // .join('judges as j', 'j.judge_id', 'c.judge_id')
-  // .select('c.*', 'j.first_name', 'j.middle_initial', 'j.last_name');
-  // This join is preventing cases from being returned accurately because we currently do not store judge_id when uploading a case.
-  // judge_id is currently uploaded as a null value
 };
 
 const writeCSV = async (case_id) => {
@@ -147,7 +135,6 @@ module.exports = {
   writeCSV,
   update,
   findByUserId,
-  findCasesByUser_id,
   casesByState,
   FindById_DS_Case,
   updateCaseOnceSraped,
@@ -155,7 +142,6 @@ module.exports = {
   findJudgeByFullName,
   makeAnewJudge,
   findUrlByUUID,
-  assignJudgesToCase,
   caseOutcome,
   updateCaseStatusTest,
 };
