@@ -20,6 +20,7 @@ const tagRouter = require('./tags/tagRouter');
 const uploadRouter = require('./upload/uploadRouter');
 const faqRouter = require('./faq/faqRouter');
 const rolesRouter = require('./roles/rolesRouter');
+const notificationRouter = require('./notifications/notificationsRouter');
 
 const app = express();
 
@@ -44,6 +45,7 @@ app.use('/upload', uploadRouter);
 app.use(['/profile', '/profiles'], profileRouter);
 app.use(['/judge', '/judges'], judgeRouter);
 app.use(['/case', '/cases'], caseRouter);
+app.use(['/notification', '/notifications'], notificationRouter);
 app.use('/tags', tagRouter);
 app.use('/data', dsRouter);
 app.use('/faq', faqRouter);
