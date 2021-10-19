@@ -1,8 +1,7 @@
 const express = require('express');
-
 // const path = require('path');
-// const axios = require('axios');
 // const fs = require('fs')
+const axios = require('axios');
 
 const router = express.Router();
 require('dotenv').config();
@@ -14,7 +13,6 @@ router.post('/', authRequired, upload.single('case'), async (req, res) => {
   if (req?.file?.key) {
     console.log(req.file);
     let UUID = req.file.key.slice(0, 36);
-    // axios.get(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`);
     const uploadedCase = {
       case_id: UUID,
       user_id: req.profile.user_id,
@@ -23,6 +21,7 @@ router.post('/', authRequired, upload.single('case'), async (req, res) => {
       file_name: req.file.originalname,
     };
     Cases.add(uploadedCase);
+    axios.get(`${process.env.DS_API_URL}/pdf-ocr/${UUID}`);
     return res.json({ imageURL: req?.file?.location });
   } else {
     res.status(400).json('failed to upload');
@@ -89,36 +88,40 @@ const updateCase = (UUID, responses, res) => {
 
 router.get(`/scrape/:case_id`, (req, res) => {
   const UUID = req.params.case_id;
-  Cases.FindById_DS_Case(UUID).then((responses) => {
-    const judges = responses.panel_members.split(', ');
-    judges.map((singleJudge) => {
-      const arr = singleJudge.split(' ');
-      const first_name = arr[0];
-      const middle_initial = arr.length == 3 ? arr[1] : null;
-      const last_name = arr.length == 3 ? arr[3] : arr[1] || null;
-      Cases.findJudgeByFullName(first_name, middle_initial, last_name).then(
-        (data) => {
-          if (!data) {
-            Cases.makeAnewJudge(first_name, middle_initial, last_name)
-              .then((stuff) => {
-                const judge_id = stuff[0].judge_id;
-                // const date = responses.date;
-                // responses.date = dateformater9000(date);
-                updateCase(UUID, responses, res);
-                Cases.assignJudgesToCase(UUID, judge_id);
-              })
-              .catch((err) => console.log(err));
-          } else {
-            const judge_id = data.judge_id;
-            // const date = responses.date;
-            // responses.date = dateformater9000(date);
-            updateCase(UUID, responses, res);
-            Cases.assignJudgesToCase(UUID, judge_id);
+  try {
+    Cases.FindById_DS_Case(UUID).then((responses) => {
+      const judges = responses.panel_members.split(', ');
+      judges.map((singleJudge) => {
+        const arr = singleJudge.split(' ');
+        const first_name = arr[0];
+        const middle_initial = arr.length == 3 ? arr[1] : null;
+        const last_name = arr.length == 3 ? arr[3] : arr[1] || null;
+        Cases.findJudgeByFullName(first_name, middle_initial, last_name).then(
+          (data) => {
+            if (!data) {
+              Cases.makeAnewJudge(first_name, middle_initial, last_name)
+                .then((stuff) => {
+                  const judge_id = stuff[0].judge_id;
+                  // const date = responses.date;
+                  // responses.date = dateformater9000(date);
+                  updateCase(UUID, responses, res);
+                  Cases.assignJudgesToCase(UUID, judge_id);
+                })
+                .catch((err) => console.log(err));
+            } else {
+              const judge_id = data.judge_id;
+              // const date = responses.date;
+              // responses.date = dateformater9000(date);
+              updateCase(UUID, responses, res);
+              Cases.assignJudgesToCase(UUID, judge_id);
+            }
           }
-        }
-      );
+        );
+      });
     });
-  });
+  } catch (err) {
+    res.status(500).json('Failed to find DS_Case');
+  }
 });
 
 // router.post('/scrap/:case_id', authRequired, (req, res) => {
