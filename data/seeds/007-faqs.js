@@ -40,7 +40,7 @@ exports.seed = function (knex) {
           faq_id: 105,
           question: 'How do I change my account information?',
           answer:
-            'Account information is managed through Okta. To change your account information, log into your Okta account to make any necessary changes.',
+            'Account information is managed through Okta. To change your account information, log into your Okta account to make necessary changes.',
         },
       ]);
     });
