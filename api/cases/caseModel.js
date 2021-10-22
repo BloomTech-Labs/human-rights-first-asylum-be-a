@@ -124,6 +124,11 @@ const caseOutcome = () => {
   return db('cases as c').select('c.outcome', 'c.case_origin_state');
 };
 
+const findUserId = async (case_id) => {
+  const result = await db('cases').where({ case_id }).select('user_id').first();
+  return result;
+};
+
 module.exports = {
   add,
   remove,
@@ -144,4 +149,5 @@ module.exports = {
   findUrlByUUID,
   caseOutcome,
   updateCaseStatusTest,
+  findUserId,
 };

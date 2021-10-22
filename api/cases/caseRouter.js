@@ -7,6 +7,7 @@ const CSV = require('csv-string');
 const router = express.Router();
 const authRequired = require('../middleware/authRequired');
 const { onlyRoles } = require('../middleware/onlyRoles');
+const createNotification = require('../../utils/createNotification');
 
 router.get('/', Cache.checkCache, (req, res) => {
   const key = String(req.originalUrl);
@@ -79,7 +80,7 @@ router.put('/:id', (req, res) => {
   delete req.body.first_name;
   delete req.body.middle_initial;
   delete req.body.last_name;
-  const { id } = req.params
+  const { id } = req.params;
   Cases.update(id, req.body)
     .then((updatedCase) => {
       res.status(200).json(updatedCase);
@@ -112,11 +113,18 @@ router.get('/pending', (req, res) => {
     });
 });
 
-router.put('/pending/approve/:id', (req, res) => {
+router.put('/pending/approve/:id', async (req, res) => {
   const id = req.params.id;
   const status = req.body.status;
+  const user_id = await Cases.findUserId(id);
+
   Cases.changeStatus(id, status)
     .then((cases) => {
+      createNotification(
+        user_id,
+        'Case Approved',
+        `Case ${id} was approved by an admin.`
+      );
       res.status(200).json(cases);
     })
     .catch((err) => {
@@ -132,11 +140,18 @@ router.put('/update/:case_id', authRequired, (req, res) => {
   });
 });
 
-router.put('/pending/reject/:id', (req, res) => {
+router.put('/pending/reject/:id', async (req, res) => {
   const id = req.params.id;
   const status = req.body.status;
+  const user_id = await Cases.findUserId(id);
+
   Cases.changeStatus(id, status)
     .then((cases) => {
+      createNotification(
+        user_id,
+        'Case Rejected',
+        `Case ${id} was rejected by an admin.`
+      );
       res.status(200).json(cases);
     })
     .catch((err) => {
