@@ -1,14 +1,10 @@
-const createError = require('http-errors');
-const OktaJwtVerifier = require('@okta/jwt-verifier');
-const oktaVerifierConfig = require('../../config/okta');
 const Profiles = require('../profile/profileModel');
-const oktaJwtVerifier = new OktaJwtVerifier(oktaVerifierConfig.config);
 
 const makeProfileObj = (claims) => {
   return {
-    id: claims.sub,
-    email: claims.email,
-    name: claims.name,
+    id: 1,
+    email: 'innovationlab@humanrightsfirst.org',
+    name: 'Innovation Lab',
   };
 };
 /**
@@ -17,28 +13,14 @@ const makeProfileObj = (claims) => {
  * contents are attached to req.profile
  */
 const authRequired = async (req, res, next) => {
-  try {
-    const authHeader = req.headers.authorization || '';
-    const match = authHeader.match(/Bearer (.+)/);
-
-    if (!match) throw new Error('Missing idToken');
-
-    const idToken = match[1];
-    oktaJwtVerifier
-      .verifyAccessToken(idToken, oktaVerifierConfig.expectedAudience)
-      .then(async (data) => {
-        const jwtUserObj = makeProfileObj(data.claims);
-        const profile = await Profiles.findOrCreateProfile(jwtUserObj);
-        if (profile) {
-          req.profile = profile;
-        } else {
-          throw new Error('Unable to process idToken');
-        }
-        next();
-      });
-  } catch (err) {
-    next(createError(401, err.message));
+  const jwtUserObj = makeProfileObj(data.claims);
+  const profile = await Profiles.findOrCreateProfile(jwtUserObj);
+  if (profile) {
+    req.profile = profile;
+  } else {
+    throw new Error('Unable to process idToken');
   }
+  next();
 };
 
 module.exports = authRequired;

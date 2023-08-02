@@ -2,14 +2,7 @@ const express = require('express');
 const authRequired = require('../middleware/authRequired');
 const Profiles = require('./profileModel');
 const router = express.Router();
-const okta = require('@okta/okta-sdk-nodejs');
 const { onlyRoles } = require('../middleware/onlyRoles');
-
-const client = new okta.Client({
-  orgUrl: process.env.OKTA_ORG_URL,
-  token: process.env.OKTA_SDK_TOKEN,
-  clientId: process.env.OKTA_CLIENT_ID,
-});
 
 //TODO /:id verify && judge verify && case verify
 
